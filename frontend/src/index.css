@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap');
+
+:root {
+  --servex-green: #4ADE80;
+  --servex-green-darker: #3AC06A;
+  --servex-dark-text: #0F172A;
+  --servex-muted-text: #64748B;
+  --servex-light-green-bg: #DCFCE7; /* Light green background for the circle */
+  --servex-light-gray-bg: #F8FAFC; /* Background for the whole section */
+  --server-light-gray-btn: #F1F5F9; /* Light grey button for the button */
+  --server-light-gray-darker-btn: #DEE2E6;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

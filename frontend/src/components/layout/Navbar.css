@@ -1,0 +1,36 @@
+/* Logo */
+.navbar-brand img {
+  border: 2px solid var(--servex-green);
+  border-radius: 50%;
+}
+
+/* Custom register button */
+.btn.btn-custom-green {
+  background-color: var(--servex-green);
+  border-color: var(--servex-green);
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.btn.btn-custom-green:hover {
+  background-color: var(--servex-green-darker);
+  border-color: var(--servex-green-darker);
+  color: white;
+}
+
+/* Navigation links */
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    color: var(--servex-dark-text);
+    margin: 0 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.navbar-nav .nav-link.active {
+  font-weight: bold;
+  color: var(--servex-dark-text);
+}

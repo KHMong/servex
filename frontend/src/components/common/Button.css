@@ -1,0 +1,51 @@
+:root {
+  --servex-green: #4ADE80;
+  --servex-green-darker: #3AC06A;
+  --servex-dark-text: #0F172A;
+  --servex-light-gray-bg: #F8FAFC;
+}
+
+/* Base styles for ALL custom buttons */
+.btn-custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 1. Primary Button (The main green button) */
+.btn-custom.btn-primary {
+  background-color: var(--servex-green);
+  color: white;
+}
+.btn-custom.btn-primary:hover {
+  background-color: var(--servex-green-darker);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 2. Secondary Button (The gray button) */
+.btn-custom.btn-secondary {
+  background-color: var(--server-light-gray-btn);
+  font-weight: 500;
+  color: var(--servex-dark-text);
+}
+.btn-custom.btn-secondary:hover {
+  background-color: var(--server-light-gray-darker-btn);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Style for the icon within the button */
+.btn-icon {
+  
+}

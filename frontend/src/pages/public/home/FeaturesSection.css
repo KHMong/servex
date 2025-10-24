@@ -1,0 +1,42 @@
+.features-section {
+  background-color: var(--servex-light-gray-bg);
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature-icon-wrapper {
+  /* Light green circle */
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--servex-light-green-bg);
+  
+  /* Center the icon */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: var(--servex-green);
+}
+
+.feature-title {
+  font-weight: 700;
+  color: var(--servex-dark-text);
+  margin-bottom: 0.5rem;
+}
+
+.feature-description {
+  color: var(--servex-muted-text);
+  max-width: 300px;
+}

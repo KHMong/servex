@@ -1,0 +1,50 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\Api\Public\HomeController;
+
+
+// Home Page
+Route::get('/home/featured-venues', [HomeController::class, 'getFeaturedVenues']);
+Route::get('/home/upcoming-tournaments', [HomeController::class, 'getUpcomingTournaments']);
+
+
+Route::get('/images/{path}', function ($path) {
+    // Prevent user from accessing files outside the uploads directory
+    if (strpos($path, '..') !== false || strpos($path, '/') === 0) {
+        abort(404, 'Invalid path');
+    }
+
+    // Ensure the file  exists in the uploads folder
+    $fullPath = 'uploads/' . $path;
+
+    if (!Storage::disk('local')->exists($fullPath)) {
+        abort(404, 'Image not found');
+    }
+
+    // Get file content from storage
+    $file = Storage::disk('local')->get($fullPath);
+
+    // Get file's MIME type
+    $serverPath = Storage::disk('local')->path($fullPath);
+    $type = mime_content_type($serverPath);
+
+    // This tells the browser how to interpret the file content.
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+
+// Allows the {path} parameter to contain slashes (/)
+})->where('path', '.*')->name('storage.image');
+
+
+
+
+
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:sanctum');

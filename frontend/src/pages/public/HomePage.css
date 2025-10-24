@@ -1,0 +1,75 @@
+.home-page-container {
+    background-color: var(--servex-light-gray-bg);
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    margin-top: 100px;
+}
+
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--servex-dark-text);
+    margin-bottom: 40px;
+}
+
+/* Card Styles */
+.venue-card, .tournament-card {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+.venue-card:hover, .tournament-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.card-subtitle {
+    color: var(--servex-muted-text);
+    margin-bottom: 2rem !important;
+}
+
+/* Custom Button Styles */
+.btn-view-details {
+    background-color: var(--server-light-gray-btn);
+    border-color: var(--server-light-gray-btn);
+    color: var(--servex-dark-text);
+    font-weight: 600;
+    width: 100%;
+    padding: 0.75rem;
+}
+
+.btn-view-details:hover {
+    background-color: var(--server-light-gray-darker-btn);
+    border-color: var(--server-light-gray-darker-btn);
+    color: var(--servex-dark-text);
+}
+
+.btn-learn-more {
+    background-color: var(--servex-green);
+    border-color: var(--servex-green);
+    color: white;
+    font-weight: 600;
+    width: 100%;
+    padding: 0.75rem;
+}
+
+.btn-learn-more:hover {
+    background-color: var(--servex-green-darker);
+    border-color: var(--servex-green-darker);
+}

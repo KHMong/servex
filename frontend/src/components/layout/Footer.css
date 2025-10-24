@@ -1,0 +1,17 @@
+:root {
+  --servex-footer-bg: #F1F5F9;
+  --servex-footer-text: #64748B;
+}
+
+.footer-container {
+  background-color: var(--servex-footer-bg);
+  color: var(--servex-footer-text);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  font-size: 0.9rem;
+  margin-top: 100px;
+}
+
+.footer-container p {
+  margin-bottom: 0;
+}
