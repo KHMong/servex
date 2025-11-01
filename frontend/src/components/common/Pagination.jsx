@@ -10,7 +10,7 @@ const Pagination = ({ paginationData, onPageChange }) => {
     return null; 
   }
 
-  const { links, current_page, last_page } = paginationData;
+  const { links } = paginationData;
 
   return (
     <BootstrapPagination className="justify-content-center">
