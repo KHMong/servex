@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import VenueCard from '../../../components/specific/VenueCard';
 import TournamentCard from '../../../components/specific/TournamentCard';
 import { getFeaturedVenues, getUpcomingTournaments } from '../../../api/homeApi';
@@ -48,9 +48,12 @@ const VenuesAndTournaments = () => {
                 <section className="mb-5">
                     <h2 className="section-title">Featured Venues</h2>
                     {venues.length > 0 ? (
-                    <Row>
+                    <Row xs={1} md={2} lg={4} className="g-4">
                         {(venues || []).map(venue => (
-                            <VenueCard key={venue.id} venue={venue} />
+                            <Col key={venue.id}>
+                                <VenueCard venue={venue} />
+                            </Col>
+                            // <VenueCard key={venue.id} venue={venue} />
                         ))}
                     </Row>
                     ) : (
