@@ -4,7 +4,7 @@ import FeaturesSection from './home/FeaturesSection';
 import VenuesAndTournaments from './home/VenuesAndTournaments';
 
 // Import CSS
-import './HomePage.css';
+import './home/HomePage.css';
 
 const HomePage = () => {
   return (
