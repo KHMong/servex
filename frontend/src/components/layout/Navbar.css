@@ -31,6 +31,11 @@
 }
 
 .navbar-nav .nav-link.active {
-  font-weight: bold;
-  color: var(--servex-dark-text);
+  font-weight: 600;
+  color: var(--servex-green) !important;
+}
+
+.navbar-nav .nav-link.active span {
+  border-bottom: 2px solid var(--servex-green);
+  padding-bottom: 4px;
 }

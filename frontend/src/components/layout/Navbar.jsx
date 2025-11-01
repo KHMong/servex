@@ -28,10 +28,10 @@ const NavbarComponent = () => {
         <Navbar.Collapse id="main-navbar-nav">
           {/* Centered Navigation Links */}
           <Nav className="mx-auto">
-            <Nav.Link as={NavLink} to="/venues">Venues</Nav.Link>
-            <Nav.Link as={NavLink} to="/coaches">Coaches</Nav.Link>
-            <Nav.Link as={NavLink} to="/tournaments">Tournaments</Nav.Link>
-            <Nav.Link as={NavLink} to="/activities">Activities</Nav.Link>
+            <Nav.Link as={NavLink} to="/venues"><span>Venues</span></Nav.Link>
+            <Nav.Link as={NavLink} to="/coaches"><span>Coaches</span></Nav.Link>
+            <Nav.Link as={NavLink} to="/tournaments"><span>Tournaments</span></Nav.Link>
+            <Nav.Link as={NavLink} to="/activities"><span>Activities</span></Nav.Link>
           </Nav>
 
           {/* Authentication Buttons */}
