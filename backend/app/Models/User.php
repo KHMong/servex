@@ -60,7 +60,7 @@ class User extends Authenticatable
     // Relationships
     public function ownerProfile()
     {
-        return $this->hasOne(OwnerProfile::class);
+        return $this->hasOne(OwnerProfile::class, 'user_id');
     }
 
     public function coachProfile()
