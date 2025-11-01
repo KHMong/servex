@@ -3,12 +3,15 @@
 :root {
   --servex-green: #4ADE80;
   --servex-green-darker: #3AC06A;
+  --servex-green-box-shadow: rgba(74, 222, 128, 0.25);
   --servex-dark-text: #0F172A;
   --servex-muted-text: #64748B;
   --servex-light-green-bg: #DCFCE7; /* Light green background for the circle */
   --servex-light-gray-bg: #F8FAFC; /* Background for the whole section */
   --server-light-gray-btn: #F1F5F9; /* Light grey button for the button */
   --server-light-gray-darker-btn: #DEE2E6;
+  --server-light-gray-disabled: #CBD5E1;
+  --border-color-light: #E9ECF0;
 }
 
 body {

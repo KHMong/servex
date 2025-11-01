@@ -5,13 +5,21 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Api\Public\HomeController;
+use App\Http\Controllers\Api\Public\StateController;
+use App\Http\Controllers\Api\Public\VenueController;
 
 
 // Home Page
 Route::get('/home/featured-venues', [HomeController::class, 'getFeaturedVenues']);
 Route::get('/home/upcoming-tournaments', [HomeController::class, 'getUpcomingTournaments']);
 
+// State
+Route::get('/states', [StateController::class, 'index']);
 
+// Venue
+Route::get('/venues', [VenueController::class, 'index']);
+
+// Images
 Route::get('/images/{path}', function ($path) {
     // Prevent user from accessing files outside the uploads directory
     if (strpos($path, '..') !== false || strpos($path, '/') === 0) {
