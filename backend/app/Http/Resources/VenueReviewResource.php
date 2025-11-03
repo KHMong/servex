@@ -13,7 +13,6 @@ class VenueReviewResource extends JsonResource
             'id' => $this->id,
             'rating' => $this->rating,
             'comment' => $this->comment,
-            'created_at' => $this->created_at->diffForHumans(),
             // Relationships
             'user' => new UserResource($this->whenLoaded('user')),
             'venue' => new VenueResource($this->whenLoaded('venue')),

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Venue;
 use Illuminate\Http\Request;
 use App\Http\Resources\VenueResource;
+use App\Http\Resources\VenueReviewResource;
+use Carbon\Carbon;
 
 class VenueController extends Controller
 {
@@ -39,5 +41,48 @@ class VenueController extends Controller
         $venues = $query->with('state', 'coverPhoto')->latest()->paginate(8);
 
         return VenueResource::collection($venues);
+    }
+
+    public function showVenueDetails(Venue $venue) 
+    {
+        $venue->load('state', 'photos', 'pricingRules');
+        return new VenueResource($venue);
+    }
+
+    public function getCourts(Venue $venue)
+    {
+        return $venue->courts()->where('status', 'Available')->get();
+    }
+
+    public function getReviews(Venue $venue)
+    {
+        $reviews = $venue->reviews()
+                         ->where('status', 'Active')
+                         ->with('user')->latest()->paginate(5);
+        return VenueReviewResource::collection($reviews);
+    }
+
+    public function getAvailabilityByDate(Request $request, Venue $venue)
+    {
+        $validated = $request->validate([
+            'date' => 'required|date_format:Y-m-d',
+        ]);
+
+        $selectedDate = Carbon::parse($validated['date']);
+        $startOfDay = $selectedDate->copy()->startOfDay();
+        $endOfDay = $selectedDate->copy()->endOfDay();
+
+        // Fetch all active courts for the venue
+        // Then fetch the bookings that overlap with the selected day
+        $courtsWithBookings = $venue->courts()
+            // ->where('status', 'Available')
+            ->with(['bookings' => function ($query) use ($startOfDay, $endOfDay) {
+                $query->where('start_datetime', '<', $endOfDay)
+                    ->where('end_datetime', '>', $startOfDay)
+                    ->where('status', '!=', 'Cancelled');
+            }])
+            ->get();
+
+        return response()->json($courtsWithBookings);
     }
 }

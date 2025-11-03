@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from '../App';
 import HomePage from '../pages/public/HomePage';
 import BrowseVenuesPage from '../pages/public/BrowseVenuesPage';
+import CourtBookingPage from '../pages/public/CourtBookingPage';
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes = () => {
         <Route path="/" element={<App />}>
           <Route index element={<HomePage />} />
           <Route path="venues" element={<BrowseVenuesPage />} />
+          <Route path="venues/:venueId" element={<CourtBookingPage />} />
         </Route>
       </Routes>
     </Router>

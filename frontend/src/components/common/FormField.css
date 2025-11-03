@@ -1,0 +1,38 @@
+.form-field {
+  margin-bottom: 1.25rem;
+}
+
+.form-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--servex-dark-text);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper .form-control,
+.input-wrapper .form-select {
+  flex-grow: 1;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--servex-muted-text);
+  pointer-events: none;
+}
+
+.input-with-icon {
+  padding-right: 2.5rem !important;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    background-color: var(--servex-light-gray-bg);
+    border: 1px solid var(--servex-light-gray-disabled);
+}

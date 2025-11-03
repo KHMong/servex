@@ -18,6 +18,10 @@ Route::get('/states', [StateController::class, 'index']);
 
 // Venue
 Route::get('/venues', [VenueController::class, 'index']);
+Route::get('/venues/{venue}', [VenueController::class, 'showVenueDetails']);
+Route::get('/venues/{venue}/courts', [VenueController::class, 'getCourts']);
+Route::get('/venues/{venue}/reviews', [VenueController::class, 'getReviews']);
+Route::get('/venues/{venue}/availability-by-date', [VenueController::class, 'getAvailabilityByDate']);
 
 // Images
 Route::get('/images/{path}', function ($path) {

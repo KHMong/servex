@@ -1,0 +1,72 @@
+.availability-grid-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.availability-grid {
+  display: grid;
+  grid-template-columns: 150px repeat(var(--time-slot-count, 20), 1fr);
+  min-width: 1200px;
+}
+
+.court-name-cell {
+  grid-column: 1 / 2; 
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  padding: 0.75rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+.grid-header {
+  padding: 0.75rem;
+  font-weight: 600;
+  color: #64748B;
+  text-align: center;
+}
+
+.grid-header.court-header {
+  grid-column: 1 / 2;
+  position: sticky;
+  left: 0;
+  z-index: 11;
+  background-color: white;
+  text-align: left;
+}
+
+.court-status {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: normal;
+    color: var(--servex-orange);
+}
+
+.time-slot.available {
+  background-color: var(--servex-light-green-bg);
+  border: 1px solid var(--servex-green);
+}
+
+.time-slot.booked {
+  background-color: var(--servex-light-gray-disabled);
+  border: 1px solid var(--servex-muted-text);
+}
+
+.available-status {
+    width: 20px;
+    height: 20px;
+    background-color: var(--servex-light-green-bg);
+    border: 1px solid var(--servex-green);
+    border-radius: 2px;
+}
+
+.booked-status {
+    width: 20px;
+    height: 20px;
+    background-color: var(--servex-light-gray-disabled);
+    border: 1px solid var(--servex-muted-text);
+    border-radius: 2px;
+}

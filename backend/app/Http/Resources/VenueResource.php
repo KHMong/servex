@@ -33,6 +33,8 @@ class VenueResource extends JsonResource
 
                 return null;
             }),
+            'average_rating' => $this->reviews()->avg('rating'),
+            'reviews_count' => $this->reviews()->count(),
         ];
     }
 }
