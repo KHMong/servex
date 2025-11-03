@@ -46,8 +46,8 @@
 
 /* Custom Button Styles */
 .btn-view-details {
-    background-color: var(--server-light-gray-btn);
-    border-color: var(--server-light-gray-btn);
+    background-color: var(--servex-light-gray-btn);
+    border-color: var(--servex-light-gray-btn);
     color: var(--servex-dark-text);
     font-weight: 600;
     width: 100%;
@@ -55,8 +55,8 @@
 }
 
 .btn-view-details:hover {
-    background-color: var(--server-light-gray-darker-btn);
-    border-color: var(--server-light-gray-darker-btn);
+    background-color: var(--servex-light-gray-darker-btn);
+    border-color: var(--servex-light-gray-darker-btn);
     color: var(--servex-dark-text);
 }
 

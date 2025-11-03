@@ -38,6 +38,6 @@
 }
 
 .pagination .page-item.disabled .page-link {
-  color: var(--server-light-gray-disabled);
+  color: var(--servex-light-gray-disabled);
   background-color: white;
 }
