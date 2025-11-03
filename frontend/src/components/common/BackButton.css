@@ -1,0 +1,18 @@
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  
+  color: var(--servex-dark-text);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+    color: var(--servex-light-gray-btn-bg);
+}

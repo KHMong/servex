@@ -1,10 +1,3 @@
-:root {
-  --servex-green: #4ADE80;
-  --servex-green-darker: #3AC06A;
-  --servex-dark-text: #0F172A;
-  --servex-light-gray-bg: #F8FAFC;
-}
-
 /* Base styles for ALL custom buttons */
 .btn-custom {
   display: inline-flex;
@@ -34,12 +27,23 @@
 
 /* 2. Secondary Button (The gray button) */
 .btn-custom.btn-secondary {
-  background-color: var(--server-light-gray-btn);
+  background-color: var(--servex-light-gray-btn);
   font-weight: 500;
   color: var(--servex-dark-text);
 }
 .btn-custom.btn-secondary:hover {
-  background-color: var(--server-light-gray-darker-btn);
+  background-color: var(--servex-light-gray-darker-btn);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 3. Tertiary Button (The black button) */
+.btn-custom.btn-tertiary {
+  background-color: var(--servex-dark-text);
+  font-weight: 500;
+  color: var(--servex-light-gray-bg);
+}
+.btn-custom.btn-tertiary:hover {
+  background-color: var(--servex-light-gray-btn-bg);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
