@@ -27,6 +27,10 @@ class UserResource extends JsonResource
             // Relationships
             'owner_profile' => new OwnerProfileResource($this->whenLoaded('ownerProfile')),
             'coach_profile' => new CoachProfileResource($this->whenLoaded('coachProfile')),
+            'photo_path' => $this->when($this->photo, function () {
+                // Path: "users/{user_id}/{filename}"
+                return "users/{$this->id}/{$this->photo}";
+            }, null), // If no photo, return null
         ];
     }
 }

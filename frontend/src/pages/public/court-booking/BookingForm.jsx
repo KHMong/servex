@@ -17,6 +17,11 @@ const generateTimeSlots = (start, end) => {
   let currentTime = new Date(`1970-01-01T${start}`);
   const endTime = new Date(`1970-01-01T${end}`);
 
+  // Handle overnight situation
+  if (endTime <= currentTime) {
+    endTime.setDate(endTime.getDate() + 1);
+  }
+
   while (currentTime <= endTime) {
     const time = currentTime.toTimeString().substring(0, 5); // Format as "HH:mm"
     slots.push({ value: time, label: time });
@@ -33,7 +38,7 @@ const BookingForm = ({ venue, courts }) => {
   // STATE ===
   const [formData, setFormData] = useState({
     date: '',
-    startTime: venue?.opening_time || '',
+    startTime: venue?.opening_time.substring(0, 5) || '',
     endTime: '',
     courtId: courts.length > 0 ? courts[0].id : '',
   });
@@ -49,15 +54,34 @@ const BookingForm = ({ venue, courts }) => {
     generateTimeSlots(venue.opening_time, venue.closing_time),
     [venue.opening_time, venue.closing_time]
   );
-  
-  const endTimeOptions = useMemo(() => 
-    allTimeSlots.filter(slot => slot.value > formData.startTime),
-    [formData.startTime, allTimeSlots]
+
+  const startTimeOptions = useMemo(() => 
+    allTimeSlots.slice(0, -1),
+    [allTimeSlots]
   );
+  
+  const endTimeOptions = useMemo(() => {
+    if (!formData.startTime) return [];
+
+    // Find the index of the selected startTime
+    const startIndex = allTimeSlots.findIndex(slot => slot.value === formData.startTime);
+
+    // If cannot find
+    if (startIndex === -1) {
+      return [];
+    }
+
+    // Slots after the index = endTimeSlots
+    return allTimeSlots.slice(startIndex + 1);
+
+  }, [formData.startTime, allTimeSlots]);
 
   useEffect(() => {
+    // If start time is selected and there are end times
     if (formData.startTime && endTimeOptions.length > 0) {
-      if (!formData.endTime || formData.endTime <= formData.startTime) {
+      // Check if endTime is invalid (Not set or before/same as startTime)
+      if (!formData.endTime || parseInt(formData.endTime.replace(':', '')) <= parseInt(formData.startTime.replace(':', ''))) {
+        // Set endTime to first available option
         setFormData(prev => ({ ...prev, endTime: endTimeOptions[0].value }));
       }
     }
@@ -125,7 +149,7 @@ const BookingForm = ({ venue, courts }) => {
                 <FormField
                   label="Start Time"
                   type="select" name="startTime" value={formData.startTime}
-                  onChange={handleChange} options={allTimeSlots.slice(0, -1)}
+                  onChange={handleChange} options={startTimeOptions}
                 />
               </Col>
               <Col md={6}>

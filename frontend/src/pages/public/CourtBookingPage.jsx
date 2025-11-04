@@ -58,18 +58,19 @@ const CourtBookingPage = () => {
 
       <ImageSlide photos={venue.photos} />
 
-      <Row className="mt-5">
-        <Col lg={8}>
+      <Row className="my-5 gap-3">
+        <Col>
           <VenueHeader venue={venue} />
-          <hr className="my-4" />
-          <BookingForm venue={venue} courts={courts} />
-          <hr className="my-4" />
-          <ReviewsSection venueId={venue.id} />
         </Col>
-        <Col lg={4}>
+        <Col>
           <VenueInfoCard venue={venue} />
         </Col>
       </Row>
+
+      <hr className="mt-5 mb-4" />
+      <BookingForm venue={venue} courts={courts} />
+      <hr className="mt-5 mb-4" />
+      <ReviewsSection venueId={venue.id} />
     </Container>
   );
 };
