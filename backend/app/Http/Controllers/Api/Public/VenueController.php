@@ -43,7 +43,7 @@ class VenueController extends Controller
         return VenueResource::collection($venues);
     }
 
-    public function showVenueDetails(Venue $venue) 
+    public function getVenueDetails(Venue $venue) 
     {
         $venue->load('state', 'photos', 'pricingRules');
         return new VenueResource($venue);
@@ -75,7 +75,6 @@ class VenueController extends Controller
         // Fetch all active courts for the venue
         // Then fetch the bookings that overlap with the selected day
         $courtsWithBookings = $venue->courts()
-            // ->where('status', 'Available')
             ->with(['bookings' => function ($query) use ($startOfDay, $endOfDay) {
                 $query->where('start_datetime', '<', $endOfDay)
                     ->where('end_datetime', '>', $startOfDay)
