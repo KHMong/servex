@@ -1,0 +1,19 @@
+.coach-card {
+  border-radius: 1rem;
+  border: 1px solid var(--border-color-light);
+  transition: all 0.2s ease-in-out;
+}
+
+.coach-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.coach-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--servex-light-gray-bg);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}

@@ -12,11 +12,18 @@ class CoachProfileResource extends JsonResource
         return [
             'user_id' => $this->user_id,
             'bio' => $this->bio,
-            'experience_years' => $this->exp_year,
-            'certificate_url' => $this->cert,
+            'exp_year' => $this->exp_year,
+            'cert' => $this->cert,
             'status' => $this->status,
             // Relationships
+            'name' => $this->whenLoaded('user', $this->user->name),
             'state' => new StateResource($this->whenLoaded('state')),
+            'photo_path' => $this->whenLoaded('user', function () {
+                if ($this->user->photo) {
+                    // Path: "users/{user_id}/{filename}"
+                    return "users/{$this->user->id}/{$this->user->photo}";
+                }
+            }, null), // If no photo, return null
         ];
     }
 }

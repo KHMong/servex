@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Api\Public\HomeController;
 use App\Http\Controllers\Api\Public\StateController;
 use App\Http\Controllers\Api\Public\VenueController;
-
+use App\Http\Controllers\Api\Public\CoachController;
 
 // Home Page
 Route::get('/home/featured-venues', [HomeController::class, 'getFeaturedVenues']);
@@ -22,6 +22,9 @@ Route::get('/venues/{venue}', [VenueController::class, 'getVenueDetails']);
 Route::get('/venues/{venue}/courts', [VenueController::class, 'getCourts']);
 Route::get('/venues/{venue}/reviews', [VenueController::class, 'getReviews']);
 Route::get('/venues/{venue}/availability-by-date', [VenueController::class, 'getAvailabilityByDate']);
+
+// Coach
+Route::get('/coaches', [CoachController::class, 'index']);
 
 // Images
 Route::get('/images/{path}', function ($path) {
