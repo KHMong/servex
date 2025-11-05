@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Container, Spinner, Alert, Card, Row, Col } from 'react-bootstrap';
-import { FaArrowLeft, FaEnvelope, FaPhone, FaFileAlt } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
+import { Container, Spinner, Card, Row, Col } from 'react-bootstrap';
+import { FaEnvelope, FaPhone, FaFileAlt } from 'react-icons/fa';
 import apiClient from '../../api/apiClient';
 import Button from '../../components/common/Button';
 import BackButton from '../../components/common/BackButton';

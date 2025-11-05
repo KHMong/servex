@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import { getImageUrl } from '../../utils/imageUrl';
 import Button from '../../components/common/Button';
@@ -9,7 +9,6 @@ import './TournamentCard.css';
 // Receives tournament data and displays it.
 const TournamentCard = ({ tournament }) => {
     const imageUrl = getImageUrl(tournament.photo_path);
-    console.log(tournament);
 
     return (
         <Card className="tournament-card h-100">
