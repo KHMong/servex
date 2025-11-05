@@ -69,7 +69,9 @@ const VenuesAndTournaments = () => {
                     {tournaments.length > 0 ? (
                     <Row>
                          {(tournaments || []).map(tournament => (
-                            <TournamentCard key={tournament.id} tournament={tournament} />
+                            <Col md={3} className="mb-4">
+                                <TournamentCard key={tournament.id} tournament={tournament} />
+                            </Col>
                         ))}
                     </Row>
                     ) : (

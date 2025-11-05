@@ -11,7 +11,7 @@ const CoachSearchFilter = ({ states, filters, onFilterChange, onSearch }) => {
     <Form onSubmit={onSearch}>
       <Row className="justify-content-center">
         <Col md={9} lg={10}>
-          <div className="search-filter-wrapper">
+          <div className="search-filter-wrapper flex-md-row">
             
             {/* State Dropdown */}
             <Form.Select 

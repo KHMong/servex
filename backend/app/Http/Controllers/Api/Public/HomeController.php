@@ -35,6 +35,7 @@ class HomeController extends Controller
         ])
         ->where('start_date', '>=', now())
         ->orderBy('start_date', 'asc')
+        ->with('state')
         ->limit(4)
         ->get();
                                           
