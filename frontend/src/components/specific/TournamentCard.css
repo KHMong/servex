@@ -1,0 +1,12 @@
+.tournament-info-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.tournament-info-item .icon {
+  margin-right: 0.75rem;
+  font-size: 1rem;
+  flex-shrink: 0;
+}

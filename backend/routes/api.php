@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Public\HomeController;
 use App\Http\Controllers\Api\Public\StateController;
 use App\Http\Controllers\Api\Public\VenueController;
 use App\Http\Controllers\Api\Public\CoachController;
+use App\Http\Controllers\Api\Public\TournamentController;
 
 // Home Page
 Route::get('/home/featured-venues', [HomeController::class, 'getFeaturedVenues']);
@@ -26,6 +27,9 @@ Route::get('/venues/{venue}/availability-by-date', [VenueController::class, 'get
 // Coach
 Route::get('/coaches', [CoachController::class, 'index']);
 Route::get('/coaches/{user}', [CoachController::class, 'getCoachDetails']);
+
+// Tournament
+Route::get('/tournaments', [TournamentController::class, 'index']);
 
 // Images
 Route::get('/images/{path}', function ($path) {

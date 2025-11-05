@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class TournamentResource extends JsonResource
 {
@@ -31,6 +32,10 @@ class TournamentResource extends JsonResource
                 // Path: "tournaments/{venue_id}/{filename}"
                 return "tournaments/{$this->id}/{$this->photo}";
             }, null), // If no photo, return null
+
+            'start_date_formatted' => Carbon::parse($this->start_date)->format('M d, Y'),
+            'end_date_formatted' => Carbon::parse($this->end_date)->format('M d, Y'),
+            'deadline_formatted' => Carbon::parse($this->deadline)->format('M d, Y'),
         ];
     }
 }
