@@ -19,8 +19,8 @@ class TournamentResource extends JsonResource
             'end_date' => $this->end_date->toFormattedDateString(),
             'registration_deadline' => $this->deadline->toFormattedDateString(),
             'description' => $this->description,
-            'prize_pool' => $this->prize,
-            'rules' => $this->rule,
+            'prize' => $this->prize,
+            'rule' => $this->rule,
             'results' => $this->result,
             'status' => $this->status,
             // Relationships
@@ -36,6 +36,14 @@ class TournamentResource extends JsonResource
             'start_date_formatted' => Carbon::parse($this->start_date)->format('M d, Y'),
             'end_date_formatted' => Carbon::parse($this->end_date)->format('M d, Y'),
             'deadline_formatted' => Carbon::parse($this->deadline)->format('M d, Y'),
+            'selected_categories' => $this->whenLoaded('selectedCategories', function () {
+                return $this->selectedCategories->map(function ($selectedCategory) {
+                    return [
+                        'name' => $selectedCategory->category->name,
+                        'fee' => number_format($selectedCategory->entry_fee, 2),
+                    ];
+                });
+            }),
         ];
     }
 }

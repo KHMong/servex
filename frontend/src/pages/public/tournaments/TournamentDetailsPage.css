@@ -1,0 +1,38 @@
+.info-item {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+  color: var(--servex-muted-text);
+}
+
+.info-item .icon {
+  flex-shrink: 0;
+}
+
+.tournament-tabs {
+    border: none !important;
+    border-bottom: 2px solid var(--border-color-light) !important
+}
+
+.tournament-tabs .nav-link {
+  color: var(--servex-muted-text);
+  font-weight: 500;
+  border: none !important;
+}
+
+.tournament-tabs .nav-link:hover  {
+  color: var(--servex-dark-text);
+}
+
+.tournament-tabs .nav-link.active {
+  color: var(--servex-dark-text);
+  background-color: transparent !important;
+  box-shadow: 0 2px 0 0 var(--servex-green) !important;
+}
+
+.fee-item {
+  background-color: var(--servex-light-gray-bg);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}

@@ -42,4 +42,11 @@ class TournamentController extends Controller
 
         return TournamentResource::collection($tournaments);
     }
+
+    public function getTournamentDetails(Tournament $tournament) 
+    {
+        $tournament->load(['state', 'selectedCategories.category']);
+
+        return new TournamentResource($tournament);
+    }
 }

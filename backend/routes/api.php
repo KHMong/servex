@@ -30,6 +30,7 @@ Route::get('/coaches/{user}', [CoachController::class, 'getCoachDetails']);
 
 // Tournament
 Route::get('/tournaments', [TournamentController::class, 'index']);
+Route::get('/tournaments/{tournament}', [TournamentController::class, 'getTournamentDetails']);
 
 // Images
 Route::get('/images/{path}', function ($path) {
