@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\CoachProfile;
 use Illuminate\Http\Request;
 use App\Http\Resources\CoachProfileResource;
@@ -35,5 +36,15 @@ class CoachController extends Controller
         $coaches = $query->with('user', 'state')->latest()->paginate(8);
 
         return CoachProfileResource::collection($coaches);
+    }
+
+    public function getCoachDetails(User $user) 
+    {
+        $coachProfile = $user->coachProfile()->where('status', 'Approved')->firstOrFail(); 
+
+        // Eager loading
+        $coachProfile->load('user', 'state');
+
+        return new CoachProfileResource($coachProfile);
     }
 }

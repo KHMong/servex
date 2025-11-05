@@ -15,7 +15,7 @@ const BackButton = ({
   // Link button
   return (
       <Link to={to} className={classes} {...rest}>
-        <IoIosArrowBack/> Back to Venues
+        <IoIosArrowBack/> Back to {rest.place}
       </Link>
     );
 };

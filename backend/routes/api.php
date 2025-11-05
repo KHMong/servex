@@ -25,6 +25,7 @@ Route::get('/venues/{venue}/availability-by-date', [VenueController::class, 'get
 
 // Coach
 Route::get('/coaches', [CoachController::class, 'index']);
+Route::get('/coaches/{user}', [CoachController::class, 'getCoachDetails']);
 
 // Images
 Route::get('/images/{path}', function ($path) {

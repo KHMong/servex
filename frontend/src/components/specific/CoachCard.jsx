@@ -6,7 +6,6 @@ import { getImageUrl } from '../../utils/imageUrl';
 import './CoachCard.css';
 
 const CoachCard = ({ coach }) => {
-  console.log(coach);
   const coachPhoto = getImageUrl(coach.photo_path);
 
   return (

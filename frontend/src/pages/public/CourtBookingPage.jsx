@@ -54,7 +54,7 @@ const CourtBookingPage = () => {
 
   return (
     <Container className="py-5">
-      <BackButton to={`/venues/`}></BackButton>
+      <BackButton to={`/venues/`} place="Venues"></BackButton>
 
       <ImageSlide photos={venue.photos} />
 

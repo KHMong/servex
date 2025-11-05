@@ -7,6 +7,7 @@ import HomePage from '../pages/public/HomePage';
 import BrowseVenuesPage from '../pages/public/BrowseVenuesPage';
 import CourtBookingPage from '../pages/public/CourtBookingPage';
 import BrowseCoachesPage from '../pages/public/BrowseCoachesPage';
+import CoachProfilePage from '../pages/public/CoachProfilePage';
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
           <Route path="venues" element={<BrowseVenuesPage />} />
           <Route path="venues/:venueId" element={<CourtBookingPage />} />
           <Route path="coaches" element={<BrowseCoachesPage />} />
+          <Route path="coaches/:coachId" element={<CoachProfilePage />} />
         </Route>
       </Routes>
     </Router>
