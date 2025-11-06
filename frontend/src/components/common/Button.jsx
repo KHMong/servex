@@ -14,10 +14,19 @@ const Button = ({
   ...rest
 }) => {
   // Combine all the classes together
-  const classes = `btn-custom btn-${variant} ${className}`;
+  const classes = `btn-custom btn-${variant} ${disabled ? 'disabled' : ''} ${className}`;
 
   // Link button
   if (to) {
+    if (disabled) {
+      return (
+        <span className={classes} aria-disabled="true" {...rest}>
+          {icon && <span className="btn-icon">{icon}</span>}
+          {children}
+        </span>
+      );
+    }
+
     return (
       <Link to={to} className={classes} {...rest}>
         {icon && <span className="btn-icon">{icon}</span>}

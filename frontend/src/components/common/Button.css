@@ -15,6 +15,17 @@
   transition: all 0.2s ease-in-out;
 }
 
+/* Disabled */
+.btn-custom:disabled,
+.btn-custom.disabled {
+  background-color: var(--servex-light-gray-btn) !important;
+  color: var(--servex-muted-text) !important;
+  cursor: not-allowed;
+  
+  transform: none;
+  box-shadow: none;
+}
+
 /* 1. Primary Button (The main green button) */
 .btn-custom.btn-primary {
   background-color: var(--servex-green);
