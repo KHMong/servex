@@ -17,6 +17,10 @@
   padding: 1.5rem;
 }
 
+.auth-card.auth-card-large {
+  max-width: 800px;
+}
+
 .sign-up-link {
   text-decoration: none;
   color: var(--servex-green);
