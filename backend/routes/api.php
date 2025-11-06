@@ -14,8 +14,10 @@ use App\Http\Controllers\Api\Public\ActivityController;
 
 use App\Http\Resources\UserResource;
 
-// Login
+// Authentication
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register/player', [AuthController::class, 'registerPlayer']);
+Route::post('/register/owner', [AuthController::class, 'registerOwner']);
 
 // Home Page
 Route::get('/home/featured-venues', [HomeController::class, 'getFeaturedVenues']);

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Pages
 import App from '../App';
 import LoginPage from '../pages/auth/LoginPage';
+import PlayerRegistrationPage from '../pages/auth/PlayerRegistrationPage';
 import HomePage from '../pages/public/HomePage';
 import BrowseVenuesPage from '../pages/public/BrowseVenuesPage';
 import CourtBookingPage from '../pages/public/CourtBookingPage';
@@ -31,6 +32,7 @@ const AppRoutes = () => {
 
         {/* Routes without Navbar/Footer */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register/player" element={<PlayerRegistrationPage />} />
       </Routes>
     </Router>
   );
