@@ -4,12 +4,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Public\HomeController;
 use App\Http\Controllers\Api\Public\StateController;
 use App\Http\Controllers\Api\Public\VenueController;
 use App\Http\Controllers\Api\Public\CoachController;
 use App\Http\Controllers\Api\Public\TournamentController;
 use App\Http\Controllers\Api\Public\ActivityController;
+
+// Login
+Route::post('/login', [AuthController::class, 'login']);
 
 // Home Page
 Route::get('/home/featured-venues', [HomeController::class, 'getFeaturedVenues']);

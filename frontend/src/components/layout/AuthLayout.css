@@ -1,0 +1,31 @@
+.auth-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  min-height: 100vh;
+  background-color: var(--servex-light-gray-bg);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+}
+
+.sign-up-link {
+  text-decoration: none;
+  color: var(--servex-green);
+  font-weight: 600;
+}
+
+.forgot-password {
+  text-decoration: none;
+  color: var(--servex-green);
+  font-weight: 600;
+  font-size: 0.85rem;
+}

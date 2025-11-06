@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Pages
 import App from '../App';
+import LoginPage from '../pages/auth/LoginPage';
 import HomePage from '../pages/public/HomePage';
 import BrowseVenuesPage from '../pages/public/BrowseVenuesPage';
 import CourtBookingPage from '../pages/public/CourtBookingPage';
@@ -16,6 +17,7 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
+        {/* Routes with Navbar/Footer */}
         <Route path="/" element={<App />}>
           <Route index element={<HomePage />} />
           <Route path="venues" element={<BrowseVenuesPage />} />
@@ -26,6 +28,9 @@ const AppRoutes = () => {
           <Route path="tournaments/:tournamentId" element={<TournamentDetailsPage />} />
           <Route path="activities" element={<BrowseActivitiesPage />} />
         </Route>
+
+        {/* Routes without Navbar/Footer */}
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </Router>
   );
