@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
+import { FaEyeSlash, FaEye } from 'react-icons/fa';
 import './FormField.css';
 
 const FormField = ({
@@ -8,12 +9,24 @@ const FormField = ({
   value,
   onChange,
   type = 'text',
-  icon: Icon,
+  iconLeft: IconLeft,
   options = [], // For select dropdowns
   error,
   ...rest
 }) => {
-  const inputHasIcon = !!Icon;
+  // Show/Hide state
+  const isPasswordToggle = type === 'password-toggle';
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  // Input type
+  const inputType = isPasswordToggle ? (isPasswordVisible ? 'text' : 'password') : type;
+
+  // Show/Hide icon
+  const IconRight = isPasswordToggle ? (isPasswordVisible ? FaEye : FaEyeSlash) : null;
+
+  let inputClasses = '';
+  if (IconLeft) inputClasses += ' input-with-icon-left';
+  if (IconRight) inputClasses += ' input-with-icon-right';
 
   const renderInput = () => {
     if (type === 'select') {
@@ -22,7 +35,7 @@ const FormField = ({
           name={name}
           value={value}
           onChange={onChange}
-          className={inputHasIcon ? 'input-with-icon' : ''}
+          className={inputClasses.trim()}
           {...rest}
         >
           {rest.placeholder && <option value="">{rest.placeholder}</option>}
@@ -37,11 +50,11 @@ const FormField = ({
 
     return (
       <Form.Control
-        type={type}
+        type={inputType}
         name={name}
         value={value}
         onChange={onChange}
-        className={inputHasIcon ? 'input-with-icon' : ''}
+        className={inputClasses.trim()}
         {...rest}
       />
     );
@@ -51,8 +64,14 @@ const FormField = ({
     <div className="form-field">
       {label && <Form.Label>{label}</Form.Label>}
       <div className="input-wrapper">
-        {Icon && <Icon className="input-icon" />}
+        {IconLeft && <IconLeft className="input-icon input-icon-left" />}
         {renderInput()}
+        {IconRight && (
+          <IconRight 
+            className="input-icon input-icon-right" 
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+          />
+        )}
       </div>
       {error && <Form.Text className="text-danger">{error}</Form.Text>}
     </div>

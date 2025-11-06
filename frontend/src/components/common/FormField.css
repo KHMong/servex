@@ -11,8 +11,6 @@
 
 .input-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .input-wrapper .form-control,
@@ -22,13 +20,27 @@
 
 .input-icon {
   position: absolute;
-  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   color: var(--servex-muted-text);
+}
+
+.input-icon-left {
+  left: 1rem;
   pointer-events: none;
 }
 
-.input-with-icon {
-  padding-right: 2.5rem !important;
+.input-icon-right {
+  right: 1rem;
+  cursor: pointer;
+}
+
+.input-with-icon-left {
+  padding-left: 2.75rem !important;
+}
+
+.input-with-icon-right {
+  padding-right: 2.75rem !important;
 }
 
 .input-wrapper input,
