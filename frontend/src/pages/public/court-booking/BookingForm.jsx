@@ -122,7 +122,8 @@ const BookingForm = ({ venue, courts }) => {
   return (
     <>
       <section>
-        <h2 className="mb-4 fw-semibold">Book a Court</h2>
+        <h2 className="fw-semibold">Book a Court</h2>
+        <p>Select the preferred court and date to start booking!</p>
         <div className="p-4 border rounded shadow-sm bg-white">
           <Form onSubmit={handleBookNow}>
             <Row>
