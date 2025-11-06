@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\Public\CoachController;
 use App\Http\Controllers\Api\Public\TournamentController;
 use App\Http\Controllers\Api\Public\ActivityController;
 
+use App\Http\Resources\UserResource;
+
 // Login
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -71,10 +73,9 @@ Route::get('/images/{path}', function ($path) {
 // Allows the {path} parameter to contain slashes (/)
 })->where('path', '.*')->name('storage.image');
 
-
-
-
-
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+// User
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return new UserResource($request->user());
+    });
+});

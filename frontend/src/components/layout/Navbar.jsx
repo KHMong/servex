@@ -1,11 +1,24 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { NavLink, Link } from 'react-router-dom';
+import { Navbar, Nav, Container, Dropdown } from 'react-bootstrap';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import Button from '../../components/common/Button';
+import { FaChevronDown } from 'react-icons/fa';
+import { getImageUrl } from '../../utils/imageUrl';
 import logo from '../../assets/images/logo.png'; 
 import './Navbar.css';
 
 const NavbarComponent = () => {
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const imageUrl = getImageUrl(user?.photo_path);
+
   return (
     <Navbar bg="#F8FAFC" expand="lg" className="shadow-sm py-3">
       <Container fluid className="px-5">
@@ -34,10 +47,36 @@ const NavbarComponent = () => {
             <Nav.Link as={NavLink} to="/activities"><span>Activities</span></Nav.Link>
           </Nav>
 
-          {/* Authentication Buttons */}
-          <Nav className="align-items-center">
-            <Nav.Link as={Link} to="/login" className="me-3">Login</Nav.Link>
-            <Button to="/register">Register</Button>
+          {/* Authentication Section */}
+          <Nav className="align-items-center gap-3">
+            {isAuthenticated ? (
+              // Logged in
+              <Dropdown as={Nav.Item} align="end">
+                <Dropdown.Toggle as="div" id="user-nav-dropdown" className="user-dropdown-toggle">
+                  <img src={imageUrl} alt={user?.name} className="user-avatar" />
+                  <div className="user-info-container">
+                    <span className="user-role-badge">{user.role?.toUpperCase() || 'N/A'}</span>
+                    <span className="user-name-text">{user.name}</span>
+                  </div>
+                  {/* <FaChevronDown className="dropdown-arrow-icon" /> */}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to="/user-profile">Info</Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item as="button" onClick={handleLogout} className="text-danger">
+                    Logout
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+            ) : (
+              // Not logged in
+              <>
+                <Nav.Link as={Link} to="/login" className="me-2">Login</Nav.Link>
+                <Button as={Link} to="/register">Register</Button>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
