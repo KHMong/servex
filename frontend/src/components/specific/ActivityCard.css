@@ -1,0 +1,117 @@
+.activity-card { 
+    border-radius: 0.75rem; 
+    border: 1px solid var(--border-color-light); 
+}
+
+.date-block { 
+    color: var(--servex-dark-text); 
+    min-width: 60px; 
+
+}
+.date-block .day-name { 
+    font-size: 0.9rem; 
+    font-weight: 500; 
+    text-transform: uppercase; 
+}
+
+.date-block .day-number { 
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    line-height: 1; 
+}
+
+.date-block .month-name { 
+    font-size: 0.8rem; 
+    font-weight: 500; 
+    text-transform: uppercase; 
+}
+
+.time-range { 
+    margin-top: 0.5rem;
+    color: var(--servex-green); 
+    font-weight: 600; 
+    font-size: 0.8rem; 
+}
+
+.venue-name { 
+    font-weight: 700; 
+    color: var(--servex-dark-text); 
+    margin: 0.25rem 0; 
+}
+
+.venue-location { 
+    font-size: 0.9rem; 
+    color: var(--servex-muted-text); 
+}
+
+.details-row { 
+    display: flex; 
+    flex-direction: column;
+    align-items: start; 
+    gap: 0.3rem; 
+}
+
+.skill-badge { 
+    padding: 0.25rem 0.75rem; 
+    border-radius: 999px; 
+    font-size: 0.7rem; 
+    font-weight: 600; 
+}
+
+.skill-beginner { 
+    background-color: var(--servex-light-blue); 
+    color: var(--servex-blue); 
+}
+
+.skill-intermediate { 
+    background-color: var(--servex-light-orange); 
+    color: var(--servex-orange); 
+}
+
+.skill-advanced { 
+    background-color: var(--servex-light-red); 
+    color: var(--servex-red); 
+}
+
+.skill-all { 
+    background-color: var(--servex-light-gray-btn); 
+    color: var(--servex-muted-text); 
+}
+
+.detail-item { 
+    font-size: 0.8rem; 
+    color: var(--servex-dark-text); 
+}
+
+.host-section { 
+    min-width: 180px; 
+}
+
+.icon {
+    flex-shrink: 0;
+}
+
+.host-avatar { 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    margin-bottom: 0.5rem; 
+    border: 2px solid var(--border-color-light);
+}
+
+.host-info { 
+    font-size: 0.8rem; 
+    color: var(--servex-muted-text); 
+}
+
+.host-name { 
+    font-weight: 600; 
+    color: var(--servex-dark-text); 
+}
+
+@media (max-width: 991.98px) {
+  .host-section {
+    padding-top: 1rem !important;
+  }
+}

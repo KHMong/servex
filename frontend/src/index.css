@@ -13,7 +13,12 @@
   --servex-light-gray-btn: #F1F5F9; /* Light grey button for the button */
   --servex-light-gray-darker-btn: #DEE2E6;
   --servex-light-gray-disabled: #CBD5E1;
+  --servex-light-orange: #FEF9C3;
   --servex-orange: #FBBF24;
+  --servex-light-red: #FEF2F2;
+  --servex-red: #B33129;
+  --servex-light-blue: #DBEAFE;
+  --servex-blue: #1E40AF;
 }
 
 body {

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Public\StateController;
 use App\Http\Controllers\Api\Public\VenueController;
 use App\Http\Controllers\Api\Public\CoachController;
 use App\Http\Controllers\Api\Public\TournamentController;
+use App\Http\Controllers\Api\Public\ActivityController;
 
 // Home Page
 Route::get('/home/featured-venues', [HomeController::class, 'getFeaturedVenues']);
@@ -31,6 +32,10 @@ Route::get('/coaches/{user}', [CoachController::class, 'getCoachDetails']);
 // Tournament
 Route::get('/tournaments', [TournamentController::class, 'index']);
 Route::get('/tournaments/{tournament}', [TournamentController::class, 'getTournamentDetails']);
+
+// Activity
+Route::get('/activities', [ActivityController::class, 'index']);
+Route::get('/skill-levels', [ActivityController::class, 'getSkillLevels']);
 
 // Images
 Route::get('/images/{path}', function ($path) {

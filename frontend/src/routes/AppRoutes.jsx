@@ -10,6 +10,7 @@ import BrowseCoachesPage from '../pages/public/BrowseCoachesPage';
 import CoachProfilePage from '../pages/public/CoachProfilePage';
 import BrowseTournamentsPage from '../pages/public/BrowseTournamentsPage';
 import TournamentDetailsPage from '../pages/public/TournamentDetailsPage';
+import BrowseActivitiesPage from '../pages/public/BrowseActivitiesPage';
 
 const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const AppRoutes = () => {
           <Route path="coaches/:coachId" element={<CoachProfilePage />} />
           <Route path="tournaments/" element={<BrowseTournamentsPage />} />
           <Route path="tournaments/:tournamentId" element={<TournamentDetailsPage />} />
+          <Route path="activities" element={<BrowseActivitiesPage />} />
         </Route>
       </Routes>
     </Router>
