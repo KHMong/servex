@@ -44,7 +44,7 @@ const LoginPage = () => {
     <AuthLayout footer={loginFooter}>
       <div className="text-center mb-5">
         <h2 className="fw-bold">ServeX</h2>
-        <h4 className="text-muted">Welcome Back!</h4>
+        <h4 className="text-muted fw-semibold">Welcome Back!</h4>
       </div>
 
       <Form onSubmit={handleSubmit}>
