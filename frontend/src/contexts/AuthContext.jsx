@@ -56,8 +56,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     delete apiClient.defaults.headers.common['Authorization'];
   };
+
+  const setAuthData = (userData, userToken) => {
+    setUser(userData);
+    setToken(userToken);
+  };
   
-  const value = { user, token, isAuthenticated: !!token, loading, login, logout };
+  const value = { user, token, isAuthenticated: !!token, loading, login, logout, setAuthData };
 
   // Render after finish loading
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
