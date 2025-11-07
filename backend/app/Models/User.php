@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -56,6 +57,50 @@ class User extends Authenticatable
         'is_organiser' => 'boolean',
         'password' => 'hashed',
     ];
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // When a user is created, auto-generate the user_id
+        static::creating(function ($user) {
+            // Prefix
+            $prefix = '';
+            if ($user->role === 'Player') {
+                $prefix = 'P';
+            } else if ($user->role === 'Owner') {
+                $prefix = 'O';
+            }
+
+            // Get current date in YYMMDD format
+            $datePart = Carbon::now()->format('ymd');
+
+            // Get the latest user of the same role today
+            $latestUser = User::where('role', $user->role)
+                                ->whereDate('created_at', Carbon::today())
+                                ->orderBy('id', 'desc')
+                                ->first();
+
+            $sequence = $latestUser ? 
+                (int)substr($latestUser->user_id, -4) + 1 : // Get last 4 number, and add 1
+                1; // Start at 1 (No new user today)
+            
+            // Leading zeros
+            $paddedSequence = str_pad($sequence, 4, '0', STR_PAD_LEFT);
+
+            /* 
+                Format:
+                PYYMMDD#### (Player)
+                OYYMMDD#### (Owner)
+             */
+            $user->user_id = $prefix . $datePart . $paddedSequence;
+        });
+    }
 
     // Relationships
     public function ownerProfile()

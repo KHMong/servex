@@ -51,10 +51,10 @@ class AuthController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'gender' => 'required|in:Male,Female',
+            'gender' => 'required|in:M,F',
             'date_of_birth' => 'required|date',
-            'email' => 'required|string|email|max:255|unique:users',
-            'phone_no' => ['required|unique:users', 'string', 'regex:/^01[0-9]-[0-9]{7,8}$/'],
+            'email' => 'required|string|email|max:255|unique:user,email',
+            'phone_no' => 'required|string|unique:user,phone_no|regex:/^01[0-9]-[0-9]{7,8}$/',
             'password' => [
                 'required',
                 'string',
@@ -70,12 +70,13 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
             'gender' => $validated['gender'],
             'date_of_birth' => $validated['date_of_birth'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
             'phone_no' => $validated['phone_no'],
             'role' => 'Player',
+            'status' => 'Active',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -93,10 +94,10 @@ class AuthController extends Controller
         $validated = $request->validate([
             // User fields
             'name' => 'required|string|max:255',
-            'gender' => 'required|in:Male,Female',
+            'gender' => 'required|in:M,F',
             'date_of_birth' => 'required|date',
-            'email' => 'required|string|email|max:255|unique:users',
-            'phone_no' => ['required|unique:users', 'string', 'regex:/^0[1-9]-[0-9]{8}$/'],
+            'email' => 'required', 'string', 'max:255', 'email', 'unique:user,email',
+            'phone_no' => 'required|unique:user', 'string', 'regex:/^0[1-9]-[0-9]{8}$/',
             'password' => [
                 'required',
                 'string',
@@ -110,16 +111,16 @@ class AuthController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             // Owner fields
             'company_name' => 'required|string|max:255',
-            'business_reg_no' => 'required|string|max:12',
+            'business_reg_no' => 'required|string|max:12|unique:owner_profile',
         ]);
         
         $user = DB::transaction(function () use ($validated, $request) {
             $user = User::create([
                 'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
                 'gender' => $validated['gender'],
                 'date_of_birth' => $validated['date_of_birth'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
                 'phone_no' => $validated['phone_no'],
                 'role' => 'Owner',
                 'status' => 'Inactive',

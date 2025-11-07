@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Row, Col, Alert } from 'react-bootstrap';
-import { FaUser, FaLock, FaEnvelope, FaPhone, FaBuilding, FaRegAddressCard, FaCalendarAlt } from 'react-icons/fa';
+import { Form, Row, Col, Alert, Spinner } from 'react-bootstrap';
+import { FaUser, FaLock, FaEnvelope, FaPhone, FaBuilding, FaRegAddressCard } from 'react-icons/fa';
 import FormField from '../../components/common/FormField';
 import Button from '../../components/common/Button';
 import { validateRegistration } from '../../utils/validation';
@@ -55,37 +55,37 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
     <>
       <div className="text-center mb-5">
         <h2 className="fw-bold">ServeX</h2>
-        <h4 className="text-muted">{title}</h4>
+        <h4 className="text-muted fw-semibold">{title}</h4>
       </div>
       <Form onSubmit={handleSubmit} noValidate>
         {apiError && <Alert variant="danger">{apiError}</Alert>}
         
-        <FormField label="Full Name *" name="name" value={formData.name} onChange={handleChange} icon={FaUser} error={errors.name} />
+        <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} iconLeft={FaUser} error={errors.name} placeholder="Full Name" required />
         
         <Row>
           <Col>
             <Form.Group className="mb-3">
-              <Form.Label>Gender *</Form.Label>
+              <Form.Label>Gender <span className="text-danger ms-1">*</span></Form.Label>
               <div>
-                <Form.Check inline label="Male" name="gender" type="radio" value="Male" onChange={handleChange} isInvalid={!!errors.gender} />
-                <Form.Check inline label="Female" name="gender" type="radio" value="Female" onChange={handleChange} isInvalid={!!errors.gender} />
+                <Form.Check inline label="Male" name="gender" type="radio" id="gender-male" value="Male" onChange={handleChange} isInvalid={!!errors.gender} />
+                <Form.Check inline label="Female" name="gender" type="radio" id="gender-female" value="Female" onChange={handleChange} isInvalid={!!errors.gender} />
               </div>
               {errors.gender && <Form.Text className="text-danger">{errors.gender}</Form.Text>}
             </Form.Group>
           </Col>
           <Col>
-            <FormField label="Date of Birth *" type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleChange} icon={FaCalendarAlt} error={errors.date_of_birth} />
+            <FormField label="Date of Birth" type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleChange} error={errors.date_of_birth} required />
           </Col>
         </Row>
         
         <Row>
-          <Col md={6}><FormField label="Email Address *" type="email" name="email" value={formData.email} onChange={handleChange} icon={FaEnvelope} error={errors.email} /></Col>
-          <Col md={6}><FormField label="Phone Number *" name="phone_no" value={formData.phone_no} onChange={handleChange} icon={FaPhone} error={errors.phone_no} placeholder={role === 'player' ? 'E.g. 0123456789' : 'E.g. 0312341234'} /></Col>
+          <Col md={6}><FormField label="Email Address" type="email" name="email" value={formData.email} onChange={handleChange} iconLeft={FaEnvelope} error={errors.email} placeholder="you@example.com" required /></Col>
+          <Col md={6}><FormField label="Phone Number" name="phone_no" maxLength={12} value={formData.phone_no} onChange={handleChange} iconLeft={FaPhone} error={errors.phone_no} placeholder={role === 'Player' ? 'E.g. 012-3456789' : 'E.g. 03-12345678'} required /></Col>
         </Row>
 
         <Row>
-          <Col md={6}><FormField label="Password *" type="password" name="password" value={formData.password} onChange={handleChange} icon={FaLock} error={errors.password} /></Col>
-          <Col md={6}><FormField label="Confirm Password *" type="password" name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} icon={FaLock} error={errors.password_confirmation} /></Col>
+          <Col md={6}><FormField label="Password" type="password-toggle" name="password" minLength={8} maxLength={15} value={formData.password} onChange={handleChange} iconLeft={FaLock} error={errors.password} placeholder="Password" required /></Col>
+          <Col md={6}><FormField label="Confirm Password" type="password-toggle" name="password_confirmation" minLength={8} maxLength={15} value={formData.password_confirmation} onChange={handleChange} iconLeft={FaLock} error={errors.password_confirmation} placeholder="Confirm Password" required /></Col>
         </Row>
         
         <ImageUpload label="Profile Photo" onFileChange={handleFileChange} />
@@ -95,14 +95,14 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
             <hr className="my-4" />
             <h5 className="mb-3">Business Information</h5>
             <Row>
-              <Col md={6}><FormField label="Company Name *" name="company_name" value={formData.company_name} onChange={handleChange} icon={FaBuilding} error={errors.company_name} /></Col>
-              <Col md={6}><FormField label="Business Registration Number *" name="business_reg_no" value={formData.business_reg_no} onChange={handleChange} icon={FaRegAddressCard} error={errors.business_reg_no} /></Col>
+              <Col md={6}><FormField label="Company Name" name="company_name" value={formData.company_name} onChange={handleChange} iconLeft={FaBuilding} error={errors.company_name} required /></Col>
+              <Col md={6}><FormField label="Business Registration Number" name="business_reg_no" value={formData.business_reg_no} onChange={handleChange} iconLeft={FaRegAddressCard} error={errors.business_reg_no} required /></Col>
             </Row>
           </>
         )}
         
         <Button type="submit" className="w-100 mt-4" disabled={loading}>
-          {loading ? 'Creating Account...' : 'Create Account'}
+          {loading ? <div className="text-center"><Spinner animation="border" variant="success" /></div> : 'Create Account'}
         </Button>
       </Form>
     </>

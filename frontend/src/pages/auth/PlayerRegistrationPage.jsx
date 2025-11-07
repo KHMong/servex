@@ -2,12 +2,10 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/layout/AuthLayout';
 import RegistrationForm from './RegistrationForm';
-import { useAuth } from '../../contexts/AuthContext';
 import apiClient from '../../api/apiClient';
 
 const PlayerRegistrationPage = () => {
   const navigate = useNavigate();
-  const { setToken, setUser } = useAuth();
 
   const handlePlayerSubmit = async (formData) => {
     const data = new FormData();
@@ -22,15 +20,13 @@ const PlayerRegistrationPage = () => {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
 
-    // Login automatically after successful registration
-    setUser(response.data.user);
-    setToken(response.data.token);
-    navigate('/');
+    // Navigate to Login Page
+    navigate('/login');
   };
 
   const registerFooter = (
     <>
-        <p>Already have an account? <Link to="/login">Login</Link></p>
+        <p>Already have an account? <Link to="/login" className="text-decoration-none fw-semibold" style={{ color: 'var(--servex-green)' }}>Login</Link></p>
     </>
 );
 
