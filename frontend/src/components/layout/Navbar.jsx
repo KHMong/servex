@@ -3,7 +3,6 @@ import { Navbar, Nav, Container, Dropdown } from 'react-bootstrap';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import Button from '../../components/common/Button';
-import { FaChevronDown } from 'react-icons/fa';
 import { getImageUrl } from '../../utils/imageUrl';
 import logo from '../../assets/images/logo.png'; 
 import './Navbar.css';
@@ -73,8 +72,7 @@ const NavbarComponent = () => {
             ) : (
               // Not logged in
               <>
-                <Nav.Link as={Link} to="/login" className="me-2">Login</Nav.Link>
-                <Button as={Link} to="/register">Register</Button>
+                <Button as={Link} to="/login">Login</Button>
               </>
             )}
           </Nav>
