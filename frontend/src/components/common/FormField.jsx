@@ -6,12 +6,16 @@ import './FormField.css';
 const FormField = ({
   label,
   name,
+  minLength = 1,
+  maxLength = 255,
   value,
   onChange,
   type = 'text',
   iconLeft: IconLeft,
   options = [], // For select dropdowns
   error,
+  required = false,
+  id = name,
   ...rest
 }) => {
   // Show/Hide state
@@ -32,10 +36,12 @@ const FormField = ({
     if (type === 'select') {
       return (
         <Form.Select
+          id={id}
           name={name}
           value={value}
           onChange={onChange}
           className={inputClasses.trim()}
+          isInvalid={!!error}
           {...rest}
         >
           {rest.placeholder && <option value="">{rest.placeholder}</option>}
@@ -50,11 +56,15 @@ const FormField = ({
 
     return (
       <Form.Control
+        id={id}
         type={inputType}
         name={name}
+        minLength={minLength}
+        maxLength={maxLength}
         value={value}
         onChange={onChange}
-        className={inputClasses.trim()}
+        className={`${inputClasses.trim()} ${type === 'password-toggle' ? 'password-input' : ''}`}
+        isInvalid={!!error}
         {...rest}
       />
     );
@@ -62,7 +72,7 @@ const FormField = ({
 
   return (
     <div className="form-field">
-      {label && <Form.Label>{label}</Form.Label>}
+      {label && <Form.Label htmlFor={id}>{label} {required && <span className="text-danger ms-1">*</span>}</Form.Label>}
       <div className="input-wrapper">
         {IconLeft && <IconLeft className="input-icon input-icon-left" />}
         {renderInput()}

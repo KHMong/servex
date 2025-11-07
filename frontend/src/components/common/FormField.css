@@ -48,3 +48,7 @@
     background-color: var(--servex-light-gray-bg);
     border: 1px solid var(--servex-light-gray-disabled);
 }
+
+.form-control.is-invalid.password-input {
+  background-image: none !important;
+}
