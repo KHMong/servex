@@ -41,13 +41,13 @@ const ImageUpload = ({ label, onFileChange }) => {
           <button onClick={handleRemoveImage} className="remove-image-btn">&times;</button>
         </div>
       ) : (
-        <label className="image-upload-box">
+        <label className="image-upload-box w-100">
           <input type="file" onChange={handleFileChange} accept="image/png, image/jpeg" />
           <FaCamera className="image-upload-icon" />
           <p className="mb-0">
-            <span style={{ color: '#4ADE80', fontWeight: 500 }}>Upload an image</span>
+            <span style={{ color: 'var(--servex-green)', fontWeight: 500 }}>Upload an image</span>
           </p>
-          <small className="text-muted">PNG, JPG up to 2MB</small>
+          <small className="text-muted">.png, .jpg up to 2MB</small>
         </label>
       )}
     </div>
