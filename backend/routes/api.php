@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Auth\PasswordResetController;
 use App\Http\Controllers\Api\Public\HomeController;
 use App\Http\Controllers\Api\Public\StateController;
 use App\Http\Controllers\Api\Public\VenueController;
@@ -18,6 +19,10 @@ use App\Http\Resources\UserResource;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register/player', [AuthController::class, 'registerPlayer']);
 Route::post('/register/owner', [AuthController::class, 'registerOwner']);
+
+// Password
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail']);
+Route::post('/reset-password', [PasswordResetController::class, 'reset']);
 
 // Home Page
 Route::get('/home/featured-venues', [HomeController::class, 'getFeaturedVenues']);

@@ -6,6 +6,8 @@ import App from '../App';
 import LoginPage from '../pages/auth/LoginPage';
 import PlayerRegistrationPage from '../pages/auth/PlayerRegistrationPage';
 import OwnerRegistrationPage from '../pages/auth/OwnerRegistrationPage';
+import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import HomePage from '../pages/public/HomePage';
 import BrowseVenuesPage from '../pages/public/BrowseVenuesPage';
 import CourtBookingPage from '../pages/public/CourtBookingPage';
@@ -35,6 +37,8 @@ const AppRoutes = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register/player" element={<PlayerRegistrationPage />} />
         <Route path="/register/owner" element={<OwnerRegistrationPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Routes>
     </Router>
   );
