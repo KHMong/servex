@@ -1,13 +1,12 @@
 import React from 'react';
 import { Container, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import './AuthLayout.css';
 
 const AuthLayout = ({ children, size = 'default', footer }) => {
   const cardClassName = `border auth-card ${size === 'large' ? 'auth-card-large' : ''}`;
 
   return (
-    <div className="auth-wrapper">
+    <div className="auth-wrapper py-5">
       <Container className="d-flex justify-content-center">
         <Card className={cardClassName}>
           <Card.Body>{children}</Card.Body>
