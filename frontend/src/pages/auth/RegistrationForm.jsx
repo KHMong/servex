@@ -4,7 +4,7 @@ import { FaUser, FaLock, FaEnvelope, FaPhone, FaBuilding, FaRegAddressCard } fro
 import FormField from '../../components/common/FormField';
 import Button from '../../components/common/Button';
 import { validateRegistration } from '../../utils/validation';
-
+import { useNotification } from '../../contexts/NotificationContext';
 import ImageUpload from '../../components/common/ImageUpload';
 
 const RegistrationForm = ({ role, title, submitHandler }) => {
@@ -16,6 +16,7 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { showNotification } = useNotification();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,8 +44,10 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
         }
 
         await submitHandler(dataToSend);
+        showNotification('Account created successfully! You can now login to your account.', 'success');
       } catch (err) {
-        setApiError(err.response?.data?.message || 'Registration failed.');
+        const errorMessage = err.response?.data?.message || 'Registration failed.';
+        setApiError(errorMessage);
       } finally {
         setLoading(false);
       }
