@@ -1,0 +1,24 @@
+.notification-wrapper {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  color: white;
+  font-weight: 500;
+}
+
+.notification-wrapper.success {
+  background-color: var(--servex-green); 
+}
+
+.notification-wrapper.error {
+  background-color: var(--servex-red);
+}
+
+.notification-wrapper.info {
+  background-color: var(--servex-blue);
+}

@@ -6,12 +6,17 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import { AuthProvider } from './contexts/AuthContext';
+import { NotificationProvider } from './contexts/NotificationContext';
+import Notification from './components/common/Notification';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <AppRoutes />
+      <NotificationProvider>
+        <Notification />
+        <AppRoutes />
+      </NotificationProvider>
     </AuthProvider>
   </React.StrictMode>
 );
