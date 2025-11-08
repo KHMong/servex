@@ -62,7 +62,7 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
       </div>
       <Form onSubmit={handleSubmit} noValidate>
         {apiError && <Alert variant="danger">{apiError}</Alert>}
-        
+        <h5 className="mb-4 fw-semibold">Personal Information</h5>
         <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} iconLeft={FaUser} error={errors.name} placeholder="Full Name" required />
         
         <Row>
@@ -93,13 +93,13 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
         
         <ImageUpload label="Profile Photo" onFileChange={handleFileChange} />
         
-        {role === 'owner' && (
+        {role === 'Owner' && (
           <>
             <hr className="my-4" />
-            <h5 className="mb-3">Business Information</h5>
+            <h5 className="mb-4 fw-semibold">Business Information</h5>
             <Row>
-              <Col md={6}><FormField label="Company Name" name="company_name" value={formData.company_name} onChange={handleChange} iconLeft={FaBuilding} error={errors.company_name} required /></Col>
-              <Col md={6}><FormField label="Business Registration Number" name="business_reg_no" value={formData.business_reg_no} onChange={handleChange} iconLeft={FaRegAddressCard} error={errors.business_reg_no} required /></Col>
+              <Col md={6}><FormField label="Company Name" name="company_name" value={formData.company_name} onChange={handleChange} iconLeft={FaBuilding} error={errors.company_name} placeholder="Company Name" required /></Col>
+              <Col md={6}><FormField label="Business Registration Number" name="business_reg_no" maxLength={12} value={formData.business_reg_no} onChange={handleChange} iconLeft={FaRegAddressCard} error={errors.business_reg_no} placeholder="E.g. 202501000001" required /></Col>
             </Row>
           </>
         )}

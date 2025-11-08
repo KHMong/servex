@@ -66,7 +66,11 @@ export const validateRegistration = (formData, role) => {
   // Owner-specific fields
   if (role === 'Owner') {
     if (!formData.company_name) errors.company_name = "Company Name is required.";
-    if (!formData.business_reg_no) errors.business_reg_no = "Business Registration Number is required.";
+    if (!formData.business_reg_no) {
+      errors.business_reg_no = "Business Registration Number is required."
+    } else if (!/^((19|20)[0-9]{2})(0[1-6])([0-9]{6})$/.test(formData.business_reg_no)) {
+      errors.business_reg_no = "Please enter a valid Business Registration Number. (E.g. 202501000001)"
+    };
   }
 
   return errors;

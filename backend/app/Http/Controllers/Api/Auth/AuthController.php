@@ -20,6 +20,11 @@ PASSWORD REQUIREMENTS:
 3. Must have at least one number
 4. Must have at least one special character
 
+BUSINESS REG NO REGEX:
+`((19|20)[0-9]{2})` : First two digits must start with 19 or 20, followed by two random digits.
+`(0[1-6])` : Middle 2 digits: Must start with 0 followed by a number between 1 to 6.
+`([0-9]{6})` : Random 6 digits
+
 */
 
 class AuthController extends Controller
@@ -96,8 +101,8 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'gender' => 'required|in:M,F',
             'date_of_birth' => 'required|date',
-            'email' => 'required', 'string', 'max:255', 'email', 'unique:user,email',
-            'phone_no' => 'required|unique:user', 'string', 'regex:/^0[1-9]-[0-9]{8}$/',
+            'email' => 'required|string|email|max:255|unique:user,email',
+            'phone_no' => 'required|string|unique:user,phone_no|regex:/^0[1-9]-[0-9]{8}$/',
             'password' => [
                 'required',
                 'string',
@@ -111,7 +116,13 @@ class AuthController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             // Owner fields
             'company_name' => 'required|string|max:255',
-            'business_reg_no' => 'required|string|max:12|unique:owner_profile',
+            'business_reg_no' => [
+                'required',
+                'string',
+                'max:12',
+                'unique:owner_profile,business_reg_no',
+                'regex:/^((19|20)[0-9]{2})(0[1-6])([0-9]{6})$/'
+            ],
         ]);
         
         $user = DB::transaction(function () use ($validated, $request) {
@@ -136,6 +147,7 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'company_name' => $validated['company_name'],
                 'business_reg_no' => $validated['business_reg_no'],
+                'status' => 'Pending',
             ]);
             
             return $user;
