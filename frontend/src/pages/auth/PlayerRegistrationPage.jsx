@@ -16,7 +16,7 @@ const PlayerRegistrationPage = () => {
       data.append(key, formData[key]);
     }
     
-    const response = await apiClient.post('/register/player', data, {
+    await apiClient.post('/register/player', data, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
 

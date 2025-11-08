@@ -49,7 +49,7 @@ export const validateRegistration = (formData, role) => {
       passwordErrors.push("must contain a number");
     }
     // Must contain special character
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(formData.password)) {
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(formData.password)) {
       passwordErrors.push("must contain a special character");
     }
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Form, Alert, Spinner } from 'react-bootstrap';
-import { FaEnvelope, FaArrowLeft } from 'react-icons/fa';
+import { FaEnvelope } from 'react-icons/fa';
 import BackButton from '../../components/common/BackButton';
 import AuthLayout from '../../components/layout/AuthLayout';
 import FormField from '../../components/common/FormField';

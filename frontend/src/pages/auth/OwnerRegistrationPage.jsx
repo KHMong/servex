@@ -16,7 +16,7 @@ const OwnerRegistrationPage = () => {
       data.append(key, formData[key]);
     }
     
-    const response = await apiClient.post('/register/owner', data, {
+    await apiClient.post('/register/owner', data, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
 
