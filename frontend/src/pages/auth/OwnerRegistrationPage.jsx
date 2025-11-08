@@ -28,7 +28,7 @@ const OwnerRegistrationPage = () => {
     <>
         <p>Already have an account? <Link to="/login" className="text-decoration-none fw-semibold" style={{ color: 'var(--servex-green)' }}>Login</Link></p>
     </>
-);
+  );
 
   return (
     <AuthLayout size="large" footer={registerFooter}>
