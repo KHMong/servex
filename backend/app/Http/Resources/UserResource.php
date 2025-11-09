@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class UserResource extends JsonResource
 {
@@ -14,7 +15,10 @@ class UserResource extends JsonResource
             'user_id' => $this->user_id,
             'name' => $this->name,
             'gender' => $this->gender,
-            'date_of_birth' => $this->date_of_birth->toFormattedDateString(),
+            'date_of_birth' => $this->date_of_birth,
+            'dob_for_input' => $this->when($this->date_of_birth, function() {
+                return Carbon::parse($this->date_of_birth)->format('Y-m-d');
+            }),
             'email' => $this->email,
             'phone_no' => $this->phone_no,
             'photo' => $this->photo,

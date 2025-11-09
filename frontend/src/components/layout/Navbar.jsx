@@ -61,7 +61,7 @@ const NavbarComponent = () => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item as={Link} to="/user-profile">Info</Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/info">Info</Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item as="button" onClick={handleLogout} className="text-danger">
                     Logout

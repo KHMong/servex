@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Public\VenueController;
 use App\Http\Controllers\Api\Public\CoachController;
 use App\Http\Controllers\Api\Public\TournamentController;
 use App\Http\Controllers\Api\Public\ActivityController;
+use App\Http\Controllers\Api\User\ProfileController;
 
 use App\Http\Resources\UserResource;
 
@@ -57,7 +58,7 @@ Route::get('/images/{path}', function ($path) {
         abort(404, 'Invalid path');
     }
 
-    // Ensure the file  exists in the uploads folder
+    // Ensure the file exists in the uploads folder
     $fullPath = 'uploads/' . $path;
 
     if (!Storage::disk('local')->exists($fullPath)) {
@@ -71,7 +72,7 @@ Route::get('/images/{path}', function ($path) {
     $serverPath = Storage::disk('local')->path($fullPath);
     $type = mime_content_type($serverPath);
 
-    // This tells the browser how to interpret the file content.
+    // Tell the browser how to interpret the file content
     $response = Response::make($file, 200);
     $response->header("Content-Type", $type);
 
@@ -85,4 +86,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return new UserResource($request->user());
     });
+
+    Route::get('/user/profile', [ProfileController::class, 'getUserProfile']);
+    Route::post('/user/profile', [ProfileController::class, 'updateUserProfile']);
 });

@@ -1,8 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+import App from '../App';
+import ProtectedRoute from './ProtectedRoute';
 
 // Pages
-import App from '../App';
 import LoginPage from '../pages/auth/LoginPage';
 import PlayerRegistrationPage from '../pages/auth/PlayerRegistrationPage';
 import OwnerRegistrationPage from '../pages/auth/OwnerRegistrationPage';
@@ -16,6 +18,8 @@ import CoachProfilePage from '../pages/public/CoachProfilePage';
 import BrowseTournamentsPage from '../pages/public/BrowseTournamentsPage';
 import TournamentDetailsPage from '../pages/public/TournamentDetailsPage';
 import BrowseActivitiesPage from '../pages/public/BrowseActivitiesPage';
+import InfoLayout from '../components/layout/InfoLayout';
+import UserProfilePage from '../pages/user/UserProfilePage';
 
 const AppRoutes = () => {
   return (
@@ -31,6 +35,14 @@ const AppRoutes = () => {
           <Route path="tournaments/" element={<BrowseTournamentsPage />} />
           <Route path="tournaments/:tournamentId" element={<TournamentDetailsPage />} />
           <Route path="activities" element={<BrowseActivitiesPage />} />
+
+          {/* --- Protected Routes --- */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/info" element={<InfoLayout />}>
+              <Route index element={<Navigate to="user-profile" replace />} />
+              <Route path="user-profile" element={<UserProfilePage />} />
+            </Route>
+          </Route>
         </Route>
 
         {/* Routes without Navbar/Footer */}
