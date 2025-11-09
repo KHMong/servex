@@ -34,3 +34,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.bg-light-gray {
+  background-color: var(--servex-light-gray-bg);
+}
