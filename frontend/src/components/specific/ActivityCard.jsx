@@ -9,8 +9,6 @@ import './ActivityCard.css';
 const ActivityCard = ({ activity }) => {
   const imageUrl = getImageUrl(activity.host.photo_path);
 
-  console.log(activity);
-
   // Put CSS class based on skill level
   const getSkillClass = (level) => {
     switch (level?.toLowerCase()) {
