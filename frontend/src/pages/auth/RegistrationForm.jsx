@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Row, Col, Alert, Spinner } from 'react-bootstrap';
-import { FaUser, FaLock, FaEnvelope, FaPhone, FaBuilding, FaRegAddressCard } from 'react-icons/fa';
+import { FaUser, FaLock, FaEnvelope, FaPhone, FaBuilding, FaRegAddressCard, FaCamera } from 'react-icons/fa';
 import FormField from '../../components/common/FormField';
 import Button from '../../components/common/Button';
 import { validate } from '../../utils/validation';
@@ -91,7 +91,7 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
           <Col md={6}><FormField label="Confirm Password" type="password-toggle" name="password_confirmation" minLength={8} maxLength={15} value={formData.password_confirmation} onChange={handleChange} iconLeft={FaLock} error={errors.password_confirmation} placeholder="Confirm Password" required /></Col>
         </Row>
         
-        <ImageUpload label="Profile Photo" onFileChange={handleFileChange} />
+        <ImageUpload label="Profile Photo" UploadIcon={FaCamera} onFileChange={handleFileChange} />
         
         {role === 'Owner' && (
           <>
