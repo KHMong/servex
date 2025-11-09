@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 /*
 
@@ -120,8 +121,10 @@ class AuthController extends Controller
                 'required',
                 'string',
                 'max:12',
-                'unique:owner_profile,business_reg_no',
-                'regex:/^((19|20)[0-9]{2})(0[1-6])([0-9]{6})$/'
+                'regex:/^((19|20)[0-9]{2})(0[1-6])([0-9]{6})$/',
+                Rule::unique('owner_profile', 'business_reg_no')->where(function ($query) {
+                    return $query->where('status', 'Approved');
+                }),
             ],
         ]);
         
