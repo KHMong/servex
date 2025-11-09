@@ -8,7 +8,7 @@ import BackButton from '../../components/common/BackButton';
 import CertificateModal from './coaches/CertModal';
 import { getImageUrl } from '../../utils/imageUrl';
 
-const CoachProfilePage = () => {
+const CoachDetailsPage = () => {
   const { coachId } = useParams();
   const [coach, setCoach] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -108,4 +108,4 @@ const CoachProfilePage = () => {
   );
 };
 
-export default CoachProfilePage;
+export default CoachDetailsPage;

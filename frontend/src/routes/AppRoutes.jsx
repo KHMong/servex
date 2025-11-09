@@ -14,7 +14,7 @@ import HomePage from '../pages/public/HomePage';
 import BrowseVenuesPage from '../pages/public/BrowseVenuesPage';
 import CourtBookingPage from '../pages/public/CourtBookingPage';
 import BrowseCoachesPage from '../pages/public/BrowseCoachesPage';
-import CoachProfilePage from '../pages/public/CoachProfilePage';
+import CoachDetailsPage from '../pages/public/CoachDetailsPage';
 import BrowseTournamentsPage from '../pages/public/BrowseTournamentsPage';
 import TournamentDetailsPage from '../pages/public/TournamentDetailsPage';
 import BrowseActivitiesPage from '../pages/public/BrowseActivitiesPage';
@@ -31,7 +31,7 @@ const AppRoutes = () => {
           <Route path="venues" element={<BrowseVenuesPage />} />
           <Route path="venues/:venueId" element={<CourtBookingPage />} />
           <Route path="coaches" element={<BrowseCoachesPage />} />
-          <Route path="coaches/:coachId" element={<CoachProfilePage />} />
+          <Route path="coaches/:coachId" element={<CoachDetailsPage />} />
           <Route path="tournaments/" element={<BrowseTournamentsPage />} />
           <Route path="tournaments/:tournamentId" element={<TournamentDetailsPage />} />
           <Route path="activities" element={<BrowseActivitiesPage />} />
