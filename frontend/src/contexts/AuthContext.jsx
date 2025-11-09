@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     setToken(userToken);
   };
   
-  const value = { user, token, isAuthenticated: !!token, loading, login, logout, setAuthData };
+  const value = { user, token, isAuthenticated: !!token, loading, login, logout, setAuthData, setUser };
 
   // Render after finish loading
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
