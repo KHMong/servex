@@ -20,6 +20,7 @@ import TournamentDetailsPage from '../pages/public/TournamentDetailsPage';
 import BrowseActivitiesPage from '../pages/public/BrowseActivitiesPage';
 import InfoLayout from '../components/layout/InfoLayout';
 import UserProfilePage from '../pages/user/UserProfilePage';
+import CoachProfilePage from '../pages/user/CoachProfilePage';
 
 const AppRoutes = () => {
   return (
@@ -41,6 +42,7 @@ const AppRoutes = () => {
             <Route path="/info" element={<InfoLayout />}>
               <Route index element={<Navigate to="user-profile" replace />} />
               <Route path="user-profile" element={<UserProfilePage />} />
+              <Route path="coach-profile" element={<CoachProfilePage />} />
             </Route>
           </Route>
         </Route>

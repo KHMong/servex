@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\CoachProfileResource;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 
@@ -64,5 +65,36 @@ class ProfileController extends Controller
         $user->update($validated);
 
         return new UserResource($user);
+    }
+
+    public function getCoachProfile(Request $request)
+    {
+        $coachProfile = $request->user()->coachProfile()->firstOrFail();
+        return new CoachProfileResource($coachProfile);
+    }
+
+    public function updateCoachProfile(Request $request)
+    {
+        $user = $request->user();
+        $coachProfile = $user->coachProfile()->firstOrFail();
+
+        $validated = $request->validate([
+            'bio' => 'required|string|max:2000',
+            'exp_year' => 'required|integer|min:0|max:99',
+            'state_id' => [
+                'required',
+                Rule::exists('state', 'id'),
+            ],
+            'cert' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ]);
+        
+        if ($request->hasFile('cert')) {
+            $path = $request->file('cert')->store('uploads/certs/' . $user->id);
+            $validated['cert'] = basename($path);
+        }
+
+        $coachProfile->update($validated);
+
+        return new CoachProfileResource($coachProfile);
     }
 }

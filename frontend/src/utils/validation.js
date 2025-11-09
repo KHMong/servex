@@ -99,8 +99,21 @@ const validateBRN = (brn) => {
   return null;
 };
 
+// Bio Validation
+const validateBio = (bio) => {
+  if (!bio) return "Bio is required.";
+  return null;
+};
 
-export const validate = (formData, role, context) => {
+// Year of Coaching Experience Validation
+const validateExpYear = (exp_year) => {
+  if (!exp_year) return "Years of Coaching Experience is required.";
+  if (exp_year < 0 || exp_year > 99) return "It must be between 0 - 99.";
+  return null;
+};
+
+
+export const validate = (formData, role = null, context) => {
   const errors = {};
 
   switch (context) {
@@ -169,6 +182,16 @@ export const validate = (formData, role, context) => {
 
       const phoneError = role === 'Player' ? validatePlayerPhone(formData.phone_no) : validateOwnerPhone(formData.phone_no);
       if (phoneError) errors.phone_no = phoneError;
+
+      break;
+    }
+
+    case 'updateCoachProfile': {
+      const bioError = validateBio(formData.bio);
+      if (bioError) errors.bio = bioError;
+
+      const expYearError = validateExpYear(formData.exp_year);
+      if (expYearError) errors.exp_year = expYearError;
 
       break;
     }

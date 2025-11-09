@@ -11,6 +11,7 @@ class CoachProfileResource extends JsonResource
     {
         return [
             'user_id' => $this->user_id,
+            'state_id' => $this->state_id,
             'bio' => $this->bio,
             'exp_year' => $this->exp_year,
             'cert' => $this->cert,
