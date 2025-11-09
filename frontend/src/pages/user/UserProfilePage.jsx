@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Form, Row, Col, Alert, Card, Spinner } from 'react-bootstrap';
-import { FaUser, FaEnvelope, FaPhone, FaPen } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaPhone, FaPen, FaBuilding, FaRegAddressCard } from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
 import FormField from '../../components/common/FormField';
 import Button from '../../components/common/Button';
@@ -21,6 +21,8 @@ const UserProfilePage = () => {
     date_of_birth: user.dob_for_input || '',
     email: user.email || '',
     phone_no: user.phone_no || '',
+    company_name: user?.owner_profile?.company_name || '',
+    business_reg_no: user?.owner_profile?.business_reg_no || '',
   });
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState('');
@@ -64,7 +66,7 @@ const UserProfilePage = () => {
     if (Object.keys(validationErrors).length === 0) {
       setLoading(true);
       try {
-        const response = await apiClient.post('/user/profile', data, {
+        const response = await apiClient.post('/user', data, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -98,60 +100,89 @@ const UserProfilePage = () => {
       <h3 className="fw-bold">Profile Details</h3>
       <div className="d-flex flex-column gap-4">
         <Card className="p-4 border-0 shadow-sm">
-          <Card.Body>
-            <h4 className="mb-3 fw-bold">User Details</h4>
-            <hr/>
-            {apiError && <Alert variant="danger">{apiError}</Alert>}
-            {success && <Alert variant="success">{success}</Alert>}
-            <div className="text-center mb-4 d-flex align-items-center gap-4">
-              <div className="profile-image-wrapper" onClick={() => fileInputRef.current.click()}>
-                <img src={imageUrl} alt="Profile" className="profile-image" />
-                <div className="edit-icon text-muted">
-                  <FaPen />
+          <Card.Body className="d-flex flex-column gap-5">
+            <div>
+              <h4 className="mb-3 fw-bold">User Details</h4>
+              <hr/>
+              {apiError && <Alert variant="danger">{apiError}</Alert>}
+              {success && <Alert variant="success">{success}</Alert>}
+              <div className="text-center mb-4 d-flex align-items-center gap-4">
+                <div className="profile-image-wrapper" onClick={() => fileInputRef.current.click()}>
+                  <img src={imageUrl} alt="Profile" className="profile-image" />
+                  <div className="edit-icon text-muted">
+                    <FaPen />
+                  </div>
+                </div>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
+                  accept="image/png, image/jpeg, image/jpg"
+                />
+
+                <div className="d-flex flex-column align-items-start">
+                  <h4 className="mt-2 fw-semibold">{user.name}</h4>
+                  <p className="fw-semibold">ID: <span className="text-muted">{user.user_id}</span></p>
                 </div>
               </div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
-                accept="image/png, image/jpeg, image/jpg"
-              />
 
-              <div className="d-flex flex-column align-items-start">
-                <h4 className="mt-2 fw-semibold">{user.name}</h4>
-                <p className="fw-semibold">ID: <span className="text-muted">{user.user_id}</span></p>
-              </div>
+              <Form onSubmit={handleSubmit}>
+                
+                <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} iconLeft={FaUser} error={errors.name} placeholder="Full Name" required />
+                
+                <Row>
+                  <Col>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Gender <span className="text-danger ms-1">*</span></Form.Label>
+                      <div>
+                        <Form.Check inline label="Male" name="gender" type="radio" id="gender-male" value="M" onChange={handleChange} checked={formData.gender === 'M'} isInvalid={!!errors.gender} />
+                        <Form.Check inline label="Female" name="gender" type="radio" id="gender-female" value="F" onChange={handleChange} checked={formData.gender === 'F'} isInvalid={!!errors.gender} />
+                      </div>
+                      {errors.gender && <Form.Text className="text-danger">{errors.gender}</Form.Text>}
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <FormField label="Date of Birth" type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleChange} error={errors.date_of_birth} required />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md={6}><FormField label="Email Address" type="email" name="email" value={formData.email} onChange={handleChange} iconLeft={FaEnvelope} error={errors.email} placeholder="you@example.com" required disabled={user.role === 'Admin'} /></Col>
+
+                  <Col md={6}><FormField label="Phone Number" name="phone_no" maxLength={12} value={formData.phone_no} onChange={handleChange} iconLeft={FaPhone} error={errors.phone_no} placeholder={user.role === 'Player' ? 'E.g. 012-3456789' : 'E.g. 03-12345678'} required /></Col>
+                </Row>
+
+                <Button type="submit" className="mt-3" disabled={loading}>{loading ? <div className="text-center"><Spinner animation="border" variant="success" /></div> : 'Save Changes'}</Button>
+              </Form>         
             </div>
-
-            <Form onSubmit={handleSubmit}>
-              
-              <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} iconLeft={FaUser} error={errors.name} placeholder="Full Name" required />
-              
-              <Row>
-                <Col>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Gender <span className="text-danger ms-1">*</span></Form.Label>
-                    <div>
-                      <Form.Check inline label="Male" name="gender" type="radio" id="gender-male" value="M" onChange={handleChange} checked={formData.gender === 'M'} isInvalid={!!errors.gender} />
-                      <Form.Check inline label="Female" name="gender" type="radio" id="gender-female" value="F" onChange={handleChange} checked={formData.gender === 'F'} isInvalid={!!errors.gender} />
-                    </div>
-                    {errors.gender && <Form.Text className="text-danger">{errors.gender}</Form.Text>}
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <FormField label="Date of Birth" type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleChange} error={errors.date_of_birth} required />
-                </Col>
-              </Row>
-
-              <Row>
-                <Col md={6}><FormField label="Email Address" type="email" name="email" value={formData.email} onChange={handleChange} iconLeft={FaEnvelope} error={errors.email} placeholder="you@example.com" required disabled={user.role === 'Admin'} /></Col>
-
-                <Col md={6}><FormField label="Phone Number" name="phone_no" maxLength={12} value={formData.phone_no} onChange={handleChange} iconLeft={FaPhone} error={errors.phone_no} placeholder={user.role === 'Player' ? 'E.g. 012-3456789' : 'E.g. 03-12345678'} required /></Col>
-              </Row>
-
-              <Button type="submit" className="mt-3" disabled={loading}>{loading ? <div className="text-center"><Spinner animation="border" variant="success" /></div> : 'Save Changes'}</Button>
-            </Form>         
+            {user.role === 'Owner' && (
+              <div>
+                <h4 className="mb-3 fw-bold">Business Information</h4>
+                <hr/>
+                <Row>
+                  <Col md={6}>
+                    <FormField
+                      label="Company Name"
+                      name="company_name"
+                      value={formData.company_name}
+                      iconLeft={FaBuilding}
+                      disabled
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <FormField
+                      label="Business Registration Number"
+                      name="business_reg_no"
+                      value={formData.business_reg_no}
+                      iconLeft={FaRegAddressCard}
+                      disabled 
+                    />
+                  </Col>
+                </Row>
+              </div>
+            )}
+            
           </Card.Body>
         </Card>
 

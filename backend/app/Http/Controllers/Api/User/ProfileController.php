@@ -11,7 +11,9 @@ class ProfileController extends Controller
     // Get the current user's profile
     public function getUserProfile(Request $request)
     {
-        return new UserResource($request->user());
+        $user = $request->user();
+        $user->loadMissing('ownerProfile');
+        return new UserResource($user);
     }
 
     // Update the current user's profile

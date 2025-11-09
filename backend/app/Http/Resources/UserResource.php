@@ -29,7 +29,12 @@ class UserResource extends JsonResource
             'status' => $this->status,
             'joined_at' => $this->created_at->toFormattedDateString(),
             // Relationships
-            'owner_profile' => new OwnerProfileResource($this->whenLoaded('ownerProfile')),
+            'owner_profile' => $this->whenLoaded('ownerProfile', function () {
+                return [
+                    'company_name' => $this->ownerProfile->company_name,
+                    'business_reg_no' => $this->ownerProfile->business_reg_no,
+                ];
+            }),
             'coach_profile' => new CoachProfileResource($this->whenLoaded('coachProfile')),
             'photo_path' => $this->when($this->photo, function () {
                 // Path: "users/{user_id}/{filename}"

@@ -83,10 +83,6 @@ Route::get('/images/{path}', function ($path) {
 
 // User
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return new UserResource($request->user());
-    });
-
-    Route::get('/user/profile', [ProfileController::class, 'getUserProfile']);
-    Route::post('/user/profile', [ProfileController::class, 'updateUserProfile']);
+    Route::get('/user', [ProfileController::class, 'getUserProfile']);
+    Route::post('/user', [ProfileController::class, 'updateUserProfile']);
 });
