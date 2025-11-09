@@ -38,7 +38,13 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (!Auth::attempt($credentials)) {
+        $credentialsWithStatus = [
+            'email' => $credentials['email'],
+            'password' => $credentials['password'],
+            'status' => 'Active',
+        ];
+
+        if (!Auth::attempt($credentialsWithStatus)) {
             return response()->json([
                 'message' => 'Invalid login credentials, please try again.'
             ], 401); // 401 Unauthorised
