@@ -1,76 +1,168 @@
-export const validateRegistration = (formData, role) => {
+/************ USER DETAILS ************/
+// Name Validation
+const validateName = (name) => {
+  if (!name) return "Full Name is required.";
+  return null;
+};
+
+// Gender Validation
+const validateGender = (gender) => {
+  if (!gender) return "Gender is required.";
+  return null;
+};
+
+// Date of Birth Validation
+const validateDateOfBirth = (dob) => {
+  if (!dob) return "Date of Birth is required.";
+  return null;
+};
+
+// Email Validation
+const validateEmail = (email) => {
+  if (!email) return "Email Address is required.";
+  if (!/\S+@\S+\.\S+/.test(email)) return "Email address is invalid.";
+  return null;
+};
+
+// Player Phone Validation
+const validatePlayerPhone = (phone) => {
+  if (!phone) return "Phone Number is required.";
+  if (!/^01[0-9]-[0-9]{7,8}$/.test(phone)) return "Please enter a valid Malaysian mobile number (E.g. 012-3456789).";
+  return null;
+};
+
+// Owner Phone Validation
+const validateOwnerPhone = (phone) => {
+  if (!phone) return "Phone Number is required.";
+  if (!/^0[1-9]-[0-9]{8}$/.test(phone)) return "Please enter a valid Malaysian phone number. (E.g. 03-12345678).";
+  return null;
+};
+
+// Password Validation
+const validatePasswords = (password, confirmation) => {
+  if (!password) return { password: "Password is required." };
+
+  const passwordErrors = [];
+  // 8-15 characters
+  if (password.length < 8 || password.length > 15) {
+    passwordErrors.push("must be between 8 - 15 characters");
+  }
+  // Must contain uppercase letter
+  if (!/[A-Z]/.test(password)) {
+    passwordErrors.push("must contain an uppercase letter");
+  }
+  // Must contain lowercase letter
+  if (!/[a-z]/.test(password)) {
+    passwordErrors.push("must contain a lowercase letter");
+  }
+  // Must contain number
+  if (!/\d/.test(password)) {
+    passwordErrors.push("must contain a number");
+  }
+  // Must contain special character
+  if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(password)) {
+    passwordErrors.push("must contain a special character");
+  }
+
+  if (passwordErrors.length > 0) {
+    const allPasswordErrors = `Password ${passwordErrors.join(', ')}.`;
+    return { password: allPasswordErrors };
+  }
+
+  if (password !== confirmation) return { password_confirmation: "Passwords do not match." };
+
+  return null;
+};
+
+// Company Name Validation
+const validateCompanyName = (company_name) => {
+  if (!company_name) return "Company Name is required.";
+  return null;
+};
+
+// Business Registration Number Validation
+const validateBRN = (brn) => {
+  if (!brn) return "Business Registration Number is required.";
+  if (!/^((19|20)[0-9]{2})(0[1-6])([0-9]{6})$/.test(brn)) return "Please enter a valid Business Registration Number. (E.g. 202501000001).";
+  return null;
+};
+
+
+export const validate = (formData, context) => {
   const errors = {};
 
-  // Name Validation
-  if (!formData.name) errors.name = "Full Name is required.";
+  switch (context) {
+    case 'registerPlayer': {
+      const nameError = validateName(formData.name);
+      if (nameError) errors.name = nameError;
 
-  // Gender Validation
-  if (!formData.gender) errors.gender = "Gender is required.";
+      const genderError = validateGender(formData.gender);
+      if (genderError) errors.gender = genderError;
 
-  // Date of Birth Validation
-  if (!formData.date_of_birth) errors.date_of_birth = "Date of Birth is required.";
-  
-  // Email Validation
-  if (!formData.email) {
-    errors.email = "Email is required.";
-  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    errors.email = "Email address is invalid.";
-  }
+      const dobError = validateDateOfBirth(formData.date_of_birth);
+      if (dobError) errors.date_of_birth = dobError;
 
-  // Phone Number Validation (Role-specific)
-  if (!formData.phone_no) {
-    errors.phone_no = "Phone Number is required.";
-  } else if (role === 'Player' && !/^01[0-9]-[0-9]{7,8}$/.test(formData.phone_no)) {
-    errors.phone_no = "Please enter a valid Malaysian mobile number (E.g. 012-3456789).";
-  } else if (role === 'Owner' && !/^0[1-9]-[0-9]{8}$/.test(formData.phone_no)) {
-    errors.phone_no = "Please enter a valid Malaysian phone number. (E.g. 03-12345678).";
-  }
+      const emailError = validateEmail(formData.email);
+      if (emailError) errors.email = emailError;
 
-  // Password Validation
-  if (!formData.password) {
-    errors.password = "Password is required.";
-  } else {
-    const passwordErrors = [];
-
-    // 8-15 characters
-    if (formData.password.length < 8 || formData.password.length > 15) {
-      passwordErrors.push("must be between 8 - 15 characters");
+      const phoneError = validatePlayerPhone(formData.phone_no);
+      if (phoneError) errors.phone_no = phoneError;
+      
+      const passwordErrors = validatePasswords(formData.password, formData.password_confirmation);
+      if (passwordErrors) Object.assign(errors, passwordErrors);
+      
+      break;
     }
-    // Must contain uppercase letter
-    if (!/[A-Z]/.test(formData.password)) {
-      passwordErrors.push("must contain an uppercase letter");
-    }
-    // Must contain lowercase letter
-    if (!/[a-z]/.test(formData.password)) {
-      passwordErrors.push("must contain a lowercase letter");
-    }
-    // Must contain number
-    if (!/\d/.test(formData.password)) {
-      passwordErrors.push("must contain a number");
-    }
-    // Must contain special character
-    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(formData.password)) {
-      passwordErrors.push("must contain a special character");
+    
+    case 'registerOwner': {
+      const nameError = validateName(formData.name);
+      if (nameError) errors.name = nameError;
+
+      const genderError = validateGender(formData.gender);
+      if (genderError) errors.gender = genderError;
+
+      const dobError = validateDateOfBirth(formData.date_of_birth);
+      if (dobError) errors.date_of_birth = dobError;
+
+      const emailError = validateEmail(formData.email);
+      if (emailError) errors.email = emailError;
+
+      const phoneError = validateOwnerPhone(formData.phone_no);
+      if (phoneError) errors.phone_no = phoneError;
+      
+      const passwordErrors = validatePasswords(formData.password, formData.password_confirmation);
+      if (passwordErrors) Object.assign(errors, passwordErrors);
+
+      const companyNameError = validateCompanyName(formData.company_name);
+      if (companyNameError) errors.company_name = companyNameError;
+
+      const brnError = validateBRN(formData.business_reg_no);
+      if (brnError) errors.business_reg_no = brnError;
+      
+      break;
     }
 
-    if (passwordErrors.length > 0) {
-      errors.password = `Password ${passwordErrors.join(', ')}.`;
-    }
-  }
+    case 'updateUserProfile': {
+      const nameError = validateName(formData.name);
+      if (nameError) errors.name = nameError;
 
-  // Match with confirm password
-  if (formData.password !== formData.password_confirmation) {
-    errors.password_confirmation = "Passwords do not match.";
-  }
-  
-  // Owner-specific fields
-  if (role === 'Owner') {
-    if (!formData.company_name) errors.company_name = "Company Name is required.";
-    if (!formData.business_reg_no) {
-      errors.business_reg_no = "Business Registration Number is required."
-    } else if (!/^((19|20)[0-9]{2})(0[1-6])([0-9]{6})$/.test(formData.business_reg_no)) {
-      errors.business_reg_no = "Please enter a valid Business Registration Number. (E.g. 202501000001)"
-    };
+      const genderError = validateGender(formData.gender);
+      if (genderError) errors.gender = genderError;
+
+      const dobError = validateDateOfBirth(formData.date_of_birth);
+      if (dobError) errors.date_of_birth = dobError;
+
+      const emailError = validateEmail(formData.email);
+      if (emailError) errors.email = emailError;
+
+      const phoneError = validateOwnerPhone(formData.phone_no);
+      if (phoneError) errors.phone_no = phoneError;
+
+      break;
+    }
+    
+    default:
+      throw new Error(`Invalid validation context: ${context}`);
   }
 
   return errors;

@@ -3,7 +3,7 @@ import { Form, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import { FaUser, FaLock, FaEnvelope, FaPhone, FaBuilding, FaRegAddressCard } from 'react-icons/fa';
 import FormField from '../../components/common/FormField';
 import Button from '../../components/common/Button';
-import { validateRegistration } from '../../utils/validation';
+import { validate } from '../../utils/validation';
 import { useNotification } from '../../contexts/NotificationContext';
 import ImageUpload from '../../components/common/ImageUpload';
 
@@ -30,7 +30,7 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiError('');
-    const validationErrors = validateRegistration(formData, role);
+    const validationErrors = validate(formData, role === 'Player' ? 'registerPlayer' : 'registerOwner');
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
