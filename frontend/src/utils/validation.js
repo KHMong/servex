@@ -12,8 +12,20 @@ const validateGender = (gender) => {
 };
 
 // Date of Birth Validation
-const validateDateOfBirth = (dob) => {
+const validateDateOfBirth = (dob, role) => {
   if (!dob) return "Date of Birth is required.";
+
+  const minAge = (role === 'Player') ? 7 : 15;
+  const today = new Date();
+  const selectedDate = new Date(dob);
+
+  const cutoffDate = new Date();
+  cutoffDate.setFullYear(today.getFullYear() - minAge);
+
+  if (selectedDate > cutoffDate) {
+    return `You must be at least ${minAge} years old.`;
+  }
+
   return null;
 };
 
@@ -88,7 +100,7 @@ const validateBRN = (brn) => {
 };
 
 
-export const validate = (formData, context) => {
+export const validate = (formData, role, context) => {
   const errors = {};
 
   switch (context) {
@@ -99,7 +111,7 @@ export const validate = (formData, context) => {
       const genderError = validateGender(formData.gender);
       if (genderError) errors.gender = genderError;
 
-      const dobError = validateDateOfBirth(formData.date_of_birth);
+      const dobError = validateDateOfBirth(formData.date_of_birth, 'Player');
       if (dobError) errors.date_of_birth = dobError;
 
       const emailError = validateEmail(formData.email);
@@ -121,7 +133,7 @@ export const validate = (formData, context) => {
       const genderError = validateGender(formData.gender);
       if (genderError) errors.gender = genderError;
 
-      const dobError = validateDateOfBirth(formData.date_of_birth);
+      const dobError = validateDateOfBirth(formData.date_of_birth, 'Owner');
       if (dobError) errors.date_of_birth = dobError;
 
       const emailError = validateEmail(formData.email);
@@ -149,13 +161,13 @@ export const validate = (formData, context) => {
       const genderError = validateGender(formData.gender);
       if (genderError) errors.gender = genderError;
 
-      const dobError = validateDateOfBirth(formData.date_of_birth);
+      const dobError = validateDateOfBirth(formData.date_of_birth, role);
       if (dobError) errors.date_of_birth = dobError;
 
       const emailError = validateEmail(formData.email);
       if (emailError) errors.email = emailError;
 
-      const phoneError = validateOwnerPhone(formData.phone_no);
+      const phoneError = role === 'Player' ? validatePlayerPhone(formData.phone_no) : validateOwnerPhone(formData.phone_no);
       if (phoneError) errors.phone_no = phoneError;
 
       break;

@@ -47,7 +47,7 @@ const UserProfilePage = () => {
     setApiError('');
     setSuccess('');
 
-    const validationErrors = validate(formData, 'updateUserProfile');
+    const validationErrors = validate(formData, user.role, 'updateUserProfile');
     setErrors(validationErrors);
 
     // Turn to JSON so that it support file uploads

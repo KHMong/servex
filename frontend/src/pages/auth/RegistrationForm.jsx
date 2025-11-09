@@ -30,7 +30,7 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiError('');
-    const validationErrors = validate(formData, role === 'Player' ? 'registerPlayer' : 'registerOwner');
+    const validationErrors = validate(formData, role, role === 'Player' ? 'registerPlayer' : 'registerOwner');
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {

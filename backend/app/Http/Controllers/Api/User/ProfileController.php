@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -21,6 +22,10 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
+        // Player: >= 7 y/0, Admin/Owner: >= 15 y/o
+        $minAge = ($user->role === 'Player') ? 7 : 15;
+        $cutoffDate = Carbon::now()->subYears($minAge)->format('Y-m-d');
+
         $playerPhoneRegex = '/^01[0-9]-[0-9]{7,8}$/';
         $ownerPhoneRegex = '/^0[1-9]-[0-9]{8}$/';
         $phoneRegex = $user->role === 'Owner' ? $ownerPhoneRegex : $playerPhoneRegex;
@@ -28,7 +33,11 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'gender' => 'required|in:M,F',
-            'date_of_birth' => 'required|date',
+            'date_of_birth' => [
+                'required',
+                'date',
+                'before_or_equal:' . $cutoffDate,
+            ],
             'email' => [
                 'required',
                 'email',

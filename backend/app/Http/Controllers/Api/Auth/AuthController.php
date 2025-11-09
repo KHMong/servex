@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 /*
 
@@ -44,6 +45,7 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
+        $user->loadMissing('ownerProfile');
         // Create new token for the user
         $token = $user->createToken('api-token')->plainTextToken;
 
@@ -58,7 +60,11 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'gender' => 'required|in:M,F',
-            'date_of_birth' => 'required|date',
+            'date_of_birth' => [
+                'required',
+                'date',
+                'before_or_equal:' . Carbon::now()->subYears(7)->format('Y-m-d'),
+            ],
             'email' => 'required|string|email|max:255|unique:user,email',
             'phone_no' => 'required|string|unique:user,phone_no|regex:/^01[0-9]-[0-9]{7,8}$/',
             'password' => [
@@ -101,7 +107,11 @@ class AuthController extends Controller
             // User fields
             'name' => 'required|string|max:255',
             'gender' => 'required|in:M,F',
-            'date_of_birth' => 'required|date',
+            'date_of_birth' => [
+                'required',
+                'date',
+                'before_or_equal:' . Carbon::now()->subYears(15)->format('Y-m-d'),
+            ],
             'email' => 'required|string|email|max:255|unique:user,email',
             'phone_no' => 'required|string|unique:user,phone_no|regex:/^0[1-9]-[0-9]{8}$/',
             'password' => [
