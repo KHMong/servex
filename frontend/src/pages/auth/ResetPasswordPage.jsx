@@ -66,7 +66,7 @@ const ResetPasswordPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="New Password"
-          icon={FaLock}
+          iconLeft={FaLock}
           required
         />
         
@@ -77,7 +77,7 @@ const ResetPasswordPage = () => {
           value={passwordConfirmation}
           onChange={(e) => setPasswordConfirmation(e.target.value)}
           placeholder="Confirm New Password"
-          icon={FaLock}
+          iconLeft={FaLock}
           required
         />
 
