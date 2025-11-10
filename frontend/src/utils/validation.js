@@ -86,6 +86,18 @@ const validatePasswords = (password, confirmation) => {
   return null;
 };
 
+// Current Password Validation
+const validateCurrentPassword = (current_password) => {
+  if (!current_password) return "Current Password is required.";
+  return null;
+};
+
+// New Password Validation
+const validateNewPassword = (current_password, password) => {
+  if (current_password === password) return "New Password must be different from Current Password.";
+  return null;
+}
+
 // Company Name Validation
 const validateCompanyName = (company_name) => {
   if (!company_name) return "Company Name is required.";
@@ -192,6 +204,19 @@ export const validate = (formData, role = null, context) => {
 
       const expYearError = validateExpYear(formData.exp_year);
       if (expYearError) errors.exp_year = expYearError;
+
+      break;
+    }
+
+    case 'changePassword': {
+      const currentPasswordError = validateCurrentPassword(formData.current_password);
+      if (currentPasswordError) errors.current_password = currentPasswordError;
+
+      const newPasswordError = validateNewPassword(formData.current_password, formData.password);
+      if (newPasswordError) errors.password = newPasswordError;
+
+      const passwordErrors = validatePasswords(formData.password, formData.password_confirmation);
+      if (passwordErrors) Object.assign(errors, passwordErrors);
 
       break;
     }

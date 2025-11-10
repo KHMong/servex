@@ -90,4 +90,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Coach Profile
     Route::get('/user/coach-profile', [ProfileController::class, 'getCoachProfile']);
     Route::post('/user/coach-profile', [ProfileController::class, 'updateCoachProfile']);
+
+    // Change Password
+    Route::post('/user/change-password', [ProfileController::class, 'changePassword']);
 });

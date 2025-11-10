@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\CoachProfileResource;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 
@@ -96,5 +98,31 @@ class ProfileController extends Controller
         $coachProfile->update($validated);
 
         return new CoachProfileResource($coachProfile);
+    }
+
+    public function changePassword(Request $request) 
+    {
+        $user = $request->user();
+
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => [
+                'required',
+                'string', 
+                'confirmed', 
+                'different:current_password', 
+                Password::min(8)
+                        ->max(15) 
+                        ->mixedCase()
+                        ->numbers()
+                        ->symbols(),
+            ]
+        ]);
+
+        $user->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return response()->json(['message' => 'Password updated successfully.'], 200);
     }
 }
