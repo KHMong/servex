@@ -55,7 +55,7 @@ class BookingController extends Controller
 
         // 3. Booking not clash
         $isBooked = Booking::where('court_id', $validated['court_id'])
-            ->where('start_datetime', '<', $endDateTime) // 10:00 
+            ->where('start_datetime', '<', $endDateTime)
             ->where('end_datetime', '>', $startDateTime)
             ->where('status', '!=', 'Cancelled')
             ->exists();
@@ -136,5 +136,71 @@ class BookingController extends Controller
             ->get();
         
         return VoucherHistoryResource::collection($vouchers);
+    }
+
+    public function confirmBooking(Request $request, Booking $booking)
+    {
+        $this->authorize('update', $booking);
+
+        if ($booking->status !== 'Pending') {
+            return response()->json(['message' => 'This booking cannot be confirmed.'], 409);
+        }
+
+        // Validate voucher_history_id
+        $validated = $request->validate([
+            'voucher_history_id' => 'nullable|exists:voucher_history,id'
+        ]);
+
+        $user = $request->user();
+        $totalPrice = $booking->total_price;
+
+        try {
+            DB::transaction(function () use ($booking, $user, $validated, &$totalPrice) {
+                // Check if a voucher was selected
+                if (!empty($validated['voucher_history_id'])) {
+                    $voucherHistory = VoucherHistory::find($validated['voucher_history_id']);
+
+                    // --- VOUCHER VALIDATION ---
+                    // Belongs to user
+                    if ($voucherHistory->user_id !== $user->id) {
+                        return response()->json(['message' => 'This voucher is invalid for your account.'], 409);
+                    }
+
+                    // Expired
+                    if ($voucherHistory->expiry_date < now() || $voucherHistory->status === 'Expired') {
+                        return response()->json(['message' => 'This voucher has expired.'], 409);
+                    }
+
+                    // Used
+                    if ($voucherHistory->status === 'Used') {
+                        return response()->json(['message' => 'This voucher has already been used.'], 409);
+                    }
+                    
+                    // Discount and price
+                    $discount = $voucherHistory->voucher->discount_value;
+                    $totalPrice = max(0, $booking->total_price - $discount);
+                    
+                    // Update the voucher history record
+                    $voucherHistory->status = 'Used';
+                    $voucherHistory->booking_id = $booking->id;
+                    $voucherHistory->save();
+                }
+
+                // Update the booking record
+                $booking->total_price = $totalPrice;
+                $booking->payment_status = 'Paid';
+                $booking->status = 'Confirmed';
+                $booking->save();
+
+                // Add points based on the total price
+                $pointsToAdd = floor($totalPrice);
+                if ($pointsToAdd > 0) {
+                    $user->points += $pointsToAdd;
+                    $user->save();
+                }
+            });
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An unexpected error occurred. ' . $e->getMessage()], 500);
+        }
     }
 }

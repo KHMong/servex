@@ -23,6 +23,7 @@ import UserProfilePage from '../pages/user/UserProfilePage';
 import CoachProfilePage from '../pages/user/CoachProfilePage';
 import ChangePasswordPage from '../pages/user/ChangePasswordPage';
 import BookingConfirmationPage from '../pages/user/BookingConfirmationPage';
+import BookingHistoryPage from '../pages/user/BookingHistoryPage';
 
 const AppRoutes = () => {
   return (
@@ -46,6 +47,7 @@ const AppRoutes = () => {
               <Route path="user-profile" element={<UserProfilePage />} />
               <Route path="coach-profile" element={<CoachProfilePage />} />
               <Route path="change-password" element={<ChangePasswordPage />} />
+              <Route path="booking-history" element={<BookingHistoryPage />} />
             </Route>
             <Route path="/bookings/:bookingId/summary" element={<BookingConfirmationPage />} />
           </Route>

@@ -102,4 +102,5 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     Route::post('/bookings', [BookingController::class, 'book']);
     Route::get('/bookings/{booking}', [BookingController::class, 'getBookingDetails']);
     Route::get('/user/vouchers', [BookingController::class, 'getAvailableVouchers']);
+    Route::post('/bookings/{booking}/confirm', [BookingController::class, 'confirmBooking']);
 });

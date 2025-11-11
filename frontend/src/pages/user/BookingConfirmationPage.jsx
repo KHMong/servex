@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Container, Row, Col, Card, Form, Spinner, Alert } from 'react-bootstrap';
-import { FaArrowLeft } from 'react-icons/fa';
-import apiClient from '../../api/apiClient';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
+import { useNotification } from '../../contexts/NotificationContext';
 import Button from '../../components/common/Button';
 import BackButton from '../../components/common/BackButton';
 import FormField from '../../components/common/FormField';
-import './BookingConfirmationPage.css';
+import apiClient from '../../api/apiClient';
 
 const BookingConfirmationPage = () => {
   const { bookingId } = useParams();
+  const navigate = useNavigate();
   const [booking, setBooking] = useState(null);
   const [vouchers, setVouchers] = useState([]);
 
@@ -20,7 +20,9 @@ const BookingConfirmationPage = () => {
   const [pointsEarned, setPointsEarned] = useState(null);
   
   const [loading, setLoading] = useState(true);
+  const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState('');
+  const { showNotification } = useNotification();
 
   // Fetch booking details and available vouchers
   useEffect(() => {
@@ -71,6 +73,25 @@ const BookingConfirmationPage = () => {
     setPointsEarned(newPointsEarned);
   };
 
+  const handleConfirmAndPay = async () => {
+    setConfirming(true);
+    setError('');
+
+    try {
+      await apiClient.post(`/bookings/${bookingId}/confirm`, {
+        voucher_history_id: selectedVoucher
+      });
+
+      // Navigate to Booking History Page
+      showNotification('Booking confirmed successfully.', 'success');
+      navigate('/info/booking-history');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to confirm booking. Please try again.');
+    } finally {
+      setConfirming(false);
+    }
+  };
+
   if (loading) return <div className="text-center p-5"><Spinner /></div>;
   if (error) return <Container className="py-5"><Alert variant="danger">{error}</Alert></Container>;
   if (!booking) return null;
@@ -80,7 +101,7 @@ const BookingConfirmationPage = () => {
     value: v.id, 
     label: `${v.voucher.code} (EXP: ${v.expiry_date})`
   }));
-  const allVoucherOptions = [noOption, ... voucherOptions];
+  const allVoucherOptions = [noOption, ...voucherOptions];
 
   return (
     <Container className="py-5">
@@ -126,7 +147,9 @@ const BookingConfirmationPage = () => {
               <div className="d-flex justify-content-between text-muted"><span>Points to be earned</span><span>{pointsEarned} pts</span></div>
               <hr />
               <div className="d-flex justify-content-between h5 fw-bold"><span>Total</span><span>RM {total}</span></div>
-              <Button className="w-100 mt-4">Confirm & Pay</Button>
+              <Button type="submit" className="w-100 mt-4" onClick={handleConfirmAndPay} disabled={confirming}>
+                {confirming ? <div className="text-center"><Spinner animation="border" variant="success" /></div> : 'Confirm & Pay'}
+              </Button>
             </Card.Body>
           </Card>
         </Col>
