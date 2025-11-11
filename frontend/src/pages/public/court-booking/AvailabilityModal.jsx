@@ -62,7 +62,7 @@ const AvailabilityModal = ({ show, onHide, venue, selectedDate }) => {
   }, [show, selectedDate, venue.id]);
 
   const isSlotBooked = (court, timeSlotStart) => {
-    const slotStartDateTime = new Date(`${selectedDate}T${timeSlotStart}:00`);
+    const slotStartDateTime = new Date(`${selectedDate}T${timeSlotStart}:00Z`);
     
     for (const booking of court.bookings) {
       const bookingStart = new Date(booking.start_datetime);

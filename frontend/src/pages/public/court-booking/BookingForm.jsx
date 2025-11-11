@@ -1,6 +1,7 @@
-import { useState, useMemo, useEffect } from 'react';
-import { Form, Row, Col, Alert } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useState, useMemo } from 'react';
+import { Form, Row, Col, Alert, Spinner } from 'react-bootstrap';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../../contexts/AuthContext';
 import apiClient from '../../../api/apiClient';
 
 import FormField from '../../../components/common/FormField';
@@ -33,21 +34,21 @@ const generateTimeSlots = (start, end) => {
 
 
 const BookingForm = ({ venue, courts }) => {
-  const navigate = useNavigate(); // Hook to redirect user after booking
+  // === HOOK ===
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // STATE ===
+  // === STATE ===
   const [formData, setFormData] = useState({
     date: '',
-    startTime: venue?.opening_time.substring(0, 5) || '',
-    endTime: '',
-    courtId: courts.length > 0 ? courts[0].id : '',
+    start_time: venue?.opening_time.substring(0, 5) || '',
+    duration: 1,
+    court_id: courts.length > 0 ? courts[0].id : '',
   });
 
-  const [bookingStatus, setBookingStatus] = useState({
-    status: 'idle', // idle, loading, success, error
-    message: ''
-  });
-  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [showScheduleModal, setShowScheduleModal] = useState(false);
 
   const allTimeSlots = useMemo(() => 
@@ -59,33 +60,15 @@ const BookingForm = ({ venue, courts }) => {
     allTimeSlots.slice(0, -1),
     [allTimeSlots]
   );
-  
-  const endTimeOptions = useMemo(() => {
-    if (!formData.startTime) return [];
 
-    // Find the index of the selected startTime
-    const startIndex = allTimeSlots.findIndex(slot => slot.value === formData.startTime);
-
-    // If cannot find
-    if (startIndex === -1) {
-      return [];
-    }
-
-    // Slots after the index = endTimeSlots
-    return allTimeSlots.slice(startIndex + 1);
-
-  }, [formData.startTime, allTimeSlots]);
-
-  useEffect(() => {
-    // If start time is selected and there are end times
-    if (formData.startTime && endTimeOptions.length > 0) {
-      // Check if endTime is invalid (Not set or before/same as startTime)
-      if (!formData.endTime || parseInt(formData.endTime.replace(':', '')) <= parseInt(formData.startTime.replace(':', ''))) {
-        // Set endTime to first available option
-        setFormData(prev => ({ ...prev, endTime: endTimeOptions[0].value }));
-      }
-    }
-  }, [formData.startTime, formData.endTime, endTimeOptions]);
+  const durationOptions = Array.from({ length: 24 }, (_, i) => 
+  {
+    const value = i + 1;
+    return {
+        value: value,
+        label: value, 
+    };
+  });
 
   // DATE
   const today = new Date().toISOString().split('T')[0];
@@ -94,28 +77,28 @@ const BookingForm = ({ venue, courts }) => {
   // EVENT HANDLERS
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    setBookingStatus({ status: 'idle', message: '' }); // Reset status on change
   };
 
   const handleBookNow = async (e) => {
     e.preventDefault();
-    setBookingStatus({ status: 'loading', message: '' });
+    setError('');
 
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: location } });
+      return;
+    }
+    
     try {
+      setLoading(true);
       const response = await apiClient.post('/bookings', formData);
       
-      setBookingStatus({ status: 'success', message: 'Booking successful! Redirecting...' });
-      
-      // Redirect to a confirmation page after a short delay
-      setTimeout(() => {
-        navigate(`/booking-confirmation/${response.data.booking_id}`);
-      }, 2000);
+      // Redirect to Booking Confirmation Page 
+      navigate(`/bookings/${response.data.data.id}/summary`);
 
     } catch (err) {
-      setBookingStatus({
-        status: 'error',
-        message: err.response?.data?.message || 'Booking failed. Please try again.'
-      });
+      setError(err.response?.data?.message || 'Booking failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,6 +109,7 @@ const BookingForm = ({ venue, courts }) => {
         <p>Select the preferred court and date to start booking!</p>
         <div className="p-4 border rounded shadow-sm bg-white">
           <Form onSubmit={handleBookNow}>
+            {error && <Alert variant="danger">{error}</Alert>}
             <Row>
               <Col md={6}>
                 <FormField
@@ -142,23 +126,23 @@ const BookingForm = ({ venue, courts }) => {
               <Col md={6}>
                 <FormField
                   label="Court"
-                  type="select" name="courtId" value={formData.courtId}
-                  onChange={handleChange} options={courts.map(c => ({ value: c.id, label: c.name }))}
+                  type="select" name="court_id" value={formData.court_id}
+                  onChange={handleChange} required options={courts.map(c => ({ value: c.id, label: c.name }))}
                 />
               </Col>
               <Col md={6}>
                 <FormField
                   label="Start Time"
-                  type="select" name="startTime" value={formData.startTime}
-                  onChange={handleChange} options={startTimeOptions}
+                  type="select" name="start_time" value={formData.start_time}
+                  onChange={handleChange} required options={startTimeOptions}
                 />
               </Col>
               <Col md={6}>
                 <FormField
-                  label="End Time"
-                  type="select" name="endTime" value={formData.endTime}
-                  onChange={handleChange} options={endTimeOptions}
-                  disabled={!formData.startTime}
+                  label="Duration (Hours)"
+                  type="select" name="duration" value={formData.duration}
+                  onChange={handleChange} required options={durationOptions}
+                  disabled={!formData.start_time}
                 />
               </Col>
             </Row>
@@ -175,16 +159,10 @@ const BookingForm = ({ venue, courts }) => {
               type="submit"
               variant="primary"
               className="w-100 mt-3"
-              disabled={bookingStatus.status === 'loading' || !formData.date || !formData.endTime}
+              disabled={loading || !formData.date}
             >
-              {bookingStatus.status === 'loading' ? 'Processing...' : 'Book Now'}
+              {loading ? <div className="text-center"><Spinner animation="border" variant="success" /></div> : 'Book Now'}
             </Button>
-
-            {bookingStatus.message && (
-              <Alert variant={bookingStatus.status === 'success' ? 'success' : 'danger'} className="mt-3">
-                {bookingStatus.message}
-              </Alert>
-            )}
           </Form>
         </div>
       </section>
