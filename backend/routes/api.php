@@ -13,8 +13,7 @@ use App\Http\Controllers\Api\Public\CoachController;
 use App\Http\Controllers\Api\Public\TournamentController;
 use App\Http\Controllers\Api\Public\ActivityController;
 use App\Http\Controllers\Api\User\ProfileController;
-
-use App\Http\Resources\UserResource;
+use App\Http\Controllers\Api\Player\BookingController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -93,4 +92,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Change Password
     Route::post('/user/change-password', [ProfileController::class, 'changePassword']);
+
+    // Route::post('/bookings', [BookingController::class, 'book']);
+});
+
+// Player only
+Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
+    // Bookings
+    Route::post('/bookings', [BookingController::class, 'book']);
+    Route::get('/bookings/{booking}', [BookingController::class, 'getBookingDetails']);
+    Route::get('/user/vouchers', [BookingController::class, 'getAvailableVouchers']);
 });

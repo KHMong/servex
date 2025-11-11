@@ -22,6 +22,7 @@ import InfoLayout from '../components/layout/InfoLayout';
 import UserProfilePage from '../pages/user/UserProfilePage';
 import CoachProfilePage from '../pages/user/CoachProfilePage';
 import ChangePasswordPage from '../pages/user/ChangePasswordPage';
+import BookingConfirmationPage from '../pages/user/BookingConfirmationPage';
 
 const AppRoutes = () => {
   return (
@@ -46,6 +47,7 @@ const AppRoutes = () => {
               <Route path="coach-profile" element={<CoachProfilePage />} />
               <Route path="change-password" element={<ChangePasswordPage />} />
             </Route>
+            <Route path="/bookings/:bookingId/summary" element={<BookingConfirmationPage />} />
           </Route>
         </Route>
 

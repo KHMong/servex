@@ -11,11 +11,15 @@ class VoucherHistoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'expiry_date' => $this->expiry_date->toFormattedDateString(),
+            'voucher' => [
+                'code' => $this->voucher->code,
+                'description' => $this->voucher->description,
+                'discount_value' => number_format($this->voucher->discount_value, 2),
+            ],
+            'expiry_date' => $this->expiry_date->format('Y-m-d'),
             'status' => $this->status,
             // Relationships
             'user' => new UserResource($this->whenLoaded('user')),
-            'voucher' => new VoucherResource($this->whenLoaded('voucher')),
             'booking' => new BookingResource($this->whenLoaded('booking')),
         ];
     }
