@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
 import { useNotification } from '../../contexts/NotificationContext';
 import Button from '../../components/common/Button';
@@ -9,7 +9,7 @@ import apiClient from '../../api/apiClient';
 
 const BookingConfirmationPage = () => {
   const { bookingId } = useParams();
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [booking, setBooking] = useState(null);
   const [vouchers, setVouchers] = useState([]);
 
@@ -46,6 +46,12 @@ const BookingConfirmationPage = () => {
     fetchData();
   }, [bookingId]);
 
+  useEffect(() => {
+    if (searchParams.get('payment') === 'cancelled') {
+      showNotification('Payment was cancelled. Your booking has not been confirmed.', 'info');
+    }
+  }, [searchParams, showNotification]);
+
   // Apply voucher
   const handleApplyVoucher = (voucherHistoryId) => {
     setSelectedVoucher(voucherHistoryId);
@@ -78,15 +84,20 @@ const BookingConfirmationPage = () => {
     setError('');
 
     try {
-      await apiClient.post(`/bookings/${bookingId}/confirm`, {
-        voucher_history_id: selectedVoucher
+      // Create checkout session
+      const response = await apiClient.post(`/bookings/${bookingId}/create-checkout-session`, {
+          voucher_history_id: selectedVoucher 
       });
+      const { url: checkoutUrl } = response.data;
 
-      // Navigate to Booking History Page
-      showNotification('Booking confirmed successfully.', 'success');
-      navigate('/info/booking-history');
+      // Go to checkout page
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      } else {
+        throw new Error("Could not retrieve payment URL.");
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to confirm booking. Please try again.');
+      setError(err.response?.data?.message || 'Failed to confirm and pay. Please try again.');
     } finally {
       setConfirming(false);
     }

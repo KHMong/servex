@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Public\TournamentController;
 use App\Http\Controllers\Api\Public\ActivityController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\Player\BookingController;
+use App\Http\Controllers\Api\PaymentController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -92,8 +93,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Change Password
     Route::post('/user/change-password', [ProfileController::class, 'changePassword']);
-
-    // Route::post('/bookings', [BookingController::class, 'book']);
 });
 
 // Player only
@@ -102,5 +101,8 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     Route::post('/bookings', [BookingController::class, 'book']);
     Route::get('/bookings/{booking}', [BookingController::class, 'getBookingDetails']);
     Route::get('/user/vouchers', [BookingController::class, 'getAvailableVouchers']);
-    Route::post('/bookings/{booking}/confirm', [BookingController::class, 'confirmBooking']);
+
+    // Payment
+    Route::post('/bookings/{booking}/create-checkout-session', [PaymentController::class, 'createCheckoutSession']);
+    Route::post('/verify-booking-payment', [PaymentController::class, 'verifyBookingPayment']);
 });

@@ -9,13 +9,20 @@ import { AuthProvider } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import Notification from './components/common/Notification';
 
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
       <NotificationProvider>
         <Notification />
-        <AppRoutes />
+        <Elements stripe={stripePromise}>
+          <AppRoutes />
+        </Elements>
       </NotificationProvider>
     </AuthProvider>
   </React.StrictMode>
