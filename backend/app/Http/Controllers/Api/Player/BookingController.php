@@ -117,6 +117,10 @@ class BookingController extends Controller
     {
         $this->authorize('view', $booking);
 
+        if ($booking->status !== 'Pending') {
+            return response()->json(['message' => 'Invalid booking.'], 400);
+        }
+
         $booking->load([
             'court.venue.state', 
             'voucherHistory.voucher'
