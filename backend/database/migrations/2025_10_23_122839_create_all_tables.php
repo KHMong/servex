@@ -17,18 +17,18 @@ return new class extends Migration
             $table->id();
             $table->string('user_id')->unique(); // Custom user ID
             $table->string('name');
-            $table->string('gender'); // 'M', 'F'
+            $table->enum('gender', ['M', 'F']); // 'M', 'F'
             $table->date('date_of_birth');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone_no'); // E.g. 018-1234567
             $table->string('photo')->nullable(); // Profile picture
-            $table->string('role'); // 'Player', 'Admin', 'Owner'
+            $table->enum('role', ['Player', 'Admin', 'Owner'])->default('Player'); // 'Player', 'Admin', 'Owner'
             $table->boolean('is_coach')->default(false);
             $table->boolean('is_organiser')->default(false);
             $table->integer('points')->default(0);
-            $table->string('status'); // 'Active', 'Inactive', 'Terminated'
+            $table->enum('status', ['Active', 'Inactive', 'Terminated'])->default('Active'); // 'Active', 'Inactive', 'Terminated'
             $table->rememberToken();
             $table->timestamps();
         });
@@ -64,7 +64,7 @@ return new class extends Migration
             $table->decimal('discount_value', 8, 2);
             $table->integer('point_cost');
             $table->integer('validity'); // Number of days
-            $table->string('status'); // 'Active', 'Inactive', 'Terminated'
+            $table->enum('status', ['Active', 'Inactive', 'Terminated'])->default('Inactive'); // 'Active', 'Inactive', 'Terminated'
             $table->timestamps();
         });
 
@@ -74,7 +74,7 @@ return new class extends Migration
             $table->foreignId('user_id')->primary()->constrained('user')->onDelete('cascade');
             $table->string('company_name');
             $table->string('business_reg_no');
-            $table->string('status'); // 'Pending', 'Approved', 'Rejected'
+            $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending'); // 'Pending', 'Approved', 'Rejected'
             $table->timestamps();
         });
 
@@ -84,7 +84,7 @@ return new class extends Migration
             $table->text('bio');
             $table->integer('exp_year');
             $table->string('cert')->nullable(); // Certificate file
-            $table->string('status'); // 'Pending', 'Approved', 'Rejected', 'Cancelled'
+            $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending'); // 'Pending', 'Approved', 'Rejected'
             $table->timestamps();
         });
 
@@ -104,8 +104,8 @@ return new class extends Migration
             $table->time('opening_time');
             $table->time('closing_time');
             $table->string('phone_no'); // E.g. 03-12345678
-            $table->string('apply_status'); // 'Pending', 'Approved', 'Rejected', 'Cancelled'
-            $table->string('status'); // 'Active', 'Inactive', 'Terminated'
+            $table->enum('apply_status', ['Pending', 'Approved', 'Rejected', 'Cancelled'])->default('Pending'); // 'Pending', 'Approved', 'Rejected', 'Cancelled'
+            $table->enum('status', ['Active', 'Inactive', 'Terminated'])->default('Active'); // 'Active', 'Inactive', 'Terminated'
             $table->timestamps();
         });
 
@@ -123,7 +123,7 @@ return new class extends Migration
             $table->text('prize');
             $table->text('rule');
             $table->text('result')->nullable(); // Result file
-            $table->string('status'); // 'Upcoming', 'Ongoing', 'Completed', 'Cancelled'
+            $table->enum('status', ['Upcoming', 'Ongoing', 'Completed', 'Cancelled'])->default('Upcoming'); // 'Upcoming', 'Ongoing', 'Completed', 'Cancelled'
             $table->timestamps();
         });
 
@@ -133,7 +133,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('venue_id')->constrained('venue')->onDelete('cascade');
             $table->string('name');
-            $table->string('status'); // 'Available', 'Maintenance', 'Terminated'
+            $table->enum('status', ['Available', 'Maintenance', 'Terminated'])->default('Available'); // 'Available', 'Maintenance', 'Terminated'
             $table->timestamps();
         });
 
@@ -147,7 +147,7 @@ return new class extends Migration
         Schema::create('pricing_rule', function (Blueprint $table) {
             $table->id();
             $table->foreignId('venue_id')->constrained('venue')->onDelete('cascade');
-            $table->string('day_type'); // 'Weekday', 'Weekend'
+            $table->enum('day_type', ['Weekday', 'Weekend']); // 'Weekday', 'Weekend'
             $table->time('start_time');
             $table->time('end_time');
             $table->decimal('price', 8, 2);
@@ -160,7 +160,7 @@ return new class extends Migration
             $table->foreignId('venue_id')->constrained('venue');
             $table->tinyInteger('rating'); // 1-5
             $table->text('comment')->nullable();
-            $table->string('status'); // 'Active', 'Terminated'
+            $table->enum('status', ['Active', 'Terminated'])->default('Active'); // 'Active', 'Terminated'
             $table->timestamps();
         });
 
@@ -169,7 +169,7 @@ return new class extends Migration
             $table->foreignId('coach_id')->constrained('user');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('status'); // 'Active', 'Terminated'
+            $table->enum('status', ['Active', 'Terminated'])->default('Active'); // 'Active', 'Terminated'
             $table->timestamps();
         });
 
@@ -191,8 +191,8 @@ return new class extends Migration
             $table->dateTime('start_datetime');
             $table->dateTime('end_datetime');
             $table->decimal('total_price', 8, 2);
-            $table->string('payment_status'); // 'Paid', 'Unpaid'
-            $table->string('status'); // 'Pending', 'Confirmed', 'Completed', 'Cancelled'
+            $table->enum('payment_status', ['Paid', 'Unpaid'])->default('Unpaid'); // 'Paid', 'Unpaid'
+            $table->enum('status', ['Pending', 'Confirmed', 'Completed', 'Cancelled'])->default('Pending'); // 'Pending', 'Confirmed', 'Completed', 'Cancelled'
             $table->timestamps();
         });
 
@@ -200,7 +200,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('trainee_group_id')->constrained('trainee_group')->onDelete('cascade');
             $table->foreignId('trainee_id')->constrained('user');
-            $table->string('status'); // 'Active', 'Terminated'
+            $table->enum('status', ['Active', 'Terminated'])->default('Active'); // 'Active', 'Terminated'
             $table->timestamps();
         });
 
@@ -213,7 +213,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->dateTime('start_datetime');
             $table->dateTime('end_datetime');
-            $table->string('status'); // 'Scheduled', 'Completed', 'Cancelled'
+            $table->enum('status', ['Scheduled', 'Completed', 'Cancelled'])->default('Scheduled'); // 'Scheduled', 'Completed', 'Cancelled'
             $table->timestamps();
         });
         
@@ -224,8 +224,8 @@ return new class extends Migration
             $table->foreignId('tournament_id')->constrained('tournament');
             $table->foreignId('category_id')->constrained('tournament_category');
             $table->string('ec_phone_no'); // E.g. 018-1234567
-            $table->string('payment_status'); // 'Paid', 'Unpaid'
-            $table->string('status'); // 'Pending', 'Approved', 'Rejected', 'Cancelled'
+            $table->enum('payment_status', ['Paid', 'Unpaid'])->default('Unpaid'); // 'Paid', 'Unpaid'
+            $table->enum('status', ['Pending', 'Approved', 'Rejected', 'Cancelled']); // 'Pending', 'Approved', 'Rejected', 'Cancelled'
             $table->timestamps();
         });
 
@@ -236,7 +236,7 @@ return new class extends Migration
             $table->foreignId('skill_level_id')->constrained('skill_level');
             $table->decimal('fee', 8, 2);
             $table->integer('max_player');
-            $table->string('status'); // 'Open', 'Full', 'Cancelled'
+            $table->enum('status', ['Open', 'Full', 'Completed', 'Cancelled']); // 'Open', 'Full', 'Completed', 'Cancelled'
             $table->timestamps();
         });
         
@@ -246,7 +246,7 @@ return new class extends Migration
             $table->foreignId('voucher_id')->constrained('voucher');
             $table->foreignId('booking_id')->nullable()->constrained('booking');
             $table->date('expiry_date');
-            $table->string('status'); // 'Available', 'Used', 'Expired'
+            $table->enum('status', ['Available', 'Used', 'Expired']); // 'Available', 'Used', 'Expired'
             $table->timestamps();
         });
 
@@ -257,7 +257,7 @@ return new class extends Migration
             $table->foreignId('training_session_id')->constrained('training_session')->onDelete('cascade');
             $table->foreignId('group_member_id')->constrained('group_member');
             $table->text('comment')->nullable();
-            $table->string('status'); // 'Pending', 'Present', 'Absent'
+            $table->enum('status', ['Pending', 'Present', 'Absent'])->default('Pending'); // 'Pending', 'Present', 'Absent'
             $table->timestamps();
         });
 
@@ -265,7 +265,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('user');
             $table->foreignId('activity_id')->constrained('activity')->onDelete('cascade');
-            $table->string('status'); // 'Joined', 'Left', 'Removed'
+            $table->enum('status', ['Joined', 'Left', 'Removed']); // 'Joined', 'Left', 'Removed'
             $table->timestamps();
         });
     }
