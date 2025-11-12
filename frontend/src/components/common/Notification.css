@@ -12,13 +12,19 @@
 }
 
 .notification-wrapper.success {
-  background-color: var(--servex-green); 
+  border: 1px solid var(--servex-green);
+  background-color: var(--servex-light-green-bg); 
+  color: var(--servex-green);
 }
 
 .notification-wrapper.error {
-  background-color: var(--servex-red);
+  border: 1px solid var(--servex-red);
+  background-color: var(--servex-light-red);
+  color: var(--servex-red);
 }
 
 .notification-wrapper.info {
-  background-color: var(--servex-blue);
+  border: 1px solid var(--servex-blue);
+  background-color: var(--servex-light-blue);
+  color: var(--servex-blue);
 }
