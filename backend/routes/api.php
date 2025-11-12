@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\PasswordResetController;
 use App\Http\Controllers\Api\Public\HomeController;
@@ -14,7 +15,7 @@ use App\Http\Controllers\Api\Public\TournamentController;
 use App\Http\Controllers\Api\Public\ActivityController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\Player\BookingController;
-use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\Player\VenueReviewController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -93,6 +94,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Change Password
     Route::post('/user/change-password', [ProfileController::class, 'changePassword']);
+
+    // Venue
+    Route::get('/auth/venues/{venue}', [VenueController::class, 'getVenueDetails']);
 });
 
 // Player only
@@ -105,4 +109,9 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     // Payment
     Route::post('/bookings/{booking}/create-checkout-session', [PaymentController::class, 'createCheckoutSession']);
     Route::post('/verify-booking-payment', [PaymentController::class, 'verifyBookingPayment']);
+
+    // Review
+    Route::post('/reviews', [VenueReviewController::class, 'submitReview']);
+    Route::get('/reviews/{review}', [VenueReviewController::class, 'getReview']);
+    Route::post('/reviews/{review}', [VenueReviewController::class, 'editReview']);
 });

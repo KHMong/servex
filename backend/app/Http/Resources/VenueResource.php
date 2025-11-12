@@ -9,6 +9,8 @@ class VenueResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $user = $request->user();
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -35,6 +37,10 @@ class VenueResource extends JsonResource
             }),
             'average_rating' => $this->reviews()->avg('rating'),
             'reviews_count' => $this->reviews()->count(),
+            'user_review_id' => $this->when($user, function () use ($user) {
+                $review = $this->reviews()->where('user_id', $user->id)->first();
+                return optional($review)->id;
+            }),
         ];
     }
 }

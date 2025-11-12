@@ -1,0 +1,9 @@
+.star-rating-input {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.star-rating-input .star {
+  cursor: pointer;
+  transition: color 200ms;
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import BackButton from '../../components/common/BackButton';
 import apiClient from '../../api/apiClient';
@@ -14,7 +15,8 @@ import ReviewsSection from './court-booking/ReviewsSection';
 const CourtBookingPage = () => {
   // Get ID from URL
   const { venueId } = useParams();
-  
+  const { isAuthenticated } = useAuth();
+
   const [venue, setVenue] = useState(null);
   const [courts, setCourts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,8 +27,10 @@ const CourtBookingPage = () => {
       setLoading(true);
       setError(null);
       try {
+        const venueUrl = isAuthenticated ? `/auth/venues/${venueId}` : `/venues/${venueId}`
+
         const [venueRes, courtsRes] = await Promise.all([
-          apiClient.get(`/venues/${venueId}`),
+          apiClient.get(venueUrl),
           apiClient.get(`/venues/${venueId}/courts`),
         ]);
         setVenue(venueRes.data.data);
@@ -40,7 +44,7 @@ const CourtBookingPage = () => {
     };
 
     fetchVenueDetails();
-  }, [venueId]); // Refetch if ID in the URL changes
+  }, [venueId, isAuthenticated]); // Refetch if ID in the URL changes
 
   if (loading) {
     return <div className="text-center p-5"><Spinner animation="border" variant="success" /></div>;
@@ -70,7 +74,7 @@ const CourtBookingPage = () => {
       <hr className="mt-5 mb-4" />
       <BookingForm venue={venue} courts={courts} />
       <hr className="mt-5 mb-4" />
-      <ReviewsSection venueId={venue.id} />
+      <ReviewsSection venueId={venue.id} userReviewId={venue.user_review_id} />
     </Container>
   );
 };

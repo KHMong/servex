@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\User;
 use App\Models\Booking;
+use App\Models\VenueReview;
 use App\Policies\UserPolicy;
 use App\Policies\BookingPolicy;
+use App\Policies\VenueReviewPolicy;
 
 
 
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         User::class => UserPolicy::class,
         Booking::class => BookingPolicy::class,
+        VenueReview::class => VenueReviewPolicy::class,
     ];
 
     public function boot()
