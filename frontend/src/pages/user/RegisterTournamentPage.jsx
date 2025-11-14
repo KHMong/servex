@@ -8,7 +8,6 @@ import Button from '../../components/common/Button';
 import BackButton from '../../components/common/BackButton';
 import { validate } from '../../utils/validation';
 import FormField from '../../components/common/FormField';
-import AuthLayout from '../../components/layout/AuthLayout';
 
 const RegisterTournamentPage = () => {
   const { tournamentId } = useParams();
