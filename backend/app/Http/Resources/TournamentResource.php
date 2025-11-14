@@ -10,6 +10,9 @@ class TournamentResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $localDeadlineString = Carbon::parse($this->deadline);
+        $isDeadlinePassed = $localDeadlineString->setTimezone('Asia/Kuala_Lumpur')->endOfDay()->isPast();
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -44,6 +47,7 @@ class TournamentResource extends JsonResource
                     ];
                 });
             }),
+            'is_registration_open' => $this->status === 'Upcoming' && !$isDeadlinePassed,
         ];
     }
 }

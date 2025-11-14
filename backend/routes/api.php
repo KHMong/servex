@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\Player\BookingController;
 use App\Http\Controllers\Api\Player\VenueReviewController;
 use App\Http\Controllers\Api\Player\RewardController;
+use App\Http\Controllers\Api\Player\TournamentRegistrationController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -122,4 +123,8 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     Route::get('/rewards', [RewardController::class, 'getPointsAndVouchers']);
     Route::post('/vouchers/{voucher}/redeem', [RewardController::class, 'redeem']);
     Route::get('/user/voucher-history', [RewardController::class, 'getVoucherHistory']);
+
+    // Tournaments
+    Route::get('/tournaments/{tournament}/registration-form', [TournamentRegistrationController::class, 'getForm']);
+    Route::post('/tournaments/{tournament}/register', [TournamentRegistrationController::class, 'register']);
 });

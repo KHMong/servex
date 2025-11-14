@@ -28,6 +28,7 @@ import BookingHistoryPage from '../pages/user/BookingHistoryPage';
 import WriteReviewPage from '../pages/user/WriteReviewPage';
 import EditReviewPage from '../pages/user/EditReviewPage';
 import RewardsVouchersPage from '../pages/user/RewardsVouchersPage';
+import RegisterTournamentPage from '../pages/user/RegisterTournamentPage';
 
 const AppRoutes = () => {
   return (
@@ -58,6 +59,7 @@ const AppRoutes = () => {
             <Route path="/booking-payment-success" element={<BookingPaymentSuccessPage />} />
             <Route path="/venues/:venueId/review/create" element={<WriteReviewPage />} />
             <Route path="/venues/:venueId/review/:reviewId/edit" element={<EditReviewPage />} />
+            <Route path="/tournaments/:tournamentId/register" element={<RegisterTournamentPage />} />
           </Route>
         </Route>
 

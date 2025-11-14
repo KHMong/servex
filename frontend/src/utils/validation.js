@@ -125,6 +125,13 @@ const validateExpYear = (exp_year) => {
 };
 
 
+/************ TOURNAMENT ************/
+const validateSelectCategory = (category) => {
+  if (!category) return "Please select a category.";
+  return null;
+}
+
+
 export const validate = (formData, role = null, context) => {
   const errors = {};
 
@@ -217,6 +224,16 @@ export const validate = (formData, role = null, context) => {
 
       const passwordErrors = validatePasswords(formData.password, formData.password_confirmation);
       if (passwordErrors) Object.assign(errors, passwordErrors);
+
+      break;
+    }
+
+    case 'registerTournament': {
+      const categoryError = validateSelectCategory(formData.category_id);
+      if (categoryError) errors.category_id = categoryError;
+
+      const ecPhoneNoError = validatePlayerPhone(formData.ec_phone_no);
+      if (ecPhoneNoError) errors.ec_phone_no = ecPhoneNoError;
 
       break;
     }

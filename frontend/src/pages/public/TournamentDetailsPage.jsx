@@ -98,9 +98,17 @@ const TournamentDetailsPage = () => {
                   <span className="fw-semibold">RM {cat.fee}</span>
                 </div>
               ))}
-              <Button to={`/tournaments/${tournament.id}/register`} className="w-100 mt-2">
-                Register Now!
-              </Button>
+
+              {tournament.is_registration_open ? (
+                <Button to={`/tournaments/${tournament.id}/register`} className="w-100 mt-2">
+                  Register Now!
+                </Button>
+              ) : (
+                <Button className="w-100 mt-2" disabled>
+                  Registration Closed
+                </Button>
+              )}
+              
             </Card.Body>
           </Card>
         </Col>
