@@ -14,5 +14,6 @@ Schedule::command('bookings:cancel-expired-bookings')
 
 Schedule::command('app:perform-daily-cleanup')
     ->dailyAt('00:00')
+    ->timezone('Asia/Kuala_Lumpur')
     ->appendOutputTo(storage_path('logs/scheduler.log'));
 
