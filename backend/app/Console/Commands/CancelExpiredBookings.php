@@ -27,7 +27,7 @@ class CancelExpiredBookings extends Command
      */
     public function handle()
     {
-        $currentTime = Carbon::now()->toDateTimeString();
+        $currentTime = Carbon::now('Asia/Kuala_Lumpur')->toDateTimeString();
         $this->info("{$currentTime}");
 
         $this->info('Starting cancel expired booking process...');
