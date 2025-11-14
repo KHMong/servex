@@ -66,6 +66,8 @@ class ProfileController extends Controller
 
         $user->update($validated);
 
+        $user->refresh();
+
         return new UserResource($user);
     }
 
@@ -97,6 +99,8 @@ class ProfileController extends Controller
 
         $coachProfile->update($validated);
 
+        $coachProfile->refresh();
+
         return new CoachProfileResource($coachProfile);
     }
 
@@ -122,6 +126,8 @@ class ProfileController extends Controller
         $user->update([
             'password' => Hash::make($validated['password']),
         ]);
+
+        $user->refresh();
 
         return response()->json(['message' => 'Password updated successfully.'], 200);
     }

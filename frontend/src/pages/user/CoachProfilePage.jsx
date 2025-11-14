@@ -67,6 +67,8 @@ const CoachProfilePage = () => {
       data.append('cert', certFile);
     }
 
+    data.append('_method', 'PUT');
+
     if (Object.keys(validationErrors).length === 0) {
       setSaving(true);
       try {

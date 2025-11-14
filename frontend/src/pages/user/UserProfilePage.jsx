@@ -63,6 +63,8 @@ const UserProfilePage = () => {
       data.append('photo', newImageFile);
     }
 
+    data.append('_method', 'PUT');
+
     if (Object.keys(validationErrors).length === 0) {
       setLoading(true);
       try {

@@ -37,7 +37,7 @@ const ChangePasswordPage = () => {
     if (Object.keys(validationErrors).length === 0) {
         try {
             setLoading(true);
-            const response = await apiClient.post('/user/change-password', formData);
+            const response = await apiClient.put('/user/change-password', formData);
             setSuccess(response.data.message);
             // Clear form when success
             setFormData({ current_password: '', password: '', password_confirmation: '' });

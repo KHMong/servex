@@ -86,14 +86,14 @@ Route::get('/images/{path}', function ($path) {
 Route::middleware('auth:sanctum')->group(function () {
     // User Profile
     Route::get('/user', [ProfileController::class, 'getUserProfile']);
-    Route::post('/user', [ProfileController::class, 'updateUserProfile']);
+    Route::put('/user', [ProfileController::class, 'updateUserProfile']);
 
     // Coach Profile
     Route::get('/user/coach-profile', [ProfileController::class, 'getCoachProfile']);
-    Route::post('/user/coach-profile', [ProfileController::class, 'updateCoachProfile']);
+    Route::put('/user/coach-profile', [ProfileController::class, 'updateCoachProfile']);
 
     // Change Password
-    Route::post('/user/change-password', [ProfileController::class, 'changePassword']);
+    Route::put('/user/change-password', [ProfileController::class, 'changePassword']);
 
     // Venue
     Route::get('/auth/venues/{venue}', [VenueController::class, 'getVenueDetails']);
@@ -113,5 +113,5 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     // Review
     Route::post('/reviews', [VenueReviewController::class, 'submitReview']);
     Route::get('/reviews/{review}', [VenueReviewController::class, 'getReview']);
-    Route::post('/reviews/{review}', [VenueReviewController::class, 'editReview']);
+    Route::put('/reviews/{review}', [VenueReviewController::class, 'editReview']);
 });

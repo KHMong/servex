@@ -60,7 +60,7 @@ const EditReviewPage = () => {
     setSaving(true);
 
     try {
-      await apiClient.post(`/reviews/${reviewId}`, {
+      await apiClient.put(`/reviews/${reviewId}`, {
         rating: rating,
         comment: comment,
         status: "Active",

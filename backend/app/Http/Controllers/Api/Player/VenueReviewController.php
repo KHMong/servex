@@ -65,6 +65,8 @@ class VenueReviewController extends Controller
 
         $review->update($validated);
 
+        $review->refresh();
+
         return new VenueReviewResource($review);
     }
 }
