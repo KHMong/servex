@@ -21,7 +21,6 @@ const RewardsVouchersPage = () => {
     setLoading(prev => ({ ...prev, activeVouchers: true }));
     try {
       const res = await apiClient.get(`/rewards?page=${page}`);
-      console.log(res);
       
       setActiveVouchers({ 
         items: res.data.data, 
@@ -58,7 +57,6 @@ const RewardsVouchersPage = () => {
         pagination: res.data.meta
       });
     } catch (err) {
-        console.log(err);
       setVoucherError("Failed to load your vouchers.");
     } finally {
       setLoading(prev => ({ ...prev, userVouchers: false }));
@@ -82,7 +80,6 @@ const RewardsVouchersPage = () => {
                 fetchUserVouchers(1);
             }
         } catch (err) {
-            console.log(err);
             setRedeemError("Failed to redeem the voucher.");
         } finally {
             setLoading(prev => ({ ...prev, redeem: null }));

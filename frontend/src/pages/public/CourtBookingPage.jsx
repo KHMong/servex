@@ -37,7 +37,6 @@ const CourtBookingPage = () => {
         setCourts(courtsRes.data);
       } catch (err) {
         setError('Could not fetch venue details.');
-        console.error(err);
       } finally {
         setLoading(false);
       }
