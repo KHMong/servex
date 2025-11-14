@@ -1,0 +1,20 @@
+[class$=-tabs] {
+    border: none !important;
+    border-bottom: 2px solid var(--border-color-light) !important
+}
+
+[class$=-tabs] .nav-link {
+  color: var(--servex-muted-text);
+  font-weight: 500;
+  border: none !important;
+}
+
+[class$=-tabs] .nav-link:hover  {
+  color: var(--servex-dark-text);
+}
+
+[class$=-tabs] .nav-link.active {
+  color: var(--servex-dark-text);
+  background-color: transparent !important;
+  box-shadow: 0 2px 0 0 var(--servex-green) !important;
+}

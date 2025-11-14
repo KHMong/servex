@@ -141,4 +141,37 @@ class BookingController extends Controller
         
         return VoucherHistoryResource::collection($vouchers);
     }
+
+    public function getUserBookings(Request $request)
+    {
+        $request->validate(['status' => 'nullable|in:Confirmed,Completed,Cancelled']);
+        
+        $query = $request->user()->bookings()->with([
+            'court.venue',
+            'voucherHistory.voucher'
+        ]);
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Sort by soonest booking
+        $bookings = $query->orderBy('start_datetime')->paginate(5);
+
+        return BookingResource::collection($bookings);
+    }
+
+    public function cancelBooking(Request $request, Booking $booking)
+    {
+        $this->authorize('update', $booking);
+
+        // Only can cancel confirmed booking
+        if ($booking->status !== 'Confirmed') {
+            return response()->json(['message' => 'This booking cannot be cancelled.'], 409);
+        }
+        
+        $booking->update(['status' => 'Cancelled']);
+
+        return response()->json(['message' => 'Booking cancelled successfully.']);
+    }
 }

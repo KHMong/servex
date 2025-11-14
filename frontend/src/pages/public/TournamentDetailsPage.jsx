@@ -6,7 +6,7 @@ import apiClient from '../../api/apiClient';
 import { getImageUrl } from '../../utils/imageUrl';
 import Button from '../../components/common/Button';
 import BackButton from '../../components/common/BackButton';
-
+import '../../components/common/StatusTab.css';
 import './tournaments/TournamentDetailsPage.css';
 
 const TournamentDetailsPage = () => {

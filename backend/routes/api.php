@@ -105,6 +105,8 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     Route::post('/bookings', [BookingController::class, 'book']);
     Route::get('/bookings/{booking}', [BookingController::class, 'getBookingDetails']);
     Route::get('/user/vouchers', [BookingController::class, 'getAvailableVouchers']);
+    Route::get('/user/bookings', [BookingController::class, 'getUserBookings']);
+    Route::put('/bookings/{booking}/cancel', [BookingController::class, 'cancelBooking']);
 
     // Payment
     Route::post('/bookings/{booking}/create-checkout-session', [PaymentController::class, 'createCheckoutSession']);
