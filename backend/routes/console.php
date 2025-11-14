@@ -13,6 +13,6 @@ Schedule::command('bookings:cancel-expired-bookings')
     ->appendOutputTo(storage_path('logs/scheduler.log'));
 
 Schedule::command('app:perform-daily-cleanup')
-    ->dailyAt('11:11')
+    ->dailyAt('00:00')
     ->appendOutputTo(storage_path('logs/scheduler.log'));
 
