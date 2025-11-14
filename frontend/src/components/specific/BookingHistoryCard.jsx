@@ -16,7 +16,7 @@ const BookingHistoryCard = ({ booking, onCancel }) => {
             {booking.voucher_code_applied && (
               <p className="mb-1 text-muted"><strong>Voucher Applied:</strong> {booking.voucher_code_applied}</p>
             )}
-            <p className="mb-0"><strong>Price: RM {booking.total_price}</strong></p>
+            <p className="mb-0"><strong>Price: RM {booking.initial_total}</strong></p>
           </div>
           <div>
             {booking.status === 'Confirmed' && (

@@ -29,6 +29,7 @@ class BookingResource extends JsonResource
             'subtotal' => number_format($subtotal, 2),
             'discount' => number_format($discount, 2),
             'total_price' => number_format($total, 2),
+            'initial_total' => number_format($subtotal, 2),
             'points_earned' => floor($total),
             'venue' => [
                 'id' => $this->court->venue->id,

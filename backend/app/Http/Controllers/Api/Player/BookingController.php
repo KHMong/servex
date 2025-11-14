@@ -31,7 +31,8 @@ class BookingController extends Controller
         $venue = $court->venue;
 
         // Get booking times
-        $startDateTime = Carbon::parse($validated['date'] . ' ' . $validated['start_time']);
+        $localStartDateTimeString = $validated['date'] . ' ' . $validated['start_time'];
+        $startDateTime = Carbon::parse($localStartDateTimeString, 'Asia/Kuala_Lumpur');
         $endDateTime = $startDateTime->copy()->addHours((int) $validated['duration']);
 
         // --- VALIDATION ---
@@ -41,8 +42,10 @@ class BookingController extends Controller
         }
 
         // 2. Booking is within venue operating hours
-        $venueOpeningTime = Carbon::parse($validated['date'] . ' ' . $venue->opening_time);
-        $venueClosingTime = Carbon::parse($validated['date'] . ' ' . $venue->closing_time);
+        $venueOpeningTimeString = $validated['date'] . ' ' . $venue->opening_time;
+        $venueClosingTimeString = $validated['date'] . ' ' . $venue->closing_time;
+        $venueOpeningTime = Carbon::parse($venueOpeningTimeString, 'Asia/Kuala_Lumpur');
+        $venueClosingTime = Carbon::parse($venueClosingTimeString, 'Asia/Kuala_Lumpur');
 
         // Handle overnight times (like 11:00 to 01:00)
         if ($venueClosingTime->lt($venueOpeningTime)) {
@@ -50,7 +53,7 @@ class BookingController extends Controller
         }
 
         if (!$startDateTime->between($venueOpeningTime, $venueClosingTime, true) || !$endDateTime->between($venueOpeningTime, $venueClosingTime, true)) {
-            return response()->json(['message' => `The booking must be within the venue's operating hours ({$venue->opening_time} - {$venue->closing_time}).`], 409);
+            return response()->json(['message' => "The booking must be within the venue's operating hours ({$venue->opening_time} - {$venue->closing_time})."], 409);
         }
 
         // 3. Booking not clash
@@ -161,7 +164,7 @@ class BookingController extends Controller
         return BookingResource::collection($bookings);
     }
 
-    public function cancelBooking(Request $request, Booking $booking)
+    public function cancelBooking(Booking $booking)
     {
         $this->authorize('update', $booking);
 
@@ -170,6 +173,11 @@ class BookingController extends Controller
             return response()->json(['message' => 'This booking cannot be cancelled.'], 409);
         }
         
+        // Must be before booking start_datetime
+        if ($booking->start_datetime->isPast()) {
+            return response()->json(['message' => 'Ongoing or past booking cannot be cancelled.'], 409);
+        }
+
         $booking->update(['status' => 'Cancelled']);
 
         return response()->json(['message' => 'Booking cancelled successfully.']);
