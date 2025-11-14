@@ -27,6 +27,7 @@ import BookingPaymentSuccessPage from '../pages/user/BookingPaymentSuccessPage';
 import BookingHistoryPage from '../pages/user/BookingHistoryPage';
 import WriteReviewPage from '../pages/user/WriteReviewPage';
 import EditReviewPage from '../pages/user/EditReviewPage';
+import RewardsVouchersPage from '../pages/user/RewardsVouchersPage';
 
 const AppRoutes = () => {
   return (
@@ -51,6 +52,7 @@ const AppRoutes = () => {
               <Route path="coach-profile" element={<CoachProfilePage />} />
               <Route path="change-password" element={<ChangePasswordPage />} />
               <Route path="booking-history" element={<BookingHistoryPage />} />
+              <Route path="rewards" element={<RewardsVouchersPage />} />
             </Route>
             <Route path="/bookings/:bookingId/summary" element={<BookingConfirmationPage />} />
             <Route path="/booking-payment-success" element={<BookingPaymentSuccessPage />} />

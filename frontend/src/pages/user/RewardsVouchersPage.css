@@ -1,0 +1,14 @@
+.points-display {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--servex-green);
+}
+
+.expiry-date {
+  padding: 0.25rem 0.75rem; 
+  border-radius: 999px; 
+  font-size: 0.8rem; 
+  font-weight: 600;
+  background-color: var(--servex-light-gray-btn); 
+  color: var(--servex-muted-text); 
+}

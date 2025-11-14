@@ -17,10 +17,11 @@ class VoucherHistoryResource extends JsonResource
                 'discount_value' => number_format($this->voucher->discount_value, 2),
             ],
             'expiry_date' => $this->expiry_date->format('Y-m-d'),
+            'expires_on' => $this->expiry_date->format('d M Y'),
             'status' => $this->status,
             // Relationships
             'user' => new UserResource($this->whenLoaded('user')),
-            'booking' => new BookingResource($this->whenLoaded('booking')),
+            'booking_date' => $this->booking?->created_at?->setTimezone('Asia/Kuala_Lumpur')->format('d M Y'),
         ];
     }
 }

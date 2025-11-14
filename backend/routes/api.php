@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\Public\ActivityController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\Player\BookingController;
 use App\Http\Controllers\Api\Player\VenueReviewController;
+use App\Http\Controllers\Api\Player\RewardController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -116,4 +117,9 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     Route::post('/reviews', [VenueReviewController::class, 'submitReview']);
     Route::get('/reviews/{review}', [VenueReviewController::class, 'getReview']);
     Route::put('/reviews/{review}', [VenueReviewController::class, 'editReview']);
+
+    // Rewards and Vouchers
+    Route::get('/rewards', [RewardController::class, 'getPointsAndVouchers']);
+    Route::post('/vouchers/{voucher}/redeem', [RewardController::class, 'redeem']);
+    Route::get('/user/voucher-history', [RewardController::class, 'getVoucherHistory']);
 });
