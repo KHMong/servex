@@ -6,6 +6,12 @@ import BookingHistoryCard from '../../components/specific/BookingHistoryCard';
 import Pagination from '../../components/common/Pagination';
 import '../../components/common/StatusTab.css';
 
+const statusMap = {
+  upcoming: 'Confirmed',
+  completed: 'Completed',
+  cancelled: 'Cancelled',
+};
+
 const BookingHistoryPage = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
   const [bookings, setBookings] = useState([]);
@@ -13,12 +19,6 @@ const BookingHistoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const { showNotification } = useNotification();
-
-  const statusMap = {
-    upcoming: 'Confirmed',
-    completed: 'Completed',
-    cancelled: 'Cancelled',
-  };
 
   const fetchBookings = useCallback(async (page = 1) => {
     setLoading(true);
@@ -37,7 +37,7 @@ const BookingHistoryPage = () => {
 
   useEffect(() => {
     fetchBookings(1); // Go to page 1 when change tab
-  }, [activeTab]);
+  }, [fetchBookings]);
 
   const handlePageChange = (url) => {
     const pageNumber = new URL(url).searchParams.get('page');
