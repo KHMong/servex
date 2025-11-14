@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\CoachProfileResource;
 use Illuminate\Support\Facades\Hash;
@@ -59,12 +61,28 @@ class ProfileController extends Controller
             return response()->json(['message' => 'Admin cannot change email address.'], 403);
         }
 
-        if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('uploads/users/' . $user->id);
-            $validated['photo'] = basename($path);
-        }
+        // Start a transaction
+        DB::transaction(function () use ($request, $user, $validated) {
+            $oldPhotoPath = null;
 
-        $user->update($validated);
+            // Check if new photo uploaded and old photo exists
+            if ($request->hasFile('photo') && $user->photo) {
+                $oldPhotoPath = "uploads/users/{$user->id}/{$user->photo}";
+            }
+            
+            // Store new photo if uploaded
+            if ($request->hasFile('photo')) {
+                $path = $request->file('photo')->store('uploads/users/' . $user->id);
+                $validated['photo'] = basename($path);
+            }
+            
+            // Update user record
+            $user->update($validated);
+
+            if ($oldPhotoPath) {
+                Storage::disk('local')->delete($oldPhotoPath);
+            }
+        });
 
         $user->refresh();
 
@@ -91,13 +109,29 @@ class ProfileController extends Controller
             ],
             'cert' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
-        
-        if ($request->hasFile('cert')) {
-            $path = $request->file('cert')->store('uploads/certs/' . $user->id);
-            $validated['cert'] = basename($path);
-        }
 
-        $coachProfile->update($validated);
+        // Start a transaction
+        DB::transaction(function () use ($request, $user, $coachProfile, $validated) {
+            $oldCertPath = null;
+
+            // Check if new cert uploaded and old cert exists
+            if ($request->hasFile('cert') && $coachProfile->cert) {
+                $oldCertPath = "uploads/certs/{$user->id}/{$coachProfile->cert}";
+            }
+            
+            // Store new cert if uploaded
+            if ($request->hasFile('cert')) {
+                $path = $request->file('cert')->store('uploads/certs/' . $user->id);
+                $validated['cert'] = basename($path);
+            }
+            
+            // Update coach profile record
+            $coachProfile->update($validated);
+
+            if ($oldCertPath) {
+                Storage::disk('local')->delete($oldCertPath);
+            }
+        });
 
         $coachProfile->refresh();
 
