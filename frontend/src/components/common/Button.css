@@ -58,6 +58,18 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+/* 4. Red Button */
+.btn-custom.btn-red {
+  background-color: var(--servex-light-red);
+  font-weight: 500;
+  color: var(--servex-red);
+}
+.btn-custom.btn-red:hover {
+  background-color: var(--servex-red);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  color: var(--servex-light-red);
+}
+
 /* Style for the icon within the button */
 .btn-icon {
   
