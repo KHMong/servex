@@ -110,7 +110,7 @@ class User extends Authenticatable
 
     public function coachProfile()
     {
-        return $this->hasOne(CoachProfile::class);
+        return $this->hasOne(CoachProfile::class, 'user_id');
     }
     
     public function organiserPass()

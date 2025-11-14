@@ -38,8 +38,6 @@ const ReviewsSection = ({ venueId, userReviewId }) => {
     setCurrentPage(Number(pageNumber));
   };
 
-  console.log(userReviewId);
-
   const renderReviewButton = () => {
     // 1. Not logged in (Navigate to login)
     if (!isAuthenticated) {

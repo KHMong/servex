@@ -35,7 +35,11 @@ class UserResource extends JsonResource
                     'business_reg_no' => $this->ownerProfile->business_reg_no,
                 ];
             }),
-            'coach_profile' => new CoachProfileResource($this->whenLoaded('coachProfile')),
+            'coach_profile' => $this->whenLoaded('coachProfile', function () {
+                return [
+                    'status' => $this->coachProfile->status,
+                ];
+            }),
             'photo_path' => $this->when($this->photo, function () {
                 // Path: "users/{user_id}/{filename}"
                 return "users/{$this->id}/{$this->photo}";

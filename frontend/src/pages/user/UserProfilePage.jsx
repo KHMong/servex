@@ -195,7 +195,11 @@ const UserProfilePage = () => {
                 <h5 className="fw-semibold">Become a Coach</h5>
                 <p className="mb-0 text-muted">Share your expertise and start coaching players.</p>
               </div>
-              <Button to="/coach/apply" variant="tertiary">Apply Now</Button>
+              {(user.coach_profile?.status === 'Pending') ? (
+                <Button variant="tertiary" disabled>Pending Application</Button>
+              ) : (
+                <Button to="/coach/apply" variant="tertiary">Apply Now</Button>
+              )}
             </Card.Body>
           </Card>
         )}

@@ -18,7 +18,7 @@ class ProfileController extends Controller
     public function getUserProfile(Request $request)
     {
         $user = $request->user();
-        $user->loadMissing('ownerProfile');
+        $user->loadMissing(['ownerProfile', 'coachProfile']);
         return new UserResource($user);
     }
 
