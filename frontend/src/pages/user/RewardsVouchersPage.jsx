@@ -104,6 +104,14 @@ const RewardsVouchersPage = () => {
                 <h4 className="fw-semibold">Redeem Vouchers</h4>
                 {redeemError && <Alert variant="danger">{redeemError}</Alert>}
                 {loading.activeVouchers ? <div className="text-center p-5"><Spinner /></div> : (
+                  activeVouchers.items.length > 0 ? (
+                  <>
+                    <div className="text-muted">
+                      {activeVouchers.pagination && activeVouchers.pagination.total > 0 &&
+                        `Showing ${activeVouchers.pagination.from}-${activeVouchers.pagination.to} of ${activeVouchers.pagination.total} results`
+                      }
+                    </div>
+
                     <Row className="g-3 mt-1">
                         {activeVouchers.items.map(v => (
                         <Col key={v.id} md={4}>
@@ -127,8 +135,11 @@ const RewardsVouchersPage = () => {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        ))}
+                        ))
+                        }
                     </Row>
+                  </>
+                  ) : <p className="text-muted text-center p-4">No redeemable vouchers.</p>
                 )}
 
                 <div className="mt-4 d-flex justify-content-center">
@@ -145,28 +156,37 @@ const RewardsVouchersPage = () => {
                     <Tab eventKey="Used" title="Used" />
                     <Tab eventKey="Expired" title="Expired" />
                 </Tabs>
+                
                 <div className="d-flex flex-column gap-4">
                     {loading.userVouchers ? <div className="text-center p-5"><Spinner /></div> : (
                         userVouchers.items.length > 0 ? (
-                        userVouchers.items.map(vh => (
-                            <Card key={vh.id} className="border-0 shadow-sm p-2">
-                            <Card.Body className="d-flex justify-content-between align-items-center">
-                                <div className="d-flex flex-column justify-content-between">
-                                    <h5 className="fw-bold">Voucher Id: {vh.id}</h5>
-                                    <div className="d-flex flex-column">
-                                        <small className="text-muted"><strong>Code:</strong> {vh.voucher.code}</small>
-                                        <small className="text-muted"><strong>Description:</strong> {vh.voucher.description}</small>
-                                        <small className="text-muted"><strong>Discount:</strong> RM {vh.voucher.discount_value}</small>
-                                    </div>
-                                </div>
-                                {activeTab === 'Available' && <div className="expiry-date">Expires on: {vh.expires_on}</div>}
-                                {activeTab === 'Used' && <div className="expiry-date">Used on: {vh.booking_date}</div>}
-                                {activeTab === 'Expired' && <div className="expiry-date">Expired on: {vh.expires_on}</div>}
-                            </Card.Body>
-                            </Card>
-                        ))
-                        ) : <p className="text-muted text-center p-4">No vouchers for this status.</p>
-                    )}
+                          <>
+                            <div className="text-muted">
+                              {userVouchers.pagination && userVouchers.pagination.total > 0 &&
+                                `Showing ${userVouchers.pagination.from}-${userVouchers.pagination.to} of ${userVouchers.pagination.total} results`
+                              }
+                            </div>
+                            {userVouchers.items.map(vh => (
+                              <Card key={vh.id} className="border-0 shadow-sm p-2">
+                              <Card.Body className="d-flex justify-content-between align-items-center">
+                                  <div className="d-flex flex-column justify-content-between">
+                                      <h5 className="fw-bold">Voucher Id: {vh.id}</h5>
+                                      <div className="d-flex flex-column">
+                                          <small className="text-muted"><strong>Code:</strong> {vh.voucher.code}</small>
+                                          <small className="text-muted"><strong>Description:</strong> {vh.voucher.description}</small>
+                                          <small className="text-muted"><strong>Discount:</strong> RM {vh.voucher.discount_value}</small>
+                                      </div>
+                                  </div>
+                                  {activeTab === 'Available' && <div className="expiry-date">Expires on: {vh.expires_on}</div>}
+                                  {activeTab === 'Used' && <div className="expiry-date">Used on: {vh.booking_date}</div>}
+                                  {activeTab === 'Expired' && <div className="expiry-date">Expired on: {vh.expires_on}</div>}
+                              </Card.Body>
+                              </Card>
+                              ))
+                            }
+                          </>
+                          ) : <p className="text-muted text-center p-4">No vouchers for this status.</p>
+                      )}
                 </div>
                 
                 <div className="mt-4 d-flex justify-content-center">

@@ -61,19 +61,29 @@ const BookingHistoryPage = () => {
   const renderContent = () => {
     if (loading) return <div className="text-center p-5"><Spinner /></div>;
     if (bookings.length === 0) return <p className="text-center text-muted p-5">No bookings found for this status.</p>;
-    return bookings.map(booking => (
-      <BookingHistoryCard 
-        key={booking.id} 
-        booking={booking} 
-        onCancel={handleCancelBooking} 
-      />
-    ));
+
+    return (
+      <>
+        <div className="text-muted mb-2">
+          {paginationData && paginationData.total > 0 &&
+            `Showing ${paginationData.from}-${paginationData.to} of ${paginationData.total} results`
+          }
+        </div>
+        {bookings.map(booking => (
+          <BookingHistoryCard 
+            key={booking.id} 
+            booking={booking} 
+            onCancel={handleCancelBooking} 
+          />
+        ))}
+      </>
+    );    
   };
 
   return (
     <div className="d-flex flex-column gap-2">
       <h3 className="fw-bold">Booking History</h3>
-      <Tabs activeKey={activeTab} onSelect={(k) => setActiveTab(k)} id="booking-history-tabs" className="mb-3 booking-history-tabs">
+      <Tabs activeKey={activeTab} onSelect={(k) => setActiveTab(k)} id="booking-history-tabs" className="booking-history-tabs">
         <Tab eventKey="upcoming" title="Upcoming" />
         <Tab eventKey="completed" title="Completed" />
         <Tab eventKey="cancelled" title="Cancelled" />
