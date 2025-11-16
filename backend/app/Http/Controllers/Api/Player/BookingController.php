@@ -178,6 +178,14 @@ class BookingController extends Controller
             return response()->json(['message' => 'Ongoing or past booking cannot be cancelled.'], 409);
         }
 
+        // Must have no associated activity
+        $booking->load('activity');
+        if ($booking->activity && $booking->activity->status !== 'Cancelled') {
+            return response()->json([
+                'message' => 'Please cancel the associated activity first before cancelling the booking.'
+            ], 409);
+        }
+
         $booking->update(['status' => 'Cancelled']);
 
         return response()->json(['message' => 'Booking cancelled successfully.']);
