@@ -27,7 +27,12 @@ class TournamentResource extends JsonResource
             'results' => $this->result,
             'status' => $this->status,
             // Relationships
-            'organiser' => new UserResource($this->whenLoaded('organiser')),
+            'organiser' => $this->whenLoaded('organiser', function () {
+                return [
+                    'name' => $this->organiser->name,
+                    'phone_no' => $this->organiser->phone_no,
+                ];
+            }),
             'state' => new StateResource($this->whenLoaded('state')),
             'categories' => TournamentSelectedCategoryResource::collection($this->whenLoaded('selectedCategories')),
             'registrations' => TournamentRegistrationResource::collection($this->whenLoaded('registrations')),

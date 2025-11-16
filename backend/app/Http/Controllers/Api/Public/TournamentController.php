@@ -45,7 +45,7 @@ class TournamentController extends Controller
 
     public function getTournamentDetails(Tournament $tournament) 
     {
-        $tournament->load(['state', 'selectedCategories.category']);
+        $tournament->load(['state', 'selectedCategories.category', 'organiser']);
 
         return new TournamentResource($tournament);
     }

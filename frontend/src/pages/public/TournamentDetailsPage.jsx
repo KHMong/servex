@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Spinner, Card, Tabs, Tab } from 'react-bootstrap';
-import { FaCalendarAlt, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import { FaUser, FaCalendarAlt, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import apiClient from '../../api/apiClient';
 import { getImageUrl } from '../../utils/imageUrl';
 import Button from '../../components/common/Button';
@@ -56,20 +56,29 @@ const TournamentDetailsPage = () => {
       <h1 className="fw-bold">{tournament.name}</h1>
       
       {/* Info */}
-      <Row className="d-flex justify-content-between border gy-3 my-4 pt-1 p-3 bg-light rounded">
-        <Col md={4} className="info-item">
-            <FaCalendarAlt className="icon" />
-            <span>{tournament.start_date_formatted} to {tournament.end_date_formatted}</span>
-        </Col>
-        <Col md={4} className="info-item">
-            <FaMapMarkerAlt className="icon" />
-            <span>{tournament.venue_address}, {tournament.state.name}</span>
-        </Col>
-        <Col md={4} className="info-item">
-            <FaClock className="icon" />
-            <span>Registration Deadline: {tournament.deadline_formatted}</span>
-        </Col>
-      </Row>
+      <div className="border rounded gy-3 my-4 p-4 bg-light">
+        <Row className="mb-2">
+          <Col md={6} className="info-item">
+              <FaCalendarAlt className="icon" />
+              <span>{tournament.start_date_formatted} to {tournament.end_date_formatted}</span>
+          </Col>
+          <Col md={6} className="info-item">
+              <FaMapMarkerAlt className="icon" />
+              <span>{tournament.venue_address}, {tournament.state.name}</span>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6} className="info-item">
+              <FaClock className="icon" />
+              <span>Registration Deadline: {tournament.deadline_formatted}</span>
+          </Col>
+          <Col md={6} className="info-item">
+              <FaUser className="icon" />
+              <span>Organiser: {tournament.organiser.name} ({tournament.organiser.phone_no})</span>
+          </Col>
+        </Row>
+      </div>
+      
       
       <Row className="mt-5 gap-4 justify-content-between">
         {/* Tabs */}
