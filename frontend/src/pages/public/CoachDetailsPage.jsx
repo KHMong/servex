@@ -5,7 +5,7 @@ import { FaEnvelope, FaPhone, FaFileAlt } from 'react-icons/fa';
 import apiClient from '../../api/apiClient';
 import Button from '../../components/common/Button';
 import BackButton from '../../components/common/BackButton';
-import CertificateModal from './coaches/CertModal';
+import ShowModal from '../../components/common/ShowModal';
 import { getImageUrl } from '../../utils/imageUrl';
 
 const CoachDetailsPage = () => {
@@ -99,10 +99,11 @@ const CoachDetailsPage = () => {
       </Container>
       
       {/* Cert Modal */}
-      <CertificateModal 
+      <ShowModal 
+        text="Coach Certification"
         show={showCertModal} 
         onHide={() => setShowCertModal(false)}
-        certPath={certPath}
+        path={certPath}
       />
     </>
   );

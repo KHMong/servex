@@ -5,7 +5,7 @@ import { TbCertificate } from "react-icons/tb";
 import FormField from '../../components/common/FormField';
 import Button from '../../components/common/Button';
 import ImageUpload from '../../components/common/ImageUpload';
-import CertificateModal from '../public/coaches/CertModal';
+import ShowModal from '../../components/common/ShowModal';
 import { validate } from '../../utils/validation';
 import { getImageUrl } from '../../utils/imageUrl';
 import apiClient from '../../api/apiClient';
@@ -142,10 +142,11 @@ const CoachProfilePage = () => {
           </Card>
       </div>
       {/* Cert Modal */}
-      <CertificateModal 
+      <ShowModal 
+        text="Coach Certification"
         show={showCertModal} 
         onHide={() => setShowCertModal(false)}
-        certPath={currentCertPath}
+        path={currentCertPath}
       />
     </>
   );
