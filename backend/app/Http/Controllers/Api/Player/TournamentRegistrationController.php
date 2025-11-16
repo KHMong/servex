@@ -6,9 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Tournament;
 use App\Models\User;
 use App\Models\TournamentRegistration;
+use App\Http\Resources\TournamentRegistrationResource;
+use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TournamentRegistrationController extends Controller
 {
+    use AuthorizesRequests;
+
     public function getForm(Tournament $tournament)
     {
         // Category names
@@ -108,5 +113,62 @@ class TournamentRegistrationController extends Controller
         return response()->json([
             'message' => 'Registration submitted successfully.',
         ], 201);
+    }
+
+    public function getTournamentHistory(Request $request)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:Upcoming,Ongoing,Completed,Cancelled',
+        ]);
+
+        $user = $request->user();
+
+        $query = TournamentRegistration::query()
+        ->with(['tournament', 'category', 'user', 'partner'])
+        ->where(function ($q) use ($user) {
+            $q->where('user_id', $user->id)
+              ->orWhere('partner_id', $user->id);
+        });
+
+        switch ($validated['status']) {
+            case 'Upcoming':
+                $query->whereHas('tournament', fn($q) => $q->where('status', 'Upcoming'))
+                      ->where('status', '!=', 'Cancelled');
+                break;
+            case 'Ongoing':
+                $query->whereHas('tournament', fn($q) => $q->where('status', 'Ongoing'))
+                      ->where('status', 'Approved');
+                break;
+            case 'Completed':
+                $query->whereHas('tournament', fn($q) => $q->where('status', 'Completed'))
+                      ->where('status', 'Approved');
+                break;
+            case 'Cancelled':
+                $query->where('status', 'Cancelled');
+                break;
+        }
+
+        $registrations = $query->latest('created_at')->paginate(5);
+
+        return TournamentRegistrationResource::collection($registrations);
+    }
+
+    public function cancelRegistration(TournamentRegistration $tournamentRegistration)
+    {
+        $this->authorize('update', $tournamentRegistration);
+
+        // Only can cancel pending registration
+        if ($tournamentRegistration->status !== 'Pending') {
+            return response()->json(['message' => 'This registration cannot be cancelled.'], 409);
+        }
+        
+        // Must be before registration start_date
+        if ($tournamentRegistration->tournament->start_date->isPast()) {
+            return response()->json(['message' => 'Ongoing or past registration cannot be cancelled.'], 409);
+        }
+
+        $tournamentRegistration->update(['status' => 'Cancelled']);
+
+        return response()->json(['message' => 'Registration cancelled successfully.']);
     }
 }

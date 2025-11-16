@@ -6,10 +6,12 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\User;
 use App\Models\Booking;
+use App\Models\TournamentRegistration;
 use App\Models\VenueReview;
 use App\Policies\UserPolicy;
 use App\Policies\BookingPolicy;
 use App\Policies\VenueReviewPolicy;
+use App\Policies\TournamentRegistrationPolicy;
 
 
 
@@ -19,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Booking::class => BookingPolicy::class,
         VenueReview::class => VenueReviewPolicy::class,
+        TournamentRegistration::class => TournamentRegistrationPolicy::class,
     ];
 
     public function boot()

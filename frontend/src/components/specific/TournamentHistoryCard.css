@@ -1,0 +1,27 @@
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-approved { 
+    background-color: var(--servex-light-green-bg); 
+    color: var(--servex-green)
+}
+
+.status-pending { 
+    background-color: var(--servex-light-orange); 
+    color: var(--servex-orange);   
+}
+
+.status-rejected { 
+    background-color: var(--servex-light-red); 
+    color: var(--servex-red); 
+}
+
+.status-default { 
+    background-color: var(--servex-light-gray-btn); 
+    color: var(--servex-muted-text); 
+}

@@ -29,6 +29,7 @@ import WriteReviewPage from '../pages/user/WriteReviewPage';
 import EditReviewPage from '../pages/user/EditReviewPage';
 import RewardsVouchersPage from '../pages/user/RewardsVouchersPage';
 import RegisterTournamentPage from '../pages/user/RegisterTournamentPage';
+import TournamentHistoryPage from '../pages/user/TournamentHistoryPage';
 
 const AppRoutes = () => {
   return (
@@ -54,6 +55,7 @@ const AppRoutes = () => {
               <Route path="change-password" element={<ChangePasswordPage />} />
               <Route path="booking-history" element={<BookingHistoryPage />} />
               <Route path="rewards" element={<RewardsVouchersPage />} />
+              <Route path="tournament-history" element={<TournamentHistoryPage />} />
             </Route>
             <Route path="/bookings/:bookingId/summary" element={<BookingConfirmationPage />} />
             <Route path="/booking-payment-success" element={<BookingPaymentSuccessPage />} />

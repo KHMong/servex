@@ -127,4 +127,6 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     // Tournaments
     Route::get('/tournaments/{tournament}/registration-form', [TournamentRegistrationController::class, 'getForm']);
     Route::post('/tournaments/{tournament}/register', [TournamentRegistrationController::class, 'register']);
+    Route::get('/user/tournament-history', [TournamentRegistrationController::class, 'getTournamentHistory']);
+    Route::put('/tournament-registration/{tournament_registration}/cancel', [TournamentRegistrationController::class, 'cancelRegistration']);
 });
