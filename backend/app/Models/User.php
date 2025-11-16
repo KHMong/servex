@@ -143,6 +143,18 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class);
     }
 
+    public function hostedActivities()
+    {
+        return $this->hasMany(Activity::class, 'user_id', 'id');
+    }
+
+    public function joinedActivities()
+    {
+        return $this->belongsToMany(Activity::class, 'activity_participant', 'user_id', 'activity_id')
+                    ->withPivot('status')
+                    ->withTimestamps();
+    }
+
     public function activityParticipations()
     {
         return $this->hasMany(ActivityParticipant::class);

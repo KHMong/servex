@@ -26,10 +26,11 @@ class ActivityResource extends JsonResource
             'participants' => ActivityParticipantResource::collection($this->whenLoaded('participants')),
 
             // Participant count
-            'participants_count' => $this->participants_count + 1,
-            'is_full' => ($this->participants_count + 1) >= $this->max_player,
+            'participants_count' => $this->participants_count,
+            'is_full' => $this->participants_count >= $this->max_player,
 
             // Date and time 
+            'date_formatted' => $start->format('F d, Y'),
             'date_short_month_year' => $start->format('M Y'),
             'date_day' => $start->format('d'),
             'date_day_name' => $start->format('D'),
@@ -54,6 +55,7 @@ class ActivityResource extends JsonResource
             'venue' => [
                 'name' => $this->whenLoaded('booking', $this->booking->court->venue->name),
                 'state' => $this->whenLoaded('booking', $this->booking->court->venue->state->name),
+                'address' => $this->whenLoaded('booking', $this->booking->court->venue->address),
             ],
         ];
     }
