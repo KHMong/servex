@@ -33,7 +33,7 @@ class CoachController extends Controller
         }
 
         // Eager loading
-        $coaches = $query->with('user', 'state')->latest()->paginate(8);
+        $coaches = $query->with('user', 'state')->latest()->paginate(12);
 
         return CoachProfileResource::collection($coaches);
     }

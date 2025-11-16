@@ -65,7 +65,7 @@ class RewardController extends Controller
             ->where('status', $validated['status'])
             ->with('voucher')
             ->latest()
-            ->paginate(5);
+            ->paginate(10);
         
         return VoucherHistoryResource::collection($history);
     }

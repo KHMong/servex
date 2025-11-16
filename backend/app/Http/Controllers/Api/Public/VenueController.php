@@ -38,7 +38,7 @@ class VenueController extends Controller
         }
 
         // Eager loading
-        $venues = $query->with('state', 'coverPhoto')->latest()->paginate(8);
+        $venues = $query->with('state', 'coverPhoto')->latest()->paginate(12);
 
         return VenueResource::collection($venues);
     }
@@ -58,7 +58,7 @@ class VenueController extends Controller
     {
         $reviews = $venue->reviews()
                          ->where('status', 'Active')
-                         ->with('user')->latest()->paginate(5);
+                         ->with('user')->latest()->paginate(10);
         return VenueReviewResource::collection($reviews);
     }
 

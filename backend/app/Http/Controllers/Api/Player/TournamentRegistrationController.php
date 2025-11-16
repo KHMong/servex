@@ -148,7 +148,7 @@ class TournamentRegistrationController extends Controller
                 break;
         }
 
-        $registrations = $query->latest('created_at')->paginate(5);
+        $registrations = $query->latest('created_at')->paginate(10);
 
         return TournamentRegistrationResource::collection($registrations);
     }

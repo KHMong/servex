@@ -38,7 +38,7 @@ class TournamentController extends Controller
         }
 
         // Eager loading
-        $tournaments = $query->with('state')->latest()->paginate(6);
+        $tournaments = $query->with('state')->latest()->paginate(12);
 
         return TournamentResource::collection($tournaments);
     }

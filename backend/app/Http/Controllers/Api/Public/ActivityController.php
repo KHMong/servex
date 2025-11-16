@@ -59,7 +59,7 @@ class ActivityController extends Controller
         ->join('booking', 'activity.booking_id', '=', 'booking.id') // Join for sorting
         ->orderBy('booking.start_datetime', 'asc') // Sort by booking start datetime
         ->addSelect('activity.*') // Avoid column name conflicts
-        ->paginate(6);
+        ->paginate(10);
 
         return ActivityResource::collection($activities);
     }

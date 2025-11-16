@@ -159,7 +159,7 @@ class BookingController extends Controller
         }
 
         // Sort by soonest booking
-        $bookings = $query->orderBy('start_datetime')->paginate(5);
+        $bookings = $query->orderBy('start_datetime')->paginate(10);
 
         return BookingResource::collection($bookings);
     }
