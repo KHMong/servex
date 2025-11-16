@@ -8,7 +8,7 @@
 
 .status-approved { 
     background-color: var(--servex-light-green-bg); 
-    color: var(--servex-green)
+    color: var(--servex-green);
 }
 
 .status-pending { 
