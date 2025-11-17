@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Tabs, Tab, Spinner, Alert } from 'react-bootstrap';
+import { Tabs, Tab, Spinner, Alert } from 'react-bootstrap';
 import { useNotification } from '../../contexts/NotificationContext';
 import apiClient from '../../api/apiClient';
 import TournamentHistoryCard from '../../components/specific/TournamentHistoryCard';
