@@ -8,7 +8,7 @@ const ActivityHistoryCard = ({ activity, onLeave, onCancel, onViewParticipants }
 
   return (
     <Card className="border shadow-sm activity-history-card mb-3">
-      <Card.Header className="fw-bold">{activity.venue.name}</Card.Header>
+      <Card.Header className="fw-bold h5">{activity.venue.name}</Card.Header>
       <Card.Body>
         <div className="d-flex justify-content-between">
           <div>

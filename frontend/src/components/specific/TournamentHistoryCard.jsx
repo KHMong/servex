@@ -15,11 +15,11 @@ const TournamentHistoryCard = ({ registration, onCancel, onViewResult }) => {
   };
 
   return (
-    <Card className="p-2 border-0 shadow-sm history-card mb-3">
+    <Card className="border shadow-sm history-card mb-3">
+      <Card.Header className="fw-bold h5">{registration.tournament.name}</Card.Header>
       <Card.Body>
         <div className="d-flex justify-content-between gap-3">
           <div>
-            <h5 className="fw-bold">{registration.tournament.name}</h5>
             <p className="mb-1 text-muted"><strong>Category:</strong> {registration.category_name}</p>
             {registration.partner && <p className="mb-1 text-muted"><strong>Partner:</strong> {registration.partner.name} ({registration.partner.user_id})</p>}
             <p className="mb-1 text-muted"><strong>Emergency Contact:</strong> {registration.ec_phone_no}</p>

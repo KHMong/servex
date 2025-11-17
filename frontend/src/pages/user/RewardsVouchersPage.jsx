@@ -115,18 +115,16 @@ const RewardsVouchersPage = () => {
                     <Row className="g-3 mt-1">
                         {activeVouchers.items.map(v => (
                         <Col key={v.id} md={4}>
-                            <Card className="border-0 shadow-sm">
+                            <Card className="border shadow-sm">
+                                <Card.Header className="fw-bold">{v.description}</Card.Header>
                                 <Card.Body className="d-flex flex-column justify-content-between gap-3">
-                                    <div className="d-flex flex-column gap-1">
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div className="fw-bold">{v.description}</div>
-                                            <div className="fw-semibold">{v.point_cost} points</div>
-                                        </div>
+                                    <div className="d-flex justify-content-between gap-2">
                                         <div className="d-flex flex-column">
                                             <small className="text-muted"><strong>Code:</strong> {v.code}</small>
                                             <small className="text-muted"><strong>Discount:</strong> RM {v.discount_value}</small>
                                             <small className="text-muted"><strong>Validity:</strong> {v.validity} days</small>
                                         </div>
+                                        <small className="fw-semibold">{v.point_cost} points</small>
                                     </div>
                                     
                                     <Button variant="tertiary" onClick={() => handleRedeem(v.id)} disabled={loading.redeem === v.id || points < v.point_cost}>
@@ -167,20 +165,18 @@ const RewardsVouchersPage = () => {
                               }
                             </div>
                             {userVouchers.items.map(vh => (
-                              <Card key={vh.id} className="border-0 shadow-sm p-2">
-                              <Card.Body className="d-flex justify-content-between align-items-center">
-                                  <div className="d-flex flex-column justify-content-between">
-                                      <h5 className="fw-bold">Voucher Id: {vh.id}</h5>
-                                      <div className="d-flex flex-column">
-                                          <small className="text-muted"><strong>Code:</strong> {vh.voucher.code}</small>
-                                          <small className="text-muted"><strong>Description:</strong> {vh.voucher.description}</small>
-                                          <small className="text-muted"><strong>Discount:</strong> RM {vh.voucher.discount_value}</small>
-                                      </div>
-                                  </div>
-                                  {activeTab === 'Available' && <div className="expiry-date">Expires on: {vh.expires_on}</div>}
-                                  {activeTab === 'Used' && <div className="expiry-date">Used on: {vh.booking_date}</div>}
-                                  {activeTab === 'Expired' && <div className="expiry-date">Expired on: {vh.expires_on}</div>}
-                              </Card.Body>
+                              <Card key={vh.id} className="border shadow-sm">
+                                <Card.Header className="fw-bold h5">Voucher Id: {vh.id}</Card.Header>
+                                <Card.Body className="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p className="mb-1 text-muted"><strong>Code:</strong> {vh.voucher.code}</p>
+                                        <p className="mb-1 text-muted"><strong>Description:</strong> {vh.voucher.description}</p>
+                                        <p className="mb-0 text-muted"><strong>Discount:</strong> RM {vh.voucher.discount_value}</p>
+                                    </div>
+                                    {activeTab === 'Available' && <div className="expiry-date">Expires on: {vh.expires_on}</div>}
+                                    {activeTab === 'Used' && <div className="expiry-date">Used on: {vh.booking_date}</div>}
+                                    {activeTab === 'Expired' && <div className="expiry-date">Expired on: {vh.expires_on}</div>}
+                                </Card.Body>
                               </Card>
                               ))
                             }
