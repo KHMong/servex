@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '../../components/common/Button';
 import { FaPlus } from 'react-icons/fa';
 import apiClient from '../../api/apiClient';
-
+import { useAuth } from '../../contexts/AuthContext'; 
 import ActivitySearchFilter from './activities/ActivitySearchFilter';
 import ActivityCard from '../../components/specific/ActivityCard';
 import Pagination from '../../components/common/Pagination';
 
 const BrowseActivitiesPage = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   // State for data
   const [activities, setActivities] = useState([]);
   const [states, setStates] = useState([]);
@@ -56,7 +61,6 @@ const BrowseActivitiesPage = () => {
       setPaginationData(response.data.meta);
     } catch (err) {
       setError('Failed to load activities. Please try again later.');
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -83,6 +87,14 @@ const BrowseActivitiesPage = () => {
   const handlePageChange = (url) => {
     const pageNumber = new URL(url).searchParams.get('page');
     setCurrentPage(Number(pageNumber));
+  };
+
+  const handleCreateActivityClick = () => {
+    if (isAuthenticated) {
+      navigate('/activities/create');
+    } else {
+      navigate('/login', { state: { from: location } });
+    }
   };
 
   const renderContent = () => {
@@ -115,7 +127,9 @@ const BrowseActivitiesPage = () => {
       <div className="d-flex flex-column align-items-center mt-5 mb-5">
         <h1 className="text-center display-4 fw-bold mb-3">Join an Activity</h1>
         <div>
-          <Button to="/activities/create" icon={<FaPlus />}>Create an Activity</Button>
+          <Button onClick={handleCreateActivityClick} icon={<FaPlus />}>
+            Create an Activity
+          </Button>
         </div>
       </div>
 
