@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import Button from '../common/Button';
 import './ActivityHistoryCard.css';
 
-const ActivityHistoryCard = ({ activity, onLeave, onCancel }) => {
+const ActivityHistoryCard = ({ activity, onLeave, onCancel, onViewParticipants }) => {
   const isFull = activity.participants_count >= activity.max_players;
 
   return (
@@ -18,6 +18,9 @@ const ActivityHistoryCard = ({ activity, onLeave, onCancel }) => {
             <p className="mb-1 text-muted"><strong>Venue Address:</strong> {activity.venue.address}</p>
             <p className="mb-1 text-muted"><strong>Skill Level:</strong> {activity.skill_level}</p>
             <p className="mb-0 text-muted"><strong>Fee:</strong> RM {activity.fee}</p>
+            <Button className="mt-2" variant="secondary" onClick={() => onViewParticipants(activity.id)}>
+              View Participants
+            </Button>
           </div>
           <div className="d-flex flex-column justify-content-between text-end">
             <div className="d-flex justify-content-end align-items-center mb-3">

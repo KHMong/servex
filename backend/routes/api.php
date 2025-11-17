@@ -135,4 +135,8 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     Route::post('/activities/{activity}/join', [ActivityController::class, 'joinActivity']);
     Route::post('/activities/{activity}/leave', [ActivityController::class, 'leaveActivity']);
     Route::put('/activities/{activity}/cancel', [ActivityController::class, 'cancelActivity']);
+
+    // Activity Participants
+    Route::get('/activities/{activity}/participants', [ActivityController::class, 'getParticipants']);
+    Route::put('/activity-participant/{activity_participant}/remove', [ActivityController::class, 'removeParticipant']);
 });

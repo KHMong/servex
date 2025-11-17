@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\SkillLevel;
-use Illuminate\Http\Request;
+use App\Models\ActivityParticipant;
+use App\Http\Resources\ActivityParticipantResource;
 use App\Http\Resources\ActivityResource;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -212,5 +214,53 @@ class ActivityController extends Controller
         $activity->update(['status' => 'Cancelled']);
         
         return response()->json(['message' => 'Activity cancelled successfully.']);
+    }
+
+    public function getParticipants(Activity $activity)
+    {
+        $this->authorize('viewParticipants', $activity);
+
+        // Get host
+        $host = $activity->user;
+
+        // Get participants
+        $participants = $activity->participants()
+                                ->where('activity_participant.status', 'Joined')
+                                ->where('activity_participant.user_id', '!=', $host->id)
+                                ->get();
+        
+        // Add is_host (true) and participant_id (null) for the host
+        $host->is_host = true;
+        $host->participant_id = null;
+
+        // Add is_host (false) and participant_id for each participant
+        foreach ($participants as $participant) {
+            $participant->is_host = false;
+            $participant->participant_id = $participant->pivot->id;
+        }
+
+        // Combine host and participants
+        $allParticipants = collect([$host])->merge($participants);
+
+        return ActivityParticipantResource::collection($allParticipants);
+    }
+    
+    public function removeParticipant(ActivityParticipant $activityParticipant)
+    {
+        $this->authorize('remove', $activityParticipant->activity);
+
+        // Prevent host from removing themselves
+        if ($activityParticipant->user_id === $activityParticipant->activity->user_id) {
+            return response()->json(['message' => 'You cannot remove yourself.'], 422);
+        }
+
+        $activityParticipant->update(['status' => 'Removed']);
+        
+        // If status was full, set it to 'Open'
+        if ($activityParticipant->activity->status === 'Full') {
+            $activityParticipant->activity->update(['status' => 'Open']);
+        }
+
+        return response()->json(['message' => 'Participant removed successfully.']);
     }
 }

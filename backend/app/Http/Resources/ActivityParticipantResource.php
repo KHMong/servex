@@ -11,9 +11,15 @@ class ActivityParticipantResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'status' => $this->status,
-            // Relationships
-            'user' => new UserResource($this->whenLoaded('user')),
+            'participant_id' => $this->participant_id,
+            'is_host' => $this->is_host,
+            'name' => $this->name,
+            'gender' => $this->gender,
+            'phone_no' => $this->phone_no,
+            'photo_path' => $this->when($this->photo, function() {
+                // Path: "users/{user_id}/{filename}"
+                return "users/{$this->id}/{$this->photo}";
+            }, null), // If no photo, return null
         ];
     }
 }

@@ -40,7 +40,7 @@ class Activity extends Model
     public function participants(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'activity_participant', 'activity_id', 'user_id')
-                    ->withPivot('status')
+                    ->withPivot('id', 'status')
                     ->withTimestamps();
     }
 

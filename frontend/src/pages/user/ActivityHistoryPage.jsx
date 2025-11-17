@@ -5,6 +5,7 @@ import { useNotification } from '../../contexts/NotificationContext';
 import apiClient from '../../api/apiClient';
 import Button from '../../components/common/Button';
 import ActivityHistoryCard from '../../components/specific/ActivityHistoryCard';
+import ParticipantsModal from '../../components/specific/ParticipantsModal';
 import Pagination from '../../components/common/Pagination';
 import '../../components/common/StatusTab.css';
 
@@ -15,6 +16,8 @@ const ActivityHistoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const { showNotification } = useNotification();
+  const [modalActivityId, setModalActivityId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const fetchHistory = useCallback(async (page = 1) => { 
     setLoading(true);
@@ -66,6 +69,26 @@ const ActivityHistoryPage = () => {
     } 
   };
 
+  const handleViewParticipants = (activityId) => {
+    setModalActivityId(activityId);
+    setShowModal(true);
+  };
+
+  const handleRemoveParticipant = async (participantId) => {
+    if (window.confirm("Are you sure you want to remove this participant?")) {
+      setError(null);
+      showNotification('Removing the participant...', 'info');
+      try {
+        await apiClient.put(`/activity-participant/${participantId}/remove`);
+        showNotification('Participant removed successfully.', 'success');
+        setShowModal(false);
+        fetchHistory(paginationData?.current_page || 1); // Refresh the modal
+      } catch (err) {
+        setError(err.response?.data?.message || 'Failed to remove the participant.');
+      }
+    }
+  };
+
   const renderContent = () => {
     if (loading) return <div className="text-center p-5"><Spinner /></div>;
     if (activities.length === 0) return <p className="text-center text-muted p-5">No activities found for this status.</p>;
@@ -83,6 +106,7 @@ const ActivityHistoryPage = () => {
             activity={act}
             onLeave={activeTab === 'Joining' ? handleLeave : null}
             onCancel={activeTab === 'Hosting' ? handleCancel : null}
+            onViewParticipants={handleViewParticipants}
         />
         ))}
       </>
@@ -90,7 +114,8 @@ const ActivityHistoryPage = () => {
   };
 
   return (
-    <div className="d-flex flex-column gap-2">
+    <>
+      <div className="d-flex flex-column gap-2">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <h3 className="fw-bold">Activity History</h3>
           <Button to="/activities/create" icon={<FaPlus />}>Create New Activity</Button>
@@ -107,7 +132,15 @@ const ActivityHistoryPage = () => {
         <div className="mt-4 d-flex justify-content-center">
           <Pagination paginationData={paginationData} onPageChange={handlePageChange} />
         </div>
-    </div>
+      </div>
+      <ParticipantsModal 
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        activityId={modalActivityId}
+        onRemoveParticipant={handleRemoveParticipant}
+      />
+    </>
+    
   );
 };
 

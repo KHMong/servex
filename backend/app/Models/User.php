@@ -152,7 +152,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Activity::class, 'activity_participant', 'user_id', 'activity_id')
                     ->where('activity.user_id', '!=', $this->id)
-                    ->withPivot('status')
+                    ->withPivot('id', 'status')
                     ->withTimestamps();
     }
 
