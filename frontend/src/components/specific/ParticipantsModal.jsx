@@ -16,7 +16,6 @@ const ParticipantsModal = ({ show, onHide, activityId, onRemoveParticipant }) =>
       setLoading(true);
       apiClient.get(`/activities/${activityId}/participants`)
         .then(res => {
-            console.log(res);
           setParticipants(res.data.data);
         })
         .finally(() => setLoading(false));

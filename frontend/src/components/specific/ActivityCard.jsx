@@ -31,7 +31,7 @@ const ActivityCard = ({ activity, onActionSuccess }) => {
     if (window.confirm("Are you sure you want to join this activity?")) {
       showNotification('Joining the activity...', 'info');
       try {
-        const response = await apiClient.post(`/activities/${activity.id}/join`);
+        await apiClient.post(`/activities/${activity.id}/join`);
         showNotification('You have successfully joined the activity.', 'success');
         onActionSuccess(); // Call the refresh function
       } catch (err) {

@@ -25,7 +25,6 @@ const TournamentHistoryPage = () => {
       setRegistrations(response.data.data);
       setPaginationData(response.data.meta);
     } catch (err) {
-        console.log(err);
       setError("Failed to load tournament history.");
     } finally {
       setLoading(false);
@@ -56,8 +55,6 @@ const TournamentHistoryPage = () => {
     setResultPath(path);
     setShowResultModal(true);
   };
-
-  console.log(registrations);
 
   const renderContent = () => {
     if (loading) return <div className="text-center p-5"><Spinner /></div>;
