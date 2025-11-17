@@ -14,7 +14,7 @@ const ActivityHistoryPage = () => {
   const [paginationData, setPaginationData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-    const { showNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   const fetchHistory = useCallback(async (page = 1) => { 
     setLoading(true);
@@ -24,7 +24,6 @@ const ActivityHistoryPage = () => {
       setActivities(response.data.data);
       setPaginationData(response.data.meta);
     } catch (err) {
-        console.log(err);
       setError("Failed to load activity history.");
     } finally {
       setLoading(false);

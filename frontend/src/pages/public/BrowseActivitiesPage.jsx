@@ -98,8 +98,12 @@ const BrowseActivitiesPage = () => {
     return (
       <Row xs={1} md={1} lg={2} className="g-4">
         {(activities || []).map(activity => (
-          <Col key={activity.id} xl={6}>
-            <ActivityCard activity={activity} />
+          <Col xl={6}>
+            <ActivityCard 
+              key={activity.id}
+              activity={activity}
+              onActionSuccess={fetchActivities} 
+            />
           </Col>
         ))}
       </Row>
@@ -109,7 +113,7 @@ const BrowseActivitiesPage = () => {
   return (
     <Container className="py-5">
       <div className="d-flex flex-column align-items-center mt-5 mb-5">
-        <h1 className="text-center display-4 fw-bold mb-3">Join a Game</h1>
+        <h1 className="text-center display-4 fw-bold mb-3">Join an Activity</h1>
         <div>
           <Button to="/activities/create" icon={<FaPlus />}>Create an Activity</Button>
         </div>

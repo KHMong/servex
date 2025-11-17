@@ -22,7 +22,6 @@ class ActivityResource extends JsonResource
             // Relationships
             'creator' => new UserResource($this->whenLoaded('user')),
             'booking' => new BookingResource($this->whenLoaded('booking')),
-            'skill_level' => new SkillLevelResource($this->whenLoaded('skillLevel')),
             'participants' => ActivityParticipantResource::collection($this->whenLoaded('participants')),
 
             // Participant count
@@ -42,6 +41,7 @@ class ActivityResource extends JsonResource
             // Host info
             'host' => [
                 'name' => $this->whenLoaded('user', $this->user->name),
+                'phone_no' => $this->whenLoaded('user', $this->user->phone_no),
                 'photo_path' => $this->whenLoaded('user', function () {
                     if ($this->user->photo) {
                         // Path: "users/{user_id}/{filename}"

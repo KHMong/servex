@@ -12,6 +12,7 @@ const ActivityHistoryCard = ({ activity, onLeave, onCancel }) => {
       <Card.Body>
         <div className="d-flex justify-content-between">
           <div>
+            <p className="mb-1 text-muted"><strong>Host:</strong> {activity.host.name} ({activity.host.phone_no})</p>
             <p className="mb-1 text-muted"><strong>Date:</strong> {activity.date_formatted}</p>
             <p className="mb-1 text-muted"><strong>Time:</strong> {activity.time_range}</p>
             <p className="mb-1 text-muted"><strong>Venue Address:</strong> {activity.venue.address}</p>

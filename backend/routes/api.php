@@ -132,6 +132,7 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
 
     // Activities
     Route::get('/user/activity-history', [ActivityController::class, 'getActivityHistory']);
+    Route::post('/activities/{activity}/join', [ActivityController::class, 'joinActivity']);
     Route::post('/activities/{activity}/leave', [ActivityController::class, 'leaveActivity']);
     Route::put('/activities/{activity}/cancel', [ActivityController::class, 'cancelActivity']);
 });

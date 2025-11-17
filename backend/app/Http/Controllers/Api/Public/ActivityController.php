@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\SkillLevel;
 use Illuminate\Http\Request;
 use App\Http\Resources\ActivityResource;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -16,7 +17,7 @@ class ActivityController extends Controller
     public function index(Request $request)
     {
         $query = Activity::query()
-            ->where('activity.status', '!=', 'Cancelled')
+            ->whereIn('activity.status', ['Open', 'Full'])
             // Only show future activities
             ->whereHas('booking', function ($q) {
                 $q->where('start_datetime', '>', now());
@@ -57,7 +58,8 @@ class ActivityController extends Controller
         $activities = $query->with([
             'user', // Host info
             'skillLevel',
-            'booking.court.venue.state' // Booking, court, venue, and state info
+            'booking.court.venue.state', // Booking, court, venue, and state info
+            'participants'
         ])
         ->withCount('participants') // 'participants_count'
         ->join('booking', 'activity.booking_id', '=', 'booking.id') // Join for sorting
@@ -88,7 +90,7 @@ class ActivityController extends Controller
                 $query = $baseQuery(
                             $user->joinedActivities()
                             ->wherePivot('status', 'Joined')
-                            ->whereHas('booking', fn($q) => $q->where('start_datetime', '>', $today))
+                            ->whereHas('booking', fn($q) => $q->where('end_datetime', '>', $today))
                             ->whereIn('activity.status', ['Open', 'Full'])
                         );
                 break;
@@ -96,21 +98,21 @@ class ActivityController extends Controller
                 $query = $baseQuery(
                             $user->joinedActivities()
                             ->wherePivot('status', 'Joined')
-                            ->whereHas('booking', fn($q) => $q->where('start_datetime', '<=', $today))
+                            ->whereHas('booking', fn($q) => $q->where('end_datetime', '<=', $today))
                             ->where('activity.status', 'Completed')
                         );
                 break;
             case 'Hosting':
                 $query = $baseQuery(
                             $user->hostedActivities()
-                            ->whereHas('booking', fn($q) => $q->where('start_datetime', '>', $today))
+                            ->whereHas('booking', fn($q) => $q->where('end_datetime', '>', $today))
                             ->whereIn('activity.status', ['Open', 'Full'])
                         );
                 break;
             case 'Hosted':
                 $query = $baseQuery(
                             $user->hostedActivities()
-                            ->whereHas('booking', fn($q) => $q->where('start_datetime', '<=', $today))
+                            ->whereHas('booking', fn($q) => $q->where('end_datetime', '<=', $today))
                             ->where('activity.status', 'Completed')
                         );
                 break;
@@ -120,7 +122,7 @@ class ActivityController extends Controller
                     ->where(function($q) use ($user) {
                         $q->where('activity.user_id', $user->id) // Hosted by user
                         ->orWhereHas('participants', function($p) use ($user) {
-                            $p->where('user_id', $user->id)->where('activity_participant.status', 'Joined'); // Joined by user
+                            $p->where('activity_participant.user_id', $user->id)->where('activity_participant.status', 'Joined'); // Joined by user
                         });
                     })
                 );
@@ -137,18 +139,58 @@ class ActivityController extends Controller
         return ActivityResource::collection($activities);
     }
 
+    public function joinActivity(Request $request, Activity $activity)
+    {
+        $user = $request->user();
+        
+        if ($user->role !== 'Player') {
+            return response()->json(['message' => 'Only players can join activities.'], 403);
+        }
+
+        return DB::transaction(function () use ($user, $activity) {
+            $activity = Activity::withCount('participants')->lockForUpdate()->findOrFail($activity->id);
+
+            // Validation
+            if ($activity->user_id === $user->id) { // Host of the activity
+                return response()->json(['message' => 'You cannot join an activity you are hosting.'], 422);
+            }
+            if ($activity->participants()->where('activity_participant.user_id', $user->id)->where('activity_participant.status', 'Joined')->exists()) { // Already joined
+                return response()->json(['message' => 'You have already joined this activity.'], 422);
+            }
+            if ($activity->participants_count >= $activity->max_player) { // Full
+                return response()->json(['message' => 'This activity is already full.'], 422);
+            }
+
+            // Create activity participant record
+            $activity->participantRecords()->create([
+                'user_id' => $user->id,
+                'status' => 'Joined',
+            ]);
+
+            // Update activity status if full
+            if (($activity->participants_count + 1) >= $activity->max_player) {
+                $activity->update(['status' => 'Full']);
+            }
+
+            return response()->json(['message' => 'You have successfully joined the activity.']);
+        });
+    }
+
     public function leaveActivity(Request $request, Activity $activity)
     {
-        $this->authorize('leave', $activity);
+        $user = $request->user();
 
-        $participant = $activity->participants()->where('user_id', $request->user()->id)->firstOrFail();
+        $this->authorize('leave', $activity);
         
+        $activity->load('booking');
         if ($activity->booking->start_datetime->isPast()) {
             return response()->json(['message' => 'Cannot leave an activity that has already started.'], 422);
         }
 
         // Update status to Left
-        $participant->update(['status' => 'Left']);
+        $activity->participants()->updateExistingPivot($user->id, [
+            'status' => 'Left',
+        ]);
         
         // If activity was full, set it to 'Open'
         if ($activity->status === 'Full') {
@@ -162,6 +204,7 @@ class ActivityController extends Controller
     {
         $this->authorize('cancel', $activity);
 
+        $activity->load('booking');
         if ($activity->booking->start_datetime->isPast()) {
             return response()->json(['message' => 'Cannot cancel an activity that has already started.'], 422);
         }

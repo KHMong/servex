@@ -1,12 +1,20 @@
 import React from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../common/Button';
 import { HiUsers } from "react-icons/hi";
 import { getImageUrl } from '../../utils/imageUrl';
-
+import { useAuth } from '../../contexts/AuthContext';
+import { useNotification } from '../../contexts/NotificationContext';
+import apiClient from '../../api/apiClient';
 import './ActivityCard.css';
 
-const ActivityCard = ({ activity }) => {
+const ActivityCard = ({ activity, onActionSuccess }) => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { showNotification } = useNotification();
+
   const imageUrl = getImageUrl(activity.host.photo_path);
 
   // Put CSS class based on skill level
@@ -16,6 +24,44 @@ const ActivityCard = ({ activity }) => {
       case 'intermediate': return 'skill-intermediate';
       case 'advanced': return 'skill-advanced';
       default: return 'skill-all';
+    }
+  };
+
+  const handleJoin = async () => {
+    if (window.confirm("Are you sure you want to join this activity?")) {
+      showNotification('Joining the activity...', 'info');
+      try {
+        const response = await apiClient.post(`/activities/${activity.id}/join`);
+        showNotification('You have successfully joined the activity.', 'success');
+        onActionSuccess(); // Call the refresh function
+      } catch (err) {
+        showNotification(err.response?.data?.message || "Failed to join activity.", 'error');
+      }
+    }
+  };
+
+  const renderJoinButton = () => {
+    // User is not logged in
+    if (!isAuthenticated) {
+      return (
+        <Button 
+          className="w-100 mt-2"
+          disabled={activity.is_full}
+          onClick={() => navigate('/login', { state: { from: location } })}
+        >
+          {activity.is_full ? 'Session Full' : 'Join Game'}
+        </Button>
+      );
+    } else {
+      return (
+        <Button 
+          onClick={handleJoin}
+          disabled={activity.is_full}
+          className="w-100 mt-2"
+        >
+          {activity.is_full ? 'Session Full' : 'Join Game'}
+        </Button>
+      );
     }
   };
 
@@ -52,13 +98,8 @@ const ActivityCard = ({ activity }) => {
         <Col lg={3} md={10} className="host-section d-flex flex-column align-items-center text-center">
           <img src={imageUrl} alt={activity.host.name} className="host-avatar" />
           <div className="host-info">Hosted by <span className="host-name">{activity.host.name}</span></div>
-          <Button 
-            to={`/activities/${activity.id}`} 
-            disabled={activity.is_full}
-            className="w-100 mt-2"
-          >
-            {activity.is_full ? 'Session Full' : 'Join Game'}
-          </Button>
+          <div className="host-info">({activity.host.phone_no})</div>
+          {renderJoinButton()}
         </Col>
       </Card.Body>
     </Card>

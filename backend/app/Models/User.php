@@ -151,6 +151,7 @@ class User extends Authenticatable
     public function joinedActivities()
     {
         return $this->belongsToMany(Activity::class, 'activity_participant', 'user_id', 'activity_id')
+                    ->where('activity.user_id', '!=', $this->id)
                     ->withPivot('status')
                     ->withTimestamps();
     }
