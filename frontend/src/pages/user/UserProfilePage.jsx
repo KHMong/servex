@@ -205,17 +205,25 @@ const UserProfilePage = () => {
             </Card.Body>
           </Card>
         )}
-        {(!user.is_organiser && user.role === 'Player') && (
-          <Card className="border-0 shadow-sm">
-            <Card.Body className="d-flex justify-content-between align-items-center">
+        <Card className="border-0 shadow-sm">
+          <Card.Body className="d-flex justify-content-between align-items-center">
+            {(!user.is_organiser && user.role === 'Player') ? (
+              <>
+                <div>
+                  <h5 className="fw-semibold">Become an Organiser</h5>
+                  <p className="mb-0 text-muted">Host your own tournaments on ServeX.</p>
+                </div>
+                <Button to="/organiser/purchase-pass" variant="tertiary">Purchase Pass</Button>
+              </>
+            ) : (
               <div>
-                <h5 className="fw-semibold">Become an Organiser</h5>
-                <p className="mb-0 text-muted">Host your own tournaments on ServeX.</p>
+                <h5 className="fw-semibold">Organiser Pass Purchased</h5>
+                <p className="mb-0 text-muted">Navigate to <span className="fw-semibold">Organiser Portal</span> for tournament management.</p>
               </div>
-              <Button to="/organiser/purchase-pass" variant="tertiary">Purchase Pass</Button>
-            </Card.Body>
-          </Card>
-        )}
+            )}
+            
+          </Card.Body>
+        </Card>
       </div>
     </div>
     

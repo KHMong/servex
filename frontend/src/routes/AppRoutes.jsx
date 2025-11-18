@@ -33,6 +33,8 @@ import TournamentHistoryPage from '../pages/user/TournamentHistoryPage';
 import ActivityHistoryPage from '../pages/user/ActivityHistoryPage';
 import ActivityFormPage from '../pages/user/ActivityFormPage';
 import CoachApplicationPage from '../pages/user/CoachApplicationPage';
+import PurchasePassPage from '../pages/user/PurchasePassPage';
+import PaymentStatusPage from '../pages/user/PaymentStatusPage';
 
 const AppRoutes = () => {
   return (
@@ -69,6 +71,8 @@ const AppRoutes = () => {
             <Route path="/activities/create" element={<ActivityFormPage mode="create" />} />
             <Route path="/activities/:activityId/edit" element={<ActivityFormPage mode="edit" />} />
             <Route path="/coach/apply" element={<CoachApplicationPage />} />
+            <Route path="/organiser/purchase-pass" element={<PurchasePassPage />} />
+            <Route path="/payment/status" element={<PaymentStatusPage />} />
           </Route>
         </Route>
 

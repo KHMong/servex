@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Player\BookingController;
 use App\Http\Controllers\Api\Player\VenueReviewController;
 use App\Http\Controllers\Api\Player\RewardController;
 use App\Http\Controllers\Api\Player\TournamentRegistrationController;
+use App\Http\Controllers\Api\Player\OrganiserController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -143,9 +144,17 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     // Activity Participants
     Route::get('/activities/{activity}/participants', [ActivityController::class, 'getParticipants']);
     Route::put('/activity-participant/{activity_participant}/remove', [ActivityController::class, 'removeParticipant']);
+
+    // Organiser Pass
+    Route::post('/organiser/verify-payment', [OrganiserController::class, 'verifyPayment']);
 });
 
 // Player (Not coach)
 Route::middleware('auth:sanctum', 'can:player-not-coach')->group(function () {
     Route::post('/coach/apply', [ProfileController::class, 'applyForCoach']);
+});
+
+// Player (Not organiser)
+Route::middleware('auth:sanctum', 'can:player-not-organiser')->group(function () {
+    Route::post('/organiser/create-checkout-session', [OrganiserController::class, 'createCheckoutSession']);
 });
