@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import Button from '../common/Button';
 import './ActivityHistoryCard.css';
 
-const ActivityHistoryCard = ({ activity, onLeave, onCancel, onViewParticipants }) => {
+const ActivityHistoryCard = ({ activity, onLeave, onEdit, onCancel, onViewParticipants }) => {
   const isFull = activity.participants_count >= activity.max_players;
 
   return (
@@ -31,8 +31,17 @@ const ActivityHistoryCard = ({ activity, onLeave, onCancel, onViewParticipants }
               )}
               <span className="fw-semibold text-muted ms-2">{activity.participants_count} / {activity.max_players} Players</span>
             </div>
-            {onLeave && <Button variant="red" onClick={() => onLeave(activity.id)}>Leave Activity</Button>}
-            {onCancel && <Button variant="red" onClick={() => onCancel(activity.id)}>Cancel Activity</Button>}
+            <div className="d-flex flex-column gap-3">
+              {onLeave && <Button variant="red" onClick={() => onLeave(activity.id)}>Leave Activity</Button>}
+              {onEdit && (
+                <Button  
+                  onClick={() => onEdit(activity.id)}
+                >
+                  Edit Activity
+                </Button>
+              )}
+              {onCancel && <Button variant="red" onClick={() => onCancel(activity.id)}>Cancel Activity</Button>}
+            </div>
           </div>
         </div>
       </Card.Body>

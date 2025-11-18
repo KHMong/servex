@@ -16,11 +16,11 @@ class ActivityPolicy
     }
 
     /**
-     * Determine whether the user can cancel the activity.
+     * Determine whether the user can update the activity.
      */
-    public function cancel(User $user, Activity $activity): bool
+    public function update(User $user, Activity $activity): bool
     {
-        // Only the host can cancel the activity
+        // Only the host can update the activity
         return $user->id === $activity->user_id;
     }
 

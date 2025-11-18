@@ -131,6 +131,10 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     Route::put('/tournament-registration/{tournament_registration}/cancel', [TournamentRegistrationController::class, 'cancelRegistration']);
 
     // Activities
+    Route::post('/activities', [ActivityController::class, 'create']);
+    Route::get('/activities/create-form', [ActivityController::class, 'getForm']);
+    Route::get('/activities/{activity}', [ActivityController::class, 'getActivityDetails']);
+    Route::put('/activities/{activity}', [ActivityController::class, 'editActivityDetails']);
     Route::get('/user/activity-history', [ActivityController::class, 'getActivityHistory']);
     Route::post('/activities/{activity}/join', [ActivityController::class, 'joinActivity']);
     Route::post('/activities/{activity}/leave', [ActivityController::class, 'leaveActivity']);

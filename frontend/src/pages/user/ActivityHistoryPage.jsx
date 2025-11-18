@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Tabs, Tab, Spinner, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 import { useNotification } from '../../contexts/NotificationContext';
 import apiClient from '../../api/apiClient';
@@ -18,6 +19,7 @@ const ActivityHistoryPage = () => {
   const { showNotification } = useNotification();
   const [modalActivityId, setModalActivityId] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const fetchHistory = useCallback(async (page = 1) => { 
     setLoading(true);
@@ -55,6 +57,11 @@ const ActivityHistoryPage = () => {
       }
     }
   };
+
+  const handleEdit = (activityId) => {
+    navigate(`/activities/${activityId}/edit`);
+  };
+
   const handleCancel = async (activityId) => { 
     if (window.confirm("Are you sure you want to cancel this activity?")) {
       setError(null);
@@ -105,6 +112,7 @@ const ActivityHistoryPage = () => {
             key={act.id}
             activity={act}
             onLeave={activeTab === 'Joining' ? handleLeave : null}
+            onEdit={activeTab === 'Hosting' ? handleEdit : null}
             onCancel={activeTab === 'Hosting' ? handleCancel : null}
             onViewParticipants={handleViewParticipants}
         />

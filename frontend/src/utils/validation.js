@@ -132,6 +132,28 @@ const validateSelectCategory = (category) => {
 }
 
 
+/************ ACTIVITY ************/
+const validateSelectBooking = (booking) => {
+  if (!booking) return "Please select a booking.";
+  return null;
+}
+
+const validateSelectSkillLevel = (skill_level) => {
+  if (!skill_level) return "Please select a preferred skill level.";
+  return null;
+}
+
+const validateFee = (fee) => {
+  if (!fee) return "Fee Per Person (RM) is required.";
+  return null;
+}
+
+const validateMaxPlayer = (max_player) => {
+  if (!max_player) return "Max Players is required.";
+  return null;
+}
+
+
 export const validate = (formData, role = null, context) => {
   const errors = {};
 
@@ -234,6 +256,22 @@ export const validate = (formData, role = null, context) => {
 
       const ecPhoneNoError = validatePlayerPhone(formData.ec_phone_no);
       if (ecPhoneNoError) errors.ec_phone_no = ecPhoneNoError;
+
+      break;
+    }
+
+    case 'activityForm': {
+      const bookingError = validateSelectBooking(formData.booking_id);
+      if (bookingError) errors.booking_id = bookingError;
+
+      const skillLevelError = validateSelectSkillLevel(formData.skill_level_id);
+      if (skillLevelError) errors.skill_level_id = skillLevelError;
+
+      const feeError = validateFee(formData.fee);
+      if (feeError) errors.fee = feeError;
+
+      const maxPlayerError = validateMaxPlayer(formData.max_player);
+      if (maxPlayerError) errors.max_player = maxPlayerError;
 
       break;
     }

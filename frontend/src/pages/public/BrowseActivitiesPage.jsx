@@ -70,6 +70,10 @@ const BrowseActivitiesPage = () => {
     fetchActivities();
   }, [fetchActivities]);
 
+  const handleSuccessJoin = () => {
+    navigate(`/info/activity-history`);
+  };
+
   // Handle filter changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -114,7 +118,7 @@ const BrowseActivitiesPage = () => {
             <ActivityCard 
               key={activity.id}
               activity={activity}
-              onActionSuccess={fetchActivities} 
+              onActionSuccess={handleSuccessJoin} 
             />
           </Col>
         ))}
