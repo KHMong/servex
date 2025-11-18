@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
+use App\Models\Booking;
 use App\Models\SkillLevel;
 use App\Models\ActivityParticipant;
 use App\Http\Resources\ActivityParticipantResource;
@@ -127,7 +128,7 @@ class ActivityController extends Controller
                 break;
         }
 
-        $sortByBookingDate = \App\Models\Booking::select('start_datetime')
+        $sortByBookingDate = Booking::select('start_datetime')
                             ->whereColumn('booking.id', 'activity.booking_id')
                             ->limit(1);
 

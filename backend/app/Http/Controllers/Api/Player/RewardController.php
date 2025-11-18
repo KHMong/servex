@@ -15,7 +15,9 @@ class RewardController extends Controller
     public function getPointsAndVouchers(Request $request)
     {
         $user = $request->user();
-        $activeVouchers = Voucher::where('status', 'Active')->paginate(3);
+        $activeVouchers = Voucher::where('status', 'Active')
+                                ->orderBy('point_cost', 'asc')
+                                ->paginate(3);
         return VoucherResource::collection($activeVouchers)
                 ->additional([
                     'points' => $user->points,
@@ -59,14 +61,30 @@ class RewardController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:Available,Used,Expired',
         ]);
+
+        $query = $request->user()
+                         ->voucherHistories()
+                         ->where('voucher_history.status', $validated['status'])
+                         ->with('voucher');
         
-        $history = $request->user()
-            ->voucherHistories()
-            ->where('status', $validated['status'])
-            ->with('voucher')
-            ->latest()
-            ->paginate(10);
+        switch ($validated['status']) {
+            case 'Available':
+                $query->orderBy('expiry_date', 'asc');
+                break;
+
+            case 'Used':
+                $query->join('booking', 'voucher_history.booking_id', '=', 'booking.id')
+                    ->orderBy('booking.start_datetime', 'desc')
+                    ->select('voucher_history.*');
+                break;
+
+            case 'Expired':
+                $query->orderBy('expiry_date', 'desc');
+                break;
+        }
         
+        $history = $query->paginate(10);
+
         return VoucherHistoryResource::collection($history);
     }
 }

@@ -25,7 +25,7 @@ const BookingHistoryPage = () => {
     setError(null);
     try {
       const status = statusMap[activeTab];
-      const response = await apiClient.get(`/user/bookings?status=${status}&page=${page}`);
+      const response = await apiClient.get(`/user/booking-history?status=${status}&page=${page}`);
       setBookings(response.data.data);
       setPaginationData(response.data.meta);
     } catch (err) {

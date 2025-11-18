@@ -148,7 +148,17 @@ class TournamentRegistrationController extends Controller
                 break;
         }
 
-        $registrations = $query->latest('created_at')->paginate(10);
+        $sortByTournamentDate = Tournament::select('start_date')
+                                ->whereColumn('tournament.id', 'tournament_registration.tournament_id')
+                                ->limit(1);
+        
+        if (in_array($validated['status'], ['Upcoming', 'Ongoing'])) {
+            $query->orderBy($sortByTournamentDate, 'asc');
+        } else {
+            $query->orderBy($sortByTournamentDate, 'desc');
+        }
+
+        $registrations = $query->paginate(10);
 
         return TournamentRegistrationResource::collection($registrations);
     }

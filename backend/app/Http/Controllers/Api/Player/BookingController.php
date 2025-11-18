@@ -145,9 +145,11 @@ class BookingController extends Controller
         return VoucherHistoryResource::collection($vouchers);
     }
 
-    public function getUserBookings(Request $request)
+    public function getBookingHistory(Request $request)
     {
-        $request->validate(['status' => 'nullable|in:Confirmed,Completed,Cancelled']);
+        $validated = $request->validate([
+            'status' => 'required|in:Confirmed,Completed,Cancelled',
+        ]);
         
         $query = $request->user()->bookings()->with([
             'court.venue',
@@ -155,11 +157,16 @@ class BookingController extends Controller
         ]);
 
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            $query->where('status', $validated['status']);
         }
 
-        // Sort by soonest booking
-        $bookings = $query->orderBy('start_datetime')->paginate(10);
+        if ($validated['status'] === 'Confirmed') {
+            $query->orderBy('start_datetime', 'asc');
+        } else {
+            $query->orderBy('start_datetime', 'desc');
+        }
+
+        $bookings = $query->paginate(10);
 
         return BookingResource::collection($bookings);
     }
