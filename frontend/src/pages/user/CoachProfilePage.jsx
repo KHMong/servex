@@ -128,7 +128,7 @@ const CoachProfilePage = () => {
                         )}
                     </div>
                     <div>
-                        <ImageUpload label="Upload Certificate" accept="application/pdf, image/png, image/jpeg" UploadIcon={TbCertificate} uploadMsg="Upload a file" reqMsg=".pdf, .png, .jpg up to 2MB" onFileChange={handleFileChange} />
+                        <ImageUpload label="Upload Certificate" accept="application/pdf, image/png, image/jpeg" UploadIcon={TbCertificate} uploadMsg="Upload a file" reqMsg=".pdf, .png, .jpg up to 10MB" onFileChange={handleFileChange} />
                     </div>
                 </div>
                 

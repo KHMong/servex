@@ -32,6 +32,7 @@ import RegisterTournamentPage from '../pages/user/RegisterTournamentPage';
 import TournamentHistoryPage from '../pages/user/TournamentHistoryPage';
 import ActivityHistoryPage from '../pages/user/ActivityHistoryPage';
 import ActivityFormPage from '../pages/user/ActivityFormPage';
+import CoachApplicationPage from '../pages/user/CoachApplicationPage';
 
 const AppRoutes = () => {
   return (
@@ -67,6 +68,7 @@ const AppRoutes = () => {
             <Route path="/tournaments/:tournamentId/register" element={<RegisterTournamentPage />} />
             <Route path="/activities/create" element={<ActivityFormPage mode="create" />} />
             <Route path="/activities/:activityId/edit" element={<ActivityFormPage mode="edit" />} />
+            <Route path="/coach/apply" element={<CoachApplicationPage />} />
           </Route>
         </Route>
 

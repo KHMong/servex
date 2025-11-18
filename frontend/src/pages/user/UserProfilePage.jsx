@@ -198,7 +198,9 @@ const UserProfilePage = () => {
               {(user.coach_profile?.status === 'Pending') ? (
                 <Button variant="tertiary" disabled>Pending Application</Button>
               ) : (
-                <Button to="/coach/apply" variant="tertiary">Apply Now</Button>
+                <Button to="/coach/apply" variant="tertiary">
+                  {user.coach_profile?.status === 'Rejected' ? 'Re-apply Now' : 'Apply Now'}
+                </Button>
               )}
             </Card.Body>
           </Card>

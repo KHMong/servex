@@ -101,13 +101,10 @@ class ProfileController extends Controller
         $coachProfile = $user->coachProfile()->firstOrFail();
 
         $validated = $request->validate([
-            'bio' => 'required|string|max:2000',
+            'state_id' => 'required|exists:state,id',
             'exp_year' => 'required|integer|min:0|max:99',
-            'state_id' => [
-                'required',
-                Rule::exists('state', 'id'),
-            ],
-            'cert' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'bio' => 'required|string|max:2000',
+            'cert' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
 
         // Start a transaction
@@ -164,5 +161,52 @@ class ProfileController extends Controller
         $user->refresh();
 
         return response()->json(['message' => 'Password updated successfully.'], 200);
+    }
+
+    public function applyForCoach(Request $request)
+    {
+        $user = $request->user();
+
+        $oldCertPath = null;
+        $existingProfile = $user->coachProfile;
+
+        // Check if old cert exists
+        if ($existingProfile && $existingProfile->cert) {
+            $oldCertPath = 'uploads/certs/' . $user->id . '/' . $existingProfile->cert;
+        }
+        
+        // Pending or Approved Application
+        if ($existingProfile && in_array($existingProfile->status, ['Pending', 'Approved'])) {
+            return response()->json(['message' => 'You already have a pending or approved application.'], 409);
+        }
+
+        $validated = $request->validate([
+            'state_id' => 'required|exists:state,id',
+            'exp_year' => 'required|integer|min:0|max:99',
+            'bio' => 'required|string|max:2000',
+            'cert' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240',
+        ]);
+
+        $newFilePath = $request->file('cert')->store('uploads/certs/' . $user->id);
+
+        $coachProfile = $user->coachProfile()->updateOrCreate(
+            ['user_id' => $user->id], // Find by user_id
+            [
+                'state_id' => $validated['state_id'],
+                'exp_year' => $validated['exp_year'],
+                'bio' => $validated['bio'],
+                'cert' => basename($newFilePath),
+                'status' => 'Pending',
+            ]
+        );
+
+        if ($oldCertPath && Storage::exists($oldCertPath)) {
+            Storage::delete($oldCertPath);
+        }
+
+        return response()->json([
+            'message' => 'Your coach application has been submitted successfully!',
+            'coach_profile' => new CoachProfileResource($coachProfile),
+        ], 201);
     }
 }

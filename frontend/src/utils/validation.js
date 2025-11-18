@@ -111,6 +111,7 @@ const validateBRN = (brn) => {
   return null;
 };
 
+/************ COACH ************/
 // Bio Validation
 const validateBio = (bio) => {
   if (!bio) return "Bio is required.";
@@ -121,6 +122,12 @@ const validateBio = (bio) => {
 const validateExpYear = (exp_year) => {
   if (!exp_year) return "Years of Coaching Experience is required.";
   if (exp_year < 0 || exp_year > 99) return "It must be between 0 - 99.";
+  return null;
+};
+
+// State Validation
+const validateSelectState = (state) => {
+  if (!state) return "Primary Coaching State is required.";
   return null;
 };
 
@@ -272,6 +279,19 @@ export const validate = (formData, role = null, context) => {
 
       const maxPlayerError = validateMaxPlayer(formData.max_player);
       if (maxPlayerError) errors.max_player = maxPlayerError;
+
+      break;
+    }
+
+    case 'coachApplication': {
+      const bioError = validateBio(formData.bio);
+      if (bioError) errors.bio = bioError;
+
+      const expYearError = validateExpYear(formData.exp_year);
+      if (expYearError) errors.exp_year = expYearError;
+
+      const stateError = validateSelectState(formData.state_id);
+      if (stateError) errors.state_id = stateError;
 
       break;
     }

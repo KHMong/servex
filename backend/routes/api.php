@@ -144,3 +144,8 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     Route::get('/activities/{activity}/participants', [ActivityController::class, 'getParticipants']);
     Route::put('/activity-participant/{activity_participant}/remove', [ActivityController::class, 'removeParticipant']);
 });
+
+// Player (Not coach)
+Route::middleware('auth:sanctum', 'can:player-not-coach')->group(function () {
+    Route::post('/coach/apply', [ProfileController::class, 'applyForCoach']);
+});
