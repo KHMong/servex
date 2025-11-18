@@ -75,7 +75,7 @@ const UserProfilePage = () => {
         });
 
         setUser(response.data.data);
-        setSuccess('Profile updated successfully!');
+        setSuccess('Profile updated successfully.');
         setNewImageFile(null);
         setImagePreview(null);
       } catch (err) {

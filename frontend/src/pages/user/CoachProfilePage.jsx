@@ -75,7 +75,7 @@ const CoachProfilePage = () => {
         const response = await apiClient.post('/user/coach-profile', data, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
-        setSuccess('Coach profile updated successfully!');
+        setSuccess('Coach profile updated successfully.');
         setCurrentCertPath(getImageUrl(response.data.data.cert_url));
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to update profile.');

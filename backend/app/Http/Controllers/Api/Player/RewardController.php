@@ -50,7 +50,7 @@ class RewardController extends Controller
         });
 
         return response()->json([
-            'message' => 'Voucher redeemed successfully!',
+            'message' => 'Voucher redeemed successfully.',
             'new_points' => $user->fresh()->points,
             'new_voucher' => new VoucherHistoryResource($newVoucher->load('voucher')),
         ], 201);

@@ -348,7 +348,7 @@ class ActivityController extends Controller
         });
 
         return response()->json([
-            'message' => 'Activity created successfully!',
+            'message' => 'Activity created successfully.',
             'activity_id' => $activity->id,
         ], 201);
     }
@@ -416,7 +416,7 @@ class ActivityController extends Controller
         $activity->update($validated);
 
         return response()->json([
-            'message' => 'Activity updated successfully!',
+            'message' => 'Activity updated successfully.',
             'activity_id' => $activity->id,
         ]);
     }

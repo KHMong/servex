@@ -205,7 +205,7 @@ class ProfileController extends Controller
         }
 
         return response()->json([
-            'message' => 'Your coach application has been submitted successfully!',
+            'message' => 'Application submitted successfully.',
             'coach_profile' => new CoachProfileResource($coachProfile),
         ], 201);
     }
