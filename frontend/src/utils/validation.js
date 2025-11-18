@@ -98,6 +98,8 @@ const validateNewPassword = (current_password, password) => {
   return null;
 }
 
+
+/************ OWNER ************/
 // Company Name Validation
 const validateCompanyName = (company_name) => {
   if (!company_name) return "Company Name is required.";
@@ -110,6 +112,7 @@ const validateBRN = (brn) => {
   if (!/^((19|20)[0-9]{2})(0[1-6])([0-9]{6})$/.test(brn)) return "Please enter a valid Business Registration Number. (E.g. 202501000001).";
   return null;
 };
+
 
 /************ COACH ************/
 // Bio Validation
@@ -133,6 +136,7 @@ const validateSelectState = (state) => {
 
 
 /************ TOURNAMENT ************/
+// Tournament Select Category Validation
 const validateSelectCategory = (category) => {
   if (!category) return "Please select a category.";
   return null;
@@ -140,21 +144,25 @@ const validateSelectCategory = (category) => {
 
 
 /************ ACTIVITY ************/
+// Select Booking Validation
 const validateSelectBooking = (booking) => {
   if (!booking) return "Please select a booking.";
   return null;
 }
 
+// Select Skill Level Validation
 const validateSelectSkillLevel = (skill_level) => {
   if (!skill_level) return "Please select a preferred skill level.";
   return null;
 }
 
+// Fee Validation
 const validateFee = (fee) => {
   if (!fee) return "Fee Per Person (RM) is required.";
   return null;
 }
 
+// Max Player Validation
 const validateMaxPlayer = (max_player) => {
   if (!max_player) return "Max Players is required.";
   return null;
