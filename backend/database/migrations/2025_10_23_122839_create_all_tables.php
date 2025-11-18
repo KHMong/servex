@@ -232,7 +232,7 @@ return new class extends Migration
         Schema::create('activity', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('user');
-            $table->foreignId('booking_id')->unique()->constrained('booking');
+            $table->foreignId('booking_id')->constrained('booking');
             $table->foreignId('skill_level_id')->constrained('skill_level');
             $table->decimal('fee', 8, 2);
             $table->integer('max_player');
