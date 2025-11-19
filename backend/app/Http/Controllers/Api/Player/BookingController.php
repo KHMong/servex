@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api\Player;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Booking;
 use App\Models\Court;
 use App\Models\PricingRule;
@@ -12,6 +13,8 @@ use App\Http\Resources\VoucherHistoryResource;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 
 class BookingController extends Controller
 {
@@ -196,5 +199,144 @@ class BookingController extends Controller
         $booking->update(['status' => 'Cancelled']);
 
         return response()->json(['message' => 'Booking cancelled successfully.']);
+    }
+
+    public function createCheckoutSession(Request $request, Booking $booking)
+    {
+        $this->authorize('update', $booking);
+
+        if ($booking->status !== 'Pending') {
+            return response()->json(['message' => 'This booking cannot be confirmed.'], 409);
+        }
+
+        // Validate voucher_history_id
+        $validated = $request->validate([
+            'voucher_history_id' => 'nullable|exists:voucher_history,id'
+        ]);
+
+        $totalPrice = $booking->total_price;
+        $voucherHistory = null;
+        $voucherHistoryId = $validated['voucher_history_id'] ?? null;
+
+        if ($voucherHistoryId) {
+            $voucherHistory = VoucherHistory::find($voucherHistoryId);
+
+            // --- VOUCHER VALIDATION ---
+            // Belongs to user
+            if ($voucherHistory->user_id !== $request->user()->id) {
+                return response()->json(['message' => 'This voucher is invalid for your account.'], 422);
+            } 
+
+            // Expired
+            if ($voucherHistory->expiry_date < Carbon::now('Asia/Kuala_Lumpur') || $voucherHistory->status === 'Expired') {
+                return response()->json(['message' => 'This voucher has expired.'], 422);
+            }
+
+            // Used
+            if ($voucherHistory->status === 'Used') {
+                return response()->json(['message' => 'This voucher has already been used.'], 422);
+            }
+            
+            $totalPrice = max(0, $booking->total_price - $voucherHistory->voucher->discount_value);
+        }
+
+        // Free
+        if ($totalPrice <= 0) {
+            $this->confirmBooking($booking, $request->user(), $voucherHistory);
+            return response()->json([
+                'status' => 'confirmed_free',
+                'message' => 'Booking confirmed successfully.'
+            ]);
+        }
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        try {
+            $session = Session::create([
+                'payment_method_types' => ['card', 'fpx', 'grabpay'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'myr',
+                        'product_data' => [
+                            'name' => 'Booking (' . $booking->court->name . ', ' . $booking->court->venue->name . ')',
+                        ],
+                        'unit_amount' => $totalPrice * 100,
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => "http://localhost:3000/payment/status?session_id={CHECKOUT_SESSION_ID}&type=booking&booking_id={$booking->id}",
+                'cancel_url' => "http://localhost:3000/payment/status?status=cancelled&type=booking&booking_id={$booking->id}",
+                'metadata' => [
+                    'booking_id' => $booking->id,
+                    'voucher_history_id' => $voucherHistoryId,
+                ],
+                'client_reference_id' => $booking->id,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to create payment session: ' . $e->getMessage()]);
+        }
+        
+        return response()->json(['url' => $session->url]);
+    }
+
+    public function verifyPayment(Request $request)
+    {
+        $validated = $request->validate(['session_id' => 'required|string']);
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+        
+        try {
+            // Fetch the session
+            $session = Session::retrieve($validated['session_id']);
+
+            // Find records
+            $metadata = $session->metadata;
+            $booking = Booking::findOrFail($metadata->booking_id);
+            $user = $booking->user;
+
+            // Ensure it is the user who perform booking
+            if ($user->id !== $request->user()->id) {
+                return response()->json(['message' => 'Unauthorised action.'], 403);
+            }
+
+            // Check if payment was successful and booking is still pending
+            if ($session->payment_status === 'paid' && $session->client_reference_id == $booking->id && $booking->status === 'Pending') {
+                $voucherHistory = $metadata->voucher_history_id ? VoucherHistory::find($metadata->voucher_history_id) : null;
+                $this->confirmBooking($booking, $user, $voucherHistory);
+            }
+            
+            return response()->json(['message' => 'Booking confirmed successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Payment verification failed. ' . $e->getMessage()], 404);
+        }
+    }
+
+    private function confirmBooking(Booking $booking, User $user, ?VoucherHistory $voucherHistory)
+    {
+        DB::transaction(function () use ($booking, $user, $voucherHistory) {
+            // Price
+            $totalPrice = $booking->total_price;
+
+            // Use voucher
+            if ($voucherHistory) {
+                $totalPrice = max(0, $booking->total_price - $voucherHistory->voucher->discount_value);
+                // Mark voucher as used
+                $voucherHistory->update(['status' => 'Used', 'booking_id' => $booking->id]);
+            }
+            
+            // Update booking
+            $booking->update([
+                'total_price' => $totalPrice,
+                'payment_status' => 'Paid',
+                'status' => 'Confirmed',
+            ]);
+
+            // Add points based on the total price
+            $pointsToAdd = floor($totalPrice);
+            if ($pointsToAdd > 0) {
+                User::where('id', $user->id)->increment('points', $pointsToAdd);
+            }
+        });
     }
 }

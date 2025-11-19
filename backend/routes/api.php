@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
-use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\PasswordResetController;
 use App\Http\Controllers\Api\Public\HomeController;
@@ -110,10 +109,8 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
     Route::get('/user/vouchers', [BookingController::class, 'getAvailableVouchers']);
     Route::get('/user/booking-history', [BookingController::class, 'getBookingHistory']);
     Route::put('/bookings/{booking}/cancel', [BookingController::class, 'cancelBooking']);
-
-    // Payment
-    Route::post('/bookings/{booking}/create-checkout-session', [PaymentController::class, 'createCheckoutSession']);
-    Route::post('/verify-booking-payment', [PaymentController::class, 'verifyBookingPayment']);
+    Route::post('/bookings/{booking}/create-checkout-session', [BookingController::class, 'createCheckoutSession']);
+    Route::post('/bookings/verify-payment', [BookingController::class, 'verifyPayment']);
 
     // Review
     Route::post('/reviews', [VenueReviewController::class, 'submitReview']);

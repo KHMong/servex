@@ -5,6 +5,22 @@ import { useNotification } from '../../contexts/NotificationContext';
 import apiClient from '../../api/apiClient';
 import { useAuth } from '../../contexts/AuthContext';
 
+const paymentConfig = {
+  booking: {
+    verifyUrl: `/bookings/verify-payment`,
+    successRedirect: `/info/booking-history`,
+    getCancelRedirect: (params) => `/bookings/${params.bookingId}/summary`,
+    successMessage: 'Booking confirmed successfully.',
+  },
+  organiser_pass: {
+    verifyUrl: `/organiser/verify-payment`,
+    successRedirect: `/info/user-profile`,
+    getCancelRedirect: () => `/organiser/purchase-pass`,
+    successMessage: 'Organiser Pass activated successfully.',
+    onSuccess: (setUser, user) => setUser({ ...user, is_organiser: true }),
+  },
+};
+
 const PaymentStatusPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -19,34 +35,19 @@ const PaymentStatusPage = () => {
     const sessionId = searchParams.get('session_id');
     const paymentType = searchParams.get('type');
     const paymentStatus = searchParams.get('status');
-    
-    // Get optional booking ID
     const bookingId = searchParams.get('booking_id');
 
-    const paymentConfig = {
-      booking: {
-        verifyUrl: `/verify-booking-payment`,
-        successRedirect: `/info/booking-history`,
-        cancelRedirect: `/bookings/${bookingId}/confirm`,
-        successMessage: 'Booking confirmed successfully.',
-      },
-      organiser_pass: {
-        verifyUrl: `/organiser/verify-payment`,
-        successRedirect: `/info/user-profile`,
-        cancelRedirect: `/organiser/purchase-pass`,
-        successMessage: 'Organiser Pass activated successfully.',
-        onSuccess: () => setUser({ ...user, is_organiser: true }),
-      },
-    };
-
     const config = paymentConfig[paymentType];
+
+    const cancelRedirectUrl = config ? config.getCancelRedirect({ bookingId }) : '/';
+    const successRedirectUrl = config ? config.successRedirect : '/';
     
     // Cancelled Payment
     if (paymentStatus === 'cancelled') {
       setStatus('cancelled');
       setMessage('Payment was cancelled. You have not been charged.');
       showNotification('Payment cancelled.', 'info');
-      setTimeout(() => navigate(config?.cancelRedirect || '/', { replace: true }), 5000);
+      setTimeout(() => navigate(cancelRedirectUrl, { replace: true }), 5000);
       return;
     }
 
@@ -54,6 +55,7 @@ const PaymentStatusPage = () => {
     if (!sessionId || !config) {
       setStatus('failed');
       setMessage('Invalid payment details found in URL.');
+      setTimeout(() => navigate('/', { replace: true }), 5000);
       return;
     }
 
@@ -65,17 +67,16 @@ const PaymentStatusPage = () => {
         showNotification(config.successMessage, 'success');
         
         if (config.onSuccess) {
-          config.onSuccess();
+          config.onSuccess(setUser, user);
         }
 
-        setTimeout(() => navigate(config.successRedirect, { replace: true }), 5000);
-
+        setTimeout(() => navigate(successRedirectUrl, { replace: true }), 5000);
       } catch (err) {
         const errorMessage = err.response?.data?.message || 'Failed to verify payment.';
         setStatus('failed');
         setMessage(errorMessage);
         showNotification(errorMessage, 'error');
-        setTimeout(() => navigate(config.cancelRedirect || '/', { replace: true }), 5000);
+        setTimeout(() => navigate(cancelRedirectUrl, { replace: true }), 5000);
       }
     };
 

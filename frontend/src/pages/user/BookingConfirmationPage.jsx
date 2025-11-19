@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
 import { useNotification } from '../../contexts/NotificationContext';
 import Button from '../../components/common/Button';
@@ -10,6 +10,7 @@ import apiClient from '../../api/apiClient';
 const BookingConfirmationPage = () => {
   const { bookingId } = useParams();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [booking, setBooking] = useState(null);
   const [vouchers, setVouchers] = useState([]);
 
@@ -88,14 +89,14 @@ const BookingConfirmationPage = () => {
       const response = await apiClient.post(`/bookings/${bookingId}/create-checkout-session`, {
           voucher_history_id: selectedVoucher 
       });
-      const { url: checkoutUrl } = response.data;
 
-      // Go to checkout page
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        throw new Error("Could not retrieve payment URL.");
+      if (response.data.status === 'confirmed_free') { // Free
+        showNotification(response.data.message, 'success');
+        navigate('/info/booking-history');
+      } else { // Payment
+        window.location.href = response.data.url;
       }
+
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to confirm and pay. Please try again.');
     } finally {
