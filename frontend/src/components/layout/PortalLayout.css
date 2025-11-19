@@ -1,0 +1,19 @@
+.portal-layout {
+  display: flex;
+}
+
+.portal-content-wrapper {
+  flex-grow: 1;
+  background-color: var(--servex-light-gray-bg);
+  min-height: 100vh;
+}
+
+.portal-page-content {
+  padding: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .portal-content-wrapper {
+    margin-left: 280px;
+  }
+}

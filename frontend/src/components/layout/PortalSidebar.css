@@ -1,0 +1,39 @@
+.portal-sidebar { 
+    background-color: var(--servex-dark-text) !important; 
+    color: white; 
+    min-height: 100vh; 
+    padding: 1.5rem; 
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    z-index: 100;
+}
+
+.sidebar-header { 
+    margin-bottom: 2rem; 
+    transition: all 0.2s ease-in-out;
+}
+
+.back-to-site-link { 
+    color: var(--servex-muted-text); 
+    text-decoration: none; 
+    font-weight: 600; 
+}
+
+.sidebar-header:hover { 
+    transform: translateY(-2px);
+}
+
+.portal-sidebar .nav-link { 
+    color: white; 
+    padding: 0.75rem 1rem; 
+    border-radius: 0.5rem; 
+    font-weight: 500;
+}
+
+.portal-sidebar .nav-link.active { 
+    background-color: var(--servex-sidebar-green-darker); 
+    color: var(--servex-sidebar-green);
+}
