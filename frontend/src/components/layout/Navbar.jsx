@@ -62,6 +62,9 @@ const NavbarComponent = () => {
 
                 <Dropdown.Menu>
                   <Dropdown.Item as={Link} to="/info">Info</Dropdown.Item>
+                  {user.is_coach && (
+                    <Dropdown.Item as={Link} to="/coach">Coach Portal</Dropdown.Item>
+                  )}
                   <Dropdown.Divider />
                   <Dropdown.Item as="button" onClick={handleLogout} className="text-danger">
                     Logout

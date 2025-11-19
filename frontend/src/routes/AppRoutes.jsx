@@ -35,6 +35,8 @@ import ActivityFormPage from '../pages/user/ActivityFormPage';
 import CoachApplicationPage from '../pages/user/CoachApplicationPage';
 import PurchasePassPage from '../pages/user/PurchasePassPage';
 import PaymentStatusPage from '../pages/user/PaymentStatusPage';
+import PortalLayout from '../components/layout/PortalLayout';
+import CoachDashboardPage from '../pages/coach/CoachDashboardPage';
 
 const AppRoutes = () => {
   return (
@@ -51,7 +53,7 @@ const AppRoutes = () => {
           <Route path="tournaments/:tournamentId" element={<TournamentDetailsPage />} />
           <Route path="activities" element={<BrowseActivitiesPage />} />
 
-          {/* --- Protected Routes --- */}
+          {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/info" element={<InfoLayout />}>
               <Route index element={<Navigate to="user-profile" replace />} />
@@ -82,6 +84,14 @@ const AppRoutes = () => {
         <Route path="/register/owner" element={<OwnerRegistrationPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+
+        {/* Protected Routes without Navbar/Footer */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/coach" element={<PortalLayout role="coach" />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<CoachDashboardPage />} />
+          </Route>
+        </Route>
       </Routes>
     </Router>
   );

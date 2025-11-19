@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Player\VenueReviewController;
 use App\Http\Controllers\Api\Player\RewardController;
 use App\Http\Controllers\Api\Player\TournamentRegistrationController;
 use App\Http\Controllers\Api\Player\OrganiserController;
+use App\Http\Controllers\Api\Coach\DashboardController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -154,4 +155,9 @@ Route::middleware('auth:sanctum', 'can:player-not-coach')->group(function () {
 // Player (Not organiser)
 Route::middleware('auth:sanctum', 'can:player-not-organiser')->group(function () {
     Route::post('/organiser/create-checkout-session', [OrganiserController::class, 'createCheckoutSession']);
+});
+
+// Coach only
+Route::middleware('auth:sanctum', 'can:coach-only')->group(function () {
+    Route::get('/coach/dashboard', [DashboardController::class, 'index']);
 });

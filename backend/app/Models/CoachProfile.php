@@ -37,4 +37,16 @@ class CoachProfile extends Model
     {
         return $this->hasMany(TraineeGroup::class, 'coach_id');
     }
+
+    public function trainingSessions()
+    {
+        return $this->hasManyThrough(
+            TrainingSession::class,
+            TraineeGroup::class,
+            'coach_id',
+            'trainee_group_id',
+            'user_id',
+            'id'
+        );
+    }
 }

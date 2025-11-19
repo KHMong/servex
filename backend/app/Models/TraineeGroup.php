@@ -28,6 +28,11 @@ class TraineeGroup extends Model
         return $this->hasMany(GroupMember::class);
     }
 
+    public function activeMembers()
+    {
+        return $this->hasMany(GroupMember::class)->where('status', 'Active');
+    }
+
     public function trainingSessions()
     {
         return $this->hasMany(TrainingSession::class);
