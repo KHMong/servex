@@ -21,7 +21,7 @@ class OrganiserController extends Controller
             return response()->json(['message' => 'You are already a tournament organiser.'], 409);
         }
 
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         try {
             $session = Session::create([
@@ -52,7 +52,7 @@ class OrganiserController extends Controller
     {
         $sessionId = $request->input('session_id');
 
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         $user = $request->user();
 
