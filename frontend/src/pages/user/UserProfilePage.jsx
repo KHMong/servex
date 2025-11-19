@@ -187,43 +187,54 @@ const UserProfilePage = () => {
             
           </Card.Body>
         </Card>
-
-        {(!user.is_coach && user.role === 'Player') && (
-          <Card className="border-0 shadow-sm">
-            <Card.Body className="d-flex justify-content-between align-items-center">
-              <div>
-                <h5 className="fw-semibold">Become a Coach</h5>
-                <p className="mb-0 text-muted">Share your expertise and start coaching players.</p>
-              </div>
-              {(user.coach_profile?.status === 'Pending') ? (
-                <Button variant="tertiary" disabled>Pending Application</Button>
-              ) : (
-                <Button to="/coach/apply" variant="tertiary">
-                  {user.coach_profile?.status === 'Rejected' ? 'Re-apply Now' : 'Apply Now'}
-                </Button>
-              )}
-            </Card.Body>
-          </Card>
-        )}
-        <Card className="border-0 shadow-sm">
-          <Card.Body className="d-flex justify-content-between align-items-center">
-            {(!user.is_organiser && user.role === 'Player') ? (
-              <>
-                <div>
-                  <h5 className="fw-semibold">Become an Organiser</h5>
-                  <p className="mb-0 text-muted">Host your own tournaments on ServeX.</p>
-                </div>
-                <Button to="/organiser/purchase-pass" variant="tertiary">Purchase Pass</Button>
-              </>
-            ) : (
-              <div>
-                <h5 className="fw-semibold">Organiser Pass Purchased</h5>
-                <p className="mb-0 text-muted">Navigate to <span className="fw-semibold">Organiser Portal</span> for tournament management.</p>
-              </div>
-            )}
+        
+        {(user.role === 'Player') && (
+          <>
+            <Card className="border-0 shadow-sm">
+              <Card.Body className="d-flex justify-content-between align-items-center">
+                {(!user.is_coach) ? (
+                  <>
+                    <div>
+                      <h5 className="fw-semibold">Become a Coach</h5>
+                      <p className="mb-0 text-muted">Share your expertise and start coaching players.</p>
+                    </div>
+                    {(user.coach_profile?.status === 'Pending') ? (
+                      <Button variant="tertiary" disabled>Pending Application</Button>
+                    ) : (
+                      <Button to="/coach/apply" variant="tertiary">
+                        {user.coach_profile?.status === 'Rejected' ? 'Re-apply Now' : 'Apply Now'}
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <div>
+                    <h5 className="fw-semibold">Coach Application Approved</h5>
+                    <p className="mb-0 text-muted">Navigate to <span className="fw-semibold">Coach Portal</span> for coaching management.</p>
+                  </div>
+                )}
+              </Card.Body>
+            </Card>
             
-          </Card.Body>
-        </Card>
+            <Card className="border-0 shadow-sm">
+              <Card.Body className="d-flex justify-content-between align-items-center">
+                {(!user.is_organiser) ? (
+                  <>
+                    <div>
+                      <h5 className="fw-semibold">Become an Organiser</h5>
+                      <p className="mb-0 text-muted">Host your own tournaments on ServeX.</p>
+                    </div>
+                    <Button to="/organiser/purchase-pass" variant="tertiary">Purchase Pass</Button>
+                  </>
+                ) : (
+                  <div>
+                    <h5 className="fw-semibold">Organiser Pass Purchased</h5>
+                    <p className="mb-0 text-muted">Navigate to <span className="fw-semibold">Organiser Portal</span> for tournament management.</p>
+                  </div>
+                )}
+              </Card.Body>
+            </Card>
+          </>
+        )}
       </div>
     </div>
     
