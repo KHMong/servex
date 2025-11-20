@@ -35,7 +35,7 @@ class BookingController extends Controller
 
         // Get booking times
         $localStartDateTimeString = $validated['date'] . ' ' . $validated['start_time'];
-        $startDateTime = Carbon::parse($localStartDateTimeString, 'Asia/Kuala_Lumpur');
+        $startDateTime = Carbon::parse($localStartDateTimeString);
         $endDateTime = $startDateTime->copy()->addHours((int) $validated['duration']);
 
         // --- VALIDATION ---
@@ -47,8 +47,8 @@ class BookingController extends Controller
         // 2. Booking is within venue operating hours
         $venueOpeningTimeString = $validated['date'] . ' ' . $venue->opening_time;
         $venueClosingTimeString = $validated['date'] . ' ' . $venue->closing_time;
-        $venueOpeningTime = Carbon::parse($venueOpeningTimeString, 'Asia/Kuala_Lumpur');
-        $venueClosingTime = Carbon::parse($venueClosingTimeString, 'Asia/Kuala_Lumpur');
+        $venueOpeningTime = Carbon::parse($venueOpeningTimeString);
+        $venueClosingTime = Carbon::parse($venueClosingTimeString);
 
         // Handle overnight times (like 11:00 to 01:00)
         if ($venueClosingTime->lt($venueOpeningTime)) {
@@ -228,7 +228,7 @@ class BookingController extends Controller
             } 
 
             // Expired
-            if ($voucherHistory->expiry_date < Carbon::now('Asia/Kuala_Lumpur') || $voucherHistory->status === 'Expired') {
+            if ($voucherHistory->expiry_date < Carbon::now() || $voucherHistory->status === 'Expired') {
                 return response()->json(['message' => 'This voucher has expired.'], 422);
             }
 

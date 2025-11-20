@@ -87,7 +87,7 @@ class ActivityController extends Controller
             'status' => 'required|in:Joining,Joined,Hosting,Hosted,Cancelled',
         ]);
         $user = $request->user();
-        $today = Carbon::now('Asia/Kuala_Lumpur');
+        $today = Carbon::now();
 
         $baseWith = ['booking.court.venue', 'skillLevel'];
         $participantCount = ['participants' => function ($query) {

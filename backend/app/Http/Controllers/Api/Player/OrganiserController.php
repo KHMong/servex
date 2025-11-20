@@ -71,7 +71,7 @@ class OrganiserController extends Controller
                 OrganiserPass::create([
                     'user_id' => $user->id,
                     'amount' => self::ORGANISER_PASS_PRICE,
-                    'purchase_date' => Carbon::now('Asia/Kuala_Lumpur'),
+                    'purchase_date' => Carbon::now(),
                 ]);
 
                 $user->update(['is_organiser' => true]);

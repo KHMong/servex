@@ -11,7 +11,7 @@ class TournamentResource extends JsonResource
     public function toArray(Request $request): array
     {
         $localDeadlineString = Carbon::parse($this->deadline);
-        $isDeadlinePassed = $localDeadlineString->setTimezone('Asia/Kuala_Lumpur')->endOfDay()->isPast();
+        $isDeadlinePassed = $localDeadlineString->endOfDay()->isPast();
 
         return [
             'id' => $this->id,
