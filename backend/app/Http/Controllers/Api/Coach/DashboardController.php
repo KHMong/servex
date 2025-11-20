@@ -30,13 +30,6 @@ class DashboardController extends Controller
         $attendedCount = SessionAttendance::whereIn('training_session_id', $sessionIds)->where('status', 'Attended')->count();
         $attendanceRate = $totalAttendances > 0 ? round(($attendedCount / $totalAttendances) * 100) : 0;
 
-        // Upcoming Training Sessions
-        $upcomingSessions = $coachProfile->trainingSessions()
-            ->with('traineeGroup')
-            ->where('start_datetime', '>', now())
-            ->orderBy('start_datetime', 'asc')
-            ->paginate(10);
-
         return response()->json([
             'stats' => [
                 'total_active_trainees' => $totalTrainees,
@@ -44,13 +37,28 @@ class DashboardController extends Controller
                 'sessions_this_month' => $sessionsThisMonth,
                 'overall_attendance_rate' => $attendanceRate . '%',
             ],
-            'upcoming_sessions' => $upcomingSessions->through(fn ($session) => [
-                'id' => $session->id,
-                'name' => $session->name,
-                'group_name' => $session->traineeGroup->name,
-                'full_date' => Carbon::parse($session->start_datetime)->format('F j, Y'),
-                'time_range' => Carbon::parse($session->start_datetime)->format('g:i A') . ' - ' . Carbon::parse($session->end_datetime)->format('g:i A'),
-            ]),
         ]);
+    }
+
+    public function getUpcomingSessions(Request $request)
+    {
+        $user = $request->user();
+        $coachProfile = $user->coachProfile;
+
+        $upcomingSessions = $coachProfile->trainingSessions()
+            ->with('traineeGroup')
+            ->where('start_datetime', '>', now())
+            ->orderBy('start_datetime', 'asc')
+            ->paginate(10);
+
+        $upcomingSessions->through(fn ($session) => [
+            'id' => $session->id,
+            'name' => $session->name,
+            'group_name' => $session->traineeGroup->name,
+            'full_date' => Carbon::parse($session->start_datetime)->format('F j, Y'),
+            'time_range' => Carbon::parse($session->start_datetime)->format('g:i A') . ' - ' . Carbon::parse($session->end_datetime)->format('g:i A'),
+        ]);
+
+        return response()->json($upcomingSessions);
     }
 }

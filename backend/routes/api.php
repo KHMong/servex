@@ -160,4 +160,5 @@ Route::middleware('auth:sanctum', 'can:player-not-organiser')->group(function ()
 // Coach only
 Route::middleware('auth:sanctum', 'can:coach-only')->group(function () {
     Route::get('/coach/dashboard', [DashboardController::class, 'index']);
+    Route::get('/coach/dashboard/upcoming-sessions', [DashboardController::class, 'getUpcomingSessions']);
 });
