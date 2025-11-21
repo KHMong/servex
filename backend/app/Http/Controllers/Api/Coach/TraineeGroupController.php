@@ -5,9 +5,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TraineeGroup;
 use App\Http\Resources\TraineeGroupResource;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TraineeGroupController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(Request $request)
     {
         $user = $request->user();
@@ -33,12 +36,46 @@ class TraineeGroupController extends Controller
         return TraineeGroupResource::collection($groups);
     }
 
+    public function createGroup(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:2000',
+        ]);
+
+        $request->user()->coachProfile->traineeGroups()->create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'status' => 'Active'
+        ]);
+
+        return response()->json(['message' => 'Trainee group created successfully.'], 201);
+    }
+
+    public function getGroupInfo(TraineeGroup $group)
+    {
+        $this->authorize('view', $group);
+
+        return new TraineeGroupResource($group);
+    }
+
+    public function editGroup(Request $request, TraineeGroup $group)
+    {
+        $this->authorize('update', $group);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:2000',
+        ]);
+
+        $group->update($validated);
+
+        return response()->json(['message' => 'Trainee group updated successfully.']);
+    }
+
     public function deleteGroup(TraineeGroup $group)
     {
-        // Ensure the group belongs to the coach
-        if (request()->user()->coachProfile->user_id !== $group->coach->user_id) {
-            return response()->json(['message' => 'Unauthorised action.'], 403);
-        }
+        $this->authorize('delete', $group);
 
         // Ensure there are no scheduled sessions
         $hasScheduledSessions = $group->trainingSessions()

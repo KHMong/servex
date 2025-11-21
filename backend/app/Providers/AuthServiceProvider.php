@@ -8,12 +8,14 @@ use App\Models\User;
 use App\Models\Booking;
 use App\Models\TournamentRegistration;
 use App\Models\VenueReview;
+use App\Models\Activity;
+use App\Models\TraineeGroup;
 use App\Policies\UserPolicy;
 use App\Policies\BookingPolicy;
 use App\Policies\VenueReviewPolicy;
 use App\Policies\TournamentRegistrationPolicy;
-
-
+use App\Policies\ActivityPolicy;
+use App\Policies\TraineeGroupPolicy;
 
 class AuthServiceProvider extends ServiceProvider 
 {
@@ -22,6 +24,8 @@ class AuthServiceProvider extends ServiceProvider
         Booking::class => BookingPolicy::class,
         VenueReview::class => VenueReviewPolicy::class,
         TournamentRegistration::class => TournamentRegistrationPolicy::class,
+        Activity::class => ActivityPolicy::class,
+        TraineeGroup::class => TraineeGroupPolicy::class,
     ];
 
     public function boot()

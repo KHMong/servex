@@ -63,7 +63,7 @@ const TraineeGroupsPage = () => {
     if (window.confirm("Are you sure you want to delete this trainee group?")) {
       try {
         await apiClient.delete(`/coach/groups/${id}`);
-        showNotification("Group deleted successfully.", 'success');
+        showNotification("Trainee group deleted successfully.", 'success');
         fetchGroups(); // Refresh
       } catch (error) {
         setError(error.response?.data?.message || "Failed to delete group.");

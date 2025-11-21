@@ -38,6 +38,7 @@ import PaymentStatusPage from '../pages/user/PaymentStatusPage';
 import PortalLayout from '../components/layout/PortalLayout';
 import CoachDashboardPage from '../pages/coach/CoachDashboardPage';
 import TraineeGroupsPage from '../pages/coach/TraineeGroupsPage';
+import TraineeGroupFormPage from '../pages/coach/groups/TraineeGroupFormPage';
 
 const AppRoutes = () => {
   return (
@@ -92,6 +93,8 @@ const AppRoutes = () => {
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<CoachDashboardPage />} />
             <Route path="groups" element={<TraineeGroupsPage />} />
+            <Route path="groups/create" element={<TraineeGroupFormPage mode="create" />} />
+            <Route path="groups/:groupId/edit" element={<TraineeGroupFormPage mode="edit" />} />
           </Route>
         </Route>
       </Routes>
