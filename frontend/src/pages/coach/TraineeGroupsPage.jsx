@@ -147,7 +147,7 @@ const TraineeGroupsPage = () => {
       </div>
 
       {/* Search Bar */}
-      <Row className="mb-5">
+      <Row className="mb-4">
         <Col md={12}>
           <div className="search-filter-wrapper flex-md-row">
             {/* Search Input */}
@@ -172,6 +172,12 @@ const TraineeGroupsPage = () => {
           </div>
         </Col>
       </Row>
+
+      <div className="text-muted my-3">
+        {paginationData && paginationData.total > 0 &&
+          `Showing ${paginationData.from}-${paginationData.to} of ${paginationData.total} results`
+        }
+      </div>
 
       {/* Table */}
       <DataTable 
