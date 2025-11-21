@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Card, Spinner, Form, Tabs, Tab, Alert } from 'react-bootstrap';
 import { FaSearch, FaTrash, FaCalendarAlt, FaClock, FaUserPlus } from 'react-icons/fa';
 
@@ -16,6 +16,7 @@ import '../../../components/common/StatusTab.css';
 
 const TraineeGroupDetailsPage = () => {
   const { groupId } = useParams();
+  const navigate = useNavigate();
   const { showNotification } = useNotification();
 
   // Group Info State
@@ -99,6 +100,19 @@ const TraineeGroupDetailsPage = () => {
         fetchTrainees();
       } catch (err) {
         showNotification("Failed to remove trainee.", "error");
+      }
+    }
+  };
+
+  // Handle cancel
+  const handleCancel = async (id) => {
+    if (window.confirm("Are you sure you want to cancel this session?")) {
+      try {
+        await apiClient.delete(`/coach/sessions/${id}`);
+        showNotification("Session cancelled successfully.", "success");
+        fetchSessions(); // Refresh
+      } catch (error) {
+        setSessionError(error.response?.data?.message || "Failed to cancel session.");
       }
     }
   };
@@ -209,7 +223,7 @@ const TraineeGroupDetailsPage = () => {
       <section>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h3 className="fw-bold">Training Sessions</h3>
-          <Button variant="tertiary" icon={<FaCalendarAlt />}>
+          <Button to={`/coach/groups/${groupId}/sessions/create`} icon={<FaCalendarAlt />}>
             Schedule New Session
           </Button>
         </div>
@@ -252,9 +266,9 @@ const TraineeGroupDetailsPage = () => {
                         
                         <div className="d-flex gap-2 mt-3 mt-md-0">
                           <Button variant="tertiary" className="btn-sm">Manage Attendance</Button>
-                          <Button variant="secondary" className="btn-sm">Edit Session</Button>
+                          <Button variant="secondary" className="btn-sm" onClick={() => navigate(`/coach/groups/${groupId}/sessions/${session.id}/edit`)}>Edit Session</Button>
                           {sessionTab === 'Scheduled' && (
-                            <Button variant="red" className="btn-sm">Cancel</Button>
+                            <Button variant="red" className="btn-sm" onClick={() => handleCancel(session.id)}>Cancel</Button>
                           )}
                         </div>
                       </Card.Body>

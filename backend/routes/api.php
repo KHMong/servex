@@ -180,4 +180,8 @@ Route::middleware('auth:sanctum', 'can:coach-only')->group(function () {
     
     // Training Sessions
     Route::get('/coach/groups/{group}/sessions', [TrainingSessionController::class, 'index']);
+    Route::post('/coach/groups/{group}/sessions', [TrainingSessionController::class, 'createSession']);
+    Route::get('/coach/sessions/{session}', [TrainingSessionController::class, 'getSessionDetails']);
+    Route::put('/coach/sessions/{session}', [TrainingSessionController::class, 'editSessionDetails']);
+    Route::delete('/coach/sessions/{session}', [TrainingSessionController::class, 'cancelSession']);
 });

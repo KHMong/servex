@@ -169,6 +169,26 @@ const validateMaxPlayer = (max_player) => {
 }
 
 
+/************ TRAINING SESSION ************/
+// Session Name Validation
+const validateSessionName = (name) => {
+  if (!name) return "Session Name is required.";
+  return null;
+}
+
+// Start Datetime Validation
+const validateStartDatetime = (start_datetime) => {
+  if (!start_datetime) return "Start Date and Time is required.";
+  return null;
+}
+
+// End Datetime Validation
+const validateEndDatetime = (end_datetime) => {
+  if (!end_datetime) return "End Date and Time is required.";
+  return null;
+}
+
+
 export const validate = (formData, role = null, context) => {
   const errors = {};
 
@@ -300,6 +320,19 @@ export const validate = (formData, role = null, context) => {
 
       const stateError = validateSelectState(formData.state_id);
       if (stateError) errors.state_id = stateError;
+
+      break;
+    }
+
+    case 'sessionForm': {
+      const sessionNameError = validateSessionName(formData.name);
+      if (sessionNameError) errors.name = sessionNameError;
+
+      const startDatetimeError = validateStartDatetime(formData.start_datetime);
+      if (startDatetimeError) errors.start_datetime = startDatetimeError;
+
+      const endDatetimeError = validateEndDatetime(formData.end_datetime);
+      if (endDatetimeError) errors.end_datetime = endDatetimeError;
 
       break;
     }

@@ -20,6 +20,9 @@ class TrainingSessionResource extends JsonResource
             'date_formatted' => $start->format('F j, Y'),
             'time_range' => $start->format('g:i A') . ' - ' . $end->format('g:i A'),
             'status' => $this->status,
+
+            'start_datetime_raw' => $start->toIso8601String(),
+            'end_datetime_raw' => $end->toIso8601String(),
         ];
     }
 }
