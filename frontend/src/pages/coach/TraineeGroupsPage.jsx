@@ -185,7 +185,7 @@ const TraineeGroupsPage = () => {
         data={groups} 
         loading={loading} 
         error={error}
-        emptyMessage="No trainee groups found. Create one to get started!"
+        emptyMessage="No trainee groups found."
       />
 
       {/* Pagination */}

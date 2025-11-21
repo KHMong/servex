@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
+import { FaCalendarAlt, FaClock } from 'react-icons/fa';
 import Pagination from '../../components/common/Pagination';
 import { useAuth } from '../../contexts/AuthContext';
 import apiClient from '../../api/apiClient';
@@ -95,7 +96,11 @@ const CoachDashboardPage = () => {
                       <div className="d-flex flex-column gap-2">
                           <h5 className="mb-0 fw-semibold">{session.name}</h5>
                           <small className="text-muted fs-6">
-                              {session.group_name} | {session.full_date} ({session.time_range})
+                              {session.group_name} 
+                              <span className="mx-2">|</span> 
+                              <FaCalendarAlt className="me-1" /> {session.full_date} 
+                              <span className="mx-2">|</span> 
+                              <FaClock className="me-1" /> {session.time_range}
                           </small>
                       </div>
                   </div>

@@ -8,7 +8,7 @@ const DataTable = ({ columns, data, loading, error, emptyMessage = "No records f
   }
 
   if (!data || data.length === 0) {
-    return <div className="text-center p-5 text-muted border rounded bg-white">{emptyMessage}</div>;
+    return <div className="text-center p-5 text-muted">{emptyMessage}</div>;
   }
 
   if (error) {
