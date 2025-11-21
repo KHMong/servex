@@ -717,7 +717,7 @@ CREATE TABLE `tournament` (
   `description` text NOT NULL,
   `prize` text NOT NULL,
   `rule` text NOT NULL,
-  `result` text DEFAULT NULL,
+  `result` varchar(255) DEFAULT NULL,
   `status` enum('Upcoming','Ongoing','Completed','Cancelled') NOT NULL DEFAULT 'Upcoming',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1085,7 +1085,7 @@ INSERT INTO `venue_review` (`id`, `user_id`, `venue_id`, `rating`, `comment`, `s
 CREATE TABLE `voucher` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `code` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `description` varchar(255) NOT NULL,
   `discount_value` decimal(8,2) NOT NULL,
   `point_cost` int(11) NOT NULL,
   `validity` int(11) NOT NULL,
