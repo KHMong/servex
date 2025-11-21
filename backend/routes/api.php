@@ -170,7 +170,7 @@ Route::middleware('auth:sanctum', 'can:coach-only')->group(function () {
     Route::get('/coach/groups', [TraineeGroupController::class, 'index']);
     Route::post('/coach/groups', [TraineeGroupController::class, 'createGroup']);
     Route::get('/coach/groups/{group}', [TraineeGroupController::class, 'getGroupInfo']);
-    Route::put('/coach/groups/{group}', [TraineeGroupController::class, 'editGroup']);
+    Route::put('/coach/groups/{group}', [TraineeGroupController::class, 'editGroupInfo']);
     Route::delete('/coach/groups/{group}', [TraineeGroupController::class, 'deleteGroup']);
     
     // Group Members

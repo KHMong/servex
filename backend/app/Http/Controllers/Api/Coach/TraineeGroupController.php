@@ -59,7 +59,7 @@ class TraineeGroupController extends Controller
         return new TraineeGroupResource($group);
     }
 
-    public function editGroup(Request $request, TraineeGroup $group)
+    public function editGroupInfo(Request $request, TraineeGroup $group)
     {
         $this->authorize('update', $group);
 
