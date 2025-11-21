@@ -37,6 +37,7 @@ import PurchasePassPage from '../pages/user/PurchasePassPage';
 import PaymentStatusPage from '../pages/user/PaymentStatusPage';
 import PortalLayout from '../components/layout/PortalLayout';
 import CoachDashboardPage from '../pages/coach/CoachDashboardPage';
+import TraineeGroupsPage from '../pages/coach/TraineeGroupsPage';
 
 const AppRoutes = () => {
   return (
@@ -90,6 +91,7 @@ const AppRoutes = () => {
           <Route path="/coach" element={<PortalLayout role="coach" />}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<CoachDashboardPage />} />
+            <Route path="groups" element={<TraineeGroupsPage />} />
           </Route>
         </Route>
       </Routes>

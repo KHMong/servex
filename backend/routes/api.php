@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\Player\RewardController;
 use App\Http\Controllers\Api\Player\TournamentRegistrationController;
 use App\Http\Controllers\Api\Player\OrganiserController;
 use App\Http\Controllers\Api\Coach\DashboardController;
+use App\Http\Controllers\Api\Coach\TraineeGroupController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -159,6 +160,11 @@ Route::middleware('auth:sanctum', 'can:player-not-organiser')->group(function ()
 
 // Coach only
 Route::middleware('auth:sanctum', 'can:coach-only')->group(function () {
+    // Dashboard
     Route::get('/coach/dashboard', [DashboardController::class, 'index']);
     Route::get('/coach/dashboard/upcoming-sessions', [DashboardController::class, 'getUpcomingSessions']);
+
+    // Trainee Groups
+    Route::get('/coach/groups', [TraineeGroupController::class, 'index']);
+    Route::delete('/coach/groups/{group}', [TraineeGroupController::class, 'deleteGroup']);
 });

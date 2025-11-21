@@ -14,10 +14,15 @@ class TraineeGroupResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'status' => $this->status,
+            'active_trainees' => $this->active_members_count,
+            'can_delete' => $this->scheduled_count === 0, 
             // Relationships
             'coach' => new UserResource($this->whenLoaded('coach')),
             'members' => GroupMemberResource::collection($this->whenLoaded('members')),
-            'sessions' => TrainingSessionResource::collection($this->whenLoaded('trainingSessions')),
+            'sessions' => [
+                'scheduled' => $this->scheduled_count,
+                'completed' => $this->completed_count,
+            ],
         ];
     }
 }
