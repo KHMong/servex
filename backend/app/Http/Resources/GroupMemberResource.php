@@ -11,10 +11,14 @@ class GroupMemberResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'status' => $this->status,
-            'joined_at' => $this->created_at,
-            // Relationships
-            'trainee' => new UserResource($this->whenLoaded('trainee')),
+            'name' => $this->trainee->name,
+            'photo_path' => $this->when($this->trainee->photo, function () {
+                // Path: "users/{user_id}/{filename}"
+                return "users/{$this->trainee->id}/{$this->trainee->photo}";
+            }, null), // If no photo, return null
+            'gender' => $this->trainee->gender,
+            'email' => $this->trainee->email,
+            'phone_no' => $this->trainee->phone_no,
         ];
     }
 }

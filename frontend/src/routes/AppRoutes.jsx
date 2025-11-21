@@ -39,6 +39,7 @@ import PortalLayout from '../components/layout/PortalLayout';
 import CoachDashboardPage from '../pages/coach/CoachDashboardPage';
 import TraineeGroupsPage from '../pages/coach/TraineeGroupsPage';
 import TraineeGroupFormPage from '../pages/coach/groups/TraineeGroupFormPage';
+import TraineeGroupDetailsPage from '../pages/coach/groups/TraineeGroupDetailsPage';
 
 const AppRoutes = () => {
   return (
@@ -95,6 +96,7 @@ const AppRoutes = () => {
             <Route path="groups" element={<TraineeGroupsPage />} />
             <Route path="groups/create" element={<TraineeGroupFormPage mode="create" />} />
             <Route path="groups/:groupId/edit" element={<TraineeGroupFormPage mode="edit" />} />
+            <Route path="groups/:groupId" element={<TraineeGroupDetailsPage />} />
           </Route>
         </Route>
       </Routes>

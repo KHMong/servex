@@ -20,6 +20,8 @@ use App\Http\Controllers\Api\Player\TournamentRegistrationController;
 use App\Http\Controllers\Api\Player\OrganiserController;
 use App\Http\Controllers\Api\Coach\DashboardController;
 use App\Http\Controllers\Api\Coach\TraineeGroupController;
+use App\Http\Controllers\Api\Coach\GroupMemberController;
+use App\Http\Controllers\Api\Coach\TrainingSessionController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -170,4 +172,12 @@ Route::middleware('auth:sanctum', 'can:coach-only')->group(function () {
     Route::get('/coach/groups/{group}', [TraineeGroupController::class, 'getGroupInfo']);
     Route::put('/coach/groups/{group}', [TraineeGroupController::class, 'editGroup']);
     Route::delete('/coach/groups/{group}', [TraineeGroupController::class, 'deleteGroup']);
+    
+    // Group Members
+    Route::get('/coach/groups/{group}/trainees', [GroupMemberController::class, 'index']);
+    Route::post('/coach/groups/{group}/trainees', [GroupMemberController::class, 'addMember']);
+    Route::delete('/coach/group-members/{groupMember}', [GroupMemberController::class, 'removeMember']);
+    
+    // Training Sessions
+    Route::get('/coach/groups/{group}/sessions', [TrainingSessionController::class, 'index']);
 });
