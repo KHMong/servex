@@ -1,0 +1,15 @@
+.custom-table thead th {
+  background-color: var(--servex-light-gray-bg);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.custom-table tbody td {
+  color: var(--servex-muted-text);
+  font-size: 0.95rem;
+}
+
+.custom-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
