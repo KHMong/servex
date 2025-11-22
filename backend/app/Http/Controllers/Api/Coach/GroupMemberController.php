@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\TraineeGroup;
 use App\Models\GroupMember;
 use App\Models\User;
+use App\Models\SessionAttendance;
 use App\Http\Resources\GroupMemberResource;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class GroupMemberController extends Controller
@@ -65,11 +67,33 @@ class GroupMemberController extends Controller
         }
 
         // Add to group
-        $group->members()->create([
+        $newMember = $group->members()->create([
             'trainee_group_id' => $group->id,
             'trainee_id' => $player->id,
             'status' => 'Active'
         ]);
+
+        // Create attendance for all upcoming scheduled sessions
+        $futureSessions = $group->trainingSessions()
+                                ->where('status', 'Scheduled')
+                                ->get();
+        
+        $attendanceRecords = [];
+        $now = Carbon::now();
+
+        foreach ($futureSessions as $session) {
+            $attendanceRecords[] = [
+                'training_session_id' => $session->id,
+                'group_member_id' => $newMember->id,
+                'status' => 'Pending',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        if (!empty($attendanceRecords)) {
+            SessionAttendance::insert($attendanceRecords);
+        }
 
         return response()->json(['message' => 'Trainee added successfully.']);
     }
@@ -79,6 +103,14 @@ class GroupMemberController extends Controller
         $group = $groupMember->traineeGroup;
         $this->authorize('update', $group);
 
+        // Hard delete attendance for all upcoming scheduled sessions
+        SessionAttendance::where('group_member_id', $groupMember->id)
+            ->whereHas('trainingSession', function ($query) {
+                $query->where('status', 'Scheduled');
+            })
+            ->delete();
+
+        // Soft delete the member
         $groupMember->update(['status' => 'Terminated']);
 
         return response()->json(['message' => 'Trainee has been removed from group.']);

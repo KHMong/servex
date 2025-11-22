@@ -5,7 +5,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TraineeGroup;
 use App\Models\TrainingSession;
+use App\Models\SessionAttendance;
 use App\Http\Resources\TrainingSessionResource;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TrainingSessionController extends Controller
@@ -56,7 +58,28 @@ class TrainingSessionController extends Controller
             return response()->json(['message' => 'This session clashes with another session in this group.'], 409);
         }
 
-        $group->trainingSessions()->create($validated);
+        // Create session
+        $session = $group->trainingSessions()->create($validated);
+
+        // Create attendance for all active members
+        $activeMembers = $group->activeMembers()->get();
+
+        $attendanceRecords = [];
+        $now = Carbon::now();
+
+        foreach ($activeMembers as $member) {
+            $attendanceRecords[] = [
+                'training_session_id' => $session->id,
+                'group_member_id' => $member->id,
+                'status' => 'Pending',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        if (!empty($attendanceRecords)) {
+            SessionAttendance::insert($attendanceRecords);
+        }
 
         return response()->json(['message' => 'Session scheduled successfully.'], 201);
     }
@@ -115,7 +138,11 @@ class TrainingSessionController extends Controller
             return response()->json(['message' => 'Cannot cancel a completed session.'], 422);
         }
 
+        // Update session status
         $session->update(['status' => 'Cancelled']);
+
+        // Hard delete all attendance records for this session
+        SessionAttendance::where('training_session_id', $session->id)->delete();
 
         return response()->json(['message' => 'Session cancelled successfully.']);
     }

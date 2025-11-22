@@ -22,13 +22,14 @@ class DashboardController extends Controller
         // Sessions This Month
         $sessionsThisMonth = $coachProfile->trainingSessions()
             ->whereBetween('start_datetime', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->where('training_session.status', 'Scheduled')
             ->count();
 
         // Overall Attendance Rate
         $sessionIds = $coachProfile->trainingSessions()->pluck('training_session.id');
         $totalAttendances = SessionAttendance::whereIn('training_session_id', $sessionIds)->count();
-        $attendedCount = SessionAttendance::whereIn('training_session_id', $sessionIds)->where('status', 'Attended')->count();
-        $attendanceRate = $totalAttendances > 0 ? round(($attendedCount / $totalAttendances) * 100) : 0;
+        $presentCount = SessionAttendance::whereIn('training_session_id', $sessionIds)->where('status', 'Present')->count();
+        $attendanceRate = $totalAttendances > 0 ? round(($presentCount / $totalAttendances) * 100) : 0;
 
         return response()->json([
             'stats' => [
