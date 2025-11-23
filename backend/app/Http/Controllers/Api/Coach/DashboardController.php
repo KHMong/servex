@@ -48,7 +48,7 @@ class DashboardController extends Controller
 
         $upcomingSessions = $coachProfile->trainingSessions()
             ->with('traineeGroup')
-            ->where('start_datetime', '>', now())
+            ->where('training_session.status', 'Scheduled')
             ->orderBy('start_datetime', 'asc')
             ->paginate(10);
 

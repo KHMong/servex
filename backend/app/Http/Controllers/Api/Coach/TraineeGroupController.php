@@ -20,10 +20,10 @@ class TraineeGroupController extends Controller
             ->withCount([
                 'activeMembers',
                 'trainingSessions as scheduled_count' => function ($q) {
-                    $q->where('start_datetime', '>', now());
+                    $q->where('status', 'Scheduled');
                 },
                 'trainingSessions as completed_count' => function ($q) {
-                    $q->where('end_datetime', '<=', now());
+                    $q->where('status', 'Completed');
                 }
             ]);
 
@@ -79,7 +79,7 @@ class TraineeGroupController extends Controller
 
         // Ensure there are no scheduled sessions
         $hasScheduledSessions = $group->trainingSessions()
-            ->where('start_datetime', '>', now())
+            ->where('status', 'Scheduled')
             ->exists();
 
         if ($hasScheduledSessions) {
