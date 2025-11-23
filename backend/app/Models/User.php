@@ -160,4 +160,21 @@ class User extends Authenticatable
     {
         return $this->hasMany(ActivityParticipant::class);
     }
+
+    public function groupMembers()
+    {
+        return $this->hasMany(GroupMember::class, 'trainee_id');
+    }
+
+    public function sessionAttendances()
+    {
+        return $this->hasManyThrough(
+            SessionAttendance::class, 
+            GroupMember::class, 
+            'trainee_id',      
+            'group_member_id', 
+            'id',              
+            'id'               
+        );
+    }
 }

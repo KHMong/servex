@@ -20,7 +20,7 @@ class TraineeGroup extends Model
 
     public function coach()
     {
-        return $this->belongsTo(User::class, 'coach_id');
+        return $this->belongsTo(CoachProfile::class, 'coach_id', 'user_id');
     }
 
     public function members()

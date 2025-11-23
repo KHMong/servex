@@ -35,6 +35,7 @@ import ActivityFormPage from '../pages/user/ActivityFormPage';
 import CoachApplicationPage from '../pages/user/CoachApplicationPage';
 import PurchasePassPage from '../pages/user/PurchasePassPage';
 import PaymentStatusPage from '../pages/user/PaymentStatusPage';
+import MyTrainingPage from '../pages/user/MyTrainingPage';
 import PortalLayout from '../components/layout/PortalLayout';
 import CoachDashboardPage from '../pages/coach/CoachDashboardPage';
 import TraineeGroupsPage from '../pages/coach/TraineeGroupsPage';
@@ -70,6 +71,7 @@ const AppRoutes = () => {
               <Route path="tournament-history" element={<TournamentHistoryPage />} />
               <Route path="activity-history" element={<ActivityHistoryPage />} />
             </Route>
+            <Route path="/my-training" element={<MyTrainingPage />} />
             <Route path="/bookings/:bookingId/summary" element={<BookingConfirmationPage />} />
             <Route path="/booking-payment-success" element={<BookingPaymentSuccessPage />} />
             <Route path="/venues/:venueId/review/create" element={<WriteReviewPage />} />

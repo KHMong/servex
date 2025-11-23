@@ -1,0 +1,21 @@
+.status-badge-sm { 
+    font-size: 0.8rem; 
+    padding: 0.2rem 0.6rem; 
+    border-radius: 999px; 
+    font-weight: 600; 
+}
+
+.status-pending { 
+    background-color: var(--servex-light-gray-btn); 
+    color: var(--servex-muted-text); 
+}
+
+.status-present { 
+    background-color: var(--servex-light-green-bg); 
+    color: var(--servex-green); 
+}
+
+.status-absent { 
+    background-color: var(--servex-light-red); 
+    color: var(--servex-red); 
+}

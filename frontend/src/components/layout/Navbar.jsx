@@ -57,11 +57,13 @@ const NavbarComponent = () => {
                     <span className="user-role-badge">{user.role?.toUpperCase() || 'N/A'}</span>
                     <span className="user-name-text">{user.name}</span>
                   </div>
-                  {/* <FaChevronDown className="dropdown-arrow-icon" /> */}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
                   <Dropdown.Item as={Link} to="/info">Info</Dropdown.Item>
+                  {user.role === 'Player' && (
+                    <Dropdown.Item as={Link} to="/my-training">My Training</Dropdown.Item>
+                  )}
                   {user.is_coach && (
                     <Dropdown.Item as={Link} to="/coach">Coach Portal</Dropdown.Item>
                   )}

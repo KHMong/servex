@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Player\VenueReviewController;
 use App\Http\Controllers\Api\Player\RewardController;
 use App\Http\Controllers\Api\Player\TournamentRegistrationController;
 use App\Http\Controllers\Api\Player\OrganiserController;
+use App\Http\Controllers\Api\Player\TrainingController;
 use App\Http\Controllers\Api\Coach\DashboardController;
 use App\Http\Controllers\Api\Coach\TraineeGroupController;
 use App\Http\Controllers\Api\Coach\GroupMemberController;
@@ -149,6 +150,10 @@ Route::middleware('auth:sanctum', 'can:player-only')->group(function () {
 
     // Organiser Pass
     Route::post('/organiser/verify-payment', [OrganiserController::class, 'verifyPayment']);
+
+    // My Training
+    Route::get('/player/training/groups', [TrainingController::class, 'getGroups']);
+    Route::get('/player/training/sessions', [TrainingController::class, 'getSessions']);
 });
 
 // Player (Not coach)
