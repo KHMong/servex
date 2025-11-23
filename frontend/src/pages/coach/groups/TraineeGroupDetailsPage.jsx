@@ -161,7 +161,7 @@ const TraineeGroupDetailsPage = () => {
       {groupError && <Alert variant="danger">{groupError}</Alert>}
       <div className="mb-5">
         <h1 className="fw-bold mb-2">{group.name}</h1>
-        <p className="text-muted">{group.description || 'No description.'}</p>
+        <p className="text-muted fs-5">{group.description || 'No description.'}</p>
       </div>
 
       {/* Trainees Section */}
@@ -265,7 +265,7 @@ const TraineeGroupDetailsPage = () => {
                         </div>
                         
                         <div className="d-flex gap-2 mt-3 mt-md-0">
-                          <Button variant="tertiary" className="btn-sm">Manage Attendance</Button>
+                          <Button variant="tertiary" className="btn-sm" onClick={() => navigate(`/coach/groups/${groupId}/sessions/${session.id}/attendance`)}>Manage Attendance</Button>
                           <Button variant="secondary" className="btn-sm" onClick={() => navigate(`/coach/groups/${groupId}/sessions/${session.id}/edit`)}>Edit Session</Button>
                           {sessionTab === 'Scheduled' && (
                             <Button variant="red" className="btn-sm" onClick={() => handleCancel(session.id)}>Cancel</Button>

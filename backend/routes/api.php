@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\Coach\DashboardController;
 use App\Http\Controllers\Api\Coach\TraineeGroupController;
 use App\Http\Controllers\Api\Coach\GroupMemberController;
 use App\Http\Controllers\Api\Coach\TrainingSessionController;
+use App\Http\Controllers\Api\Coach\SessionAttendanceController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -184,4 +185,10 @@ Route::middleware('auth:sanctum', 'can:coach-only')->group(function () {
     Route::get('/coach/sessions/{session}', [TrainingSessionController::class, 'getSessionDetails']);
     Route::put('/coach/sessions/{session}', [TrainingSessionController::class, 'editSessionDetails']);
     Route::delete('/coach/sessions/{session}', [TrainingSessionController::class, 'cancelSession']);
+
+    // Session Attendance
+    Route::get('/coach/sessions/{session}/attendance', [SessionAttendanceController::class, 'index']);
+    Route::put('/coach/sessions/{session}/attendance/update', [SessionAttendanceController::class, 'update']);
+    Route::put('/coach/sessions/{session}/attendance/batch', [SessionAttendanceController::class, 'batchUpdate']);
+    Route::post('/coach/sessions/{session}/comments', [SessionAttendanceController::class, 'saveComments']);
 });

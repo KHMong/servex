@@ -41,6 +41,7 @@ import TraineeGroupsPage from '../pages/coach/TraineeGroupsPage';
 import TraineeGroupFormPage from '../pages/coach/groups/TraineeGroupFormPage';
 import TraineeGroupDetailsPage from '../pages/coach/groups/TraineeGroupDetailsPage';
 import SessionFormPage from '../pages/coach/groups/SessionFormPage';
+import SessionAttendancePage from '../pages/coach/groups/SessionAttendancePage';
 
 const AppRoutes = () => {
   return (
@@ -100,6 +101,7 @@ const AppRoutes = () => {
             <Route path="groups/:groupId" element={<TraineeGroupDetailsPage />} />
             <Route path="groups/:groupId/sessions/create" element={<SessionFormPage mode="create" />} />
             <Route path="groups/:groupId/sessions/:sessionId/edit" element={<SessionFormPage mode="edit" />} />
+            <Route path="groups/:groupId/sessions/:sessionId/attendance" element={<SessionAttendancePage />} />
           </Route>
         </Route>
       </Routes>

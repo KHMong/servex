@@ -1,0 +1,30 @@
+.attendance-table thead th {
+  background-color: var(--servex-light-gray-bg);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--servex-muted-text);
+  border-bottom: none;
+}
+
+.attendance-checkbox .form-check-input {
+  width: 1.5em;
+  height: 1.5em;
+  cursor: pointer;
+  border: 2px solid var(--servex-light-gray-disabled);
+}
+
+.attendance-checkbox .form-check-input:checked {
+  background-color: var(--servex-green);
+  border-color: var(--servex-green);
+}
+
+.attendance-checkbox .form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem var(--servex-green-box-shadow);
+}
+
+.comment-input {
+  background-color: var(--servex-light-gray-bg) !important;
+  border: 1px solid var(--servex-light-gray-disabled) !important;
+  resize: vertical;
+  min-height: 40px;
+}
