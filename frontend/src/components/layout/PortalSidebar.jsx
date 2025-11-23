@@ -12,6 +12,11 @@ const SidebarContent = ({ role }) => {
           { to: '/coach/dashboard', text: 'Dashboard' },
           { to: '/coach/groups', text: 'Trainee Groups' },
         ];
+      case 'organiser':
+        return [
+          { to: '/organiser/dashboard', text: 'Dashboard' },
+          { to: '/organiser/tournaments', text: 'Tournaments' },
+        ];
       default:
         return [];
     }

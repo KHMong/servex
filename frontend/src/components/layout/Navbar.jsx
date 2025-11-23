@@ -67,6 +67,9 @@ const NavbarComponent = () => {
                   {user.is_coach && (
                     <Dropdown.Item as={Link} to="/coach">Coach Portal</Dropdown.Item>
                   )}
+                  {user.is_organiser && (
+                    <Dropdown.Item as={Link} to="/organiser">Organiser Portal</Dropdown.Item>
+                  )}
                   <Dropdown.Divider />
                   <Dropdown.Item as="button" onClick={handleLogout} className="text-danger">
                     Logout

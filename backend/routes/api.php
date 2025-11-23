@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\Coach\TraineeGroupController;
 use App\Http\Controllers\Api\Coach\GroupMemberController;
 use App\Http\Controllers\Api\Coach\TrainingSessionController;
 use App\Http\Controllers\Api\Coach\SessionAttendanceController;
+use App\Http\Controllers\Api\Organiser\OrganiserDashboardController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -196,4 +197,11 @@ Route::middleware('auth:sanctum', 'can:coach-only')->group(function () {
     Route::put('/coach/sessions/{session}/attendance/update', [SessionAttendanceController::class, 'update']);
     Route::put('/coach/sessions/{session}/attendance/batch', [SessionAttendanceController::class, 'batchUpdate']);
     Route::post('/coach/sessions/{session}/comments', [SessionAttendanceController::class, 'saveComments']);
+});
+
+// Organiser only
+Route::middleware('auth:sanctum', 'can:organiser-only')->group(function () {
+    // Dashboard
+    Route::get('/organiser/dashboard/stats', [OrganiserDashboardController::class, 'getStats']);
+    Route::get('/organiser/dashboard/tournaments-stats', [OrganiserDashboardController::class, 'getTournamentStats']);
 });
