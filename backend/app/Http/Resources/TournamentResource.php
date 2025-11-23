@@ -20,7 +20,8 @@ class TournamentResource extends JsonResource
             'venue_address' => $this->venue_address,
             'start_date' => $this->start_date->toFormattedDateString(),
             'end_date' => $this->end_date->toFormattedDateString(),
-            'registration_deadline' => $this->deadline->toFormattedDateString(),
+            'dates' => Carbon::parse($this->start_date)->format('d M Y') . ' - ' . Carbon::parse($this->end_date)->format('d M Y'),
+            'deadline' => Carbon::parse($this->deadline)->format('d M Y'),
             'description' => $this->description,
             'prize' => $this->prize,
             'rule' => $this->rule,
@@ -53,6 +54,10 @@ class TournamentResource extends JsonResource
                 });
             }),
             'is_registration_open' => $this->status === 'Upcoming' && !$isDeadlinePassed,
+            'registrations_summary' => [
+                'approved' => $this->approved_count,
+                'pending' => $this->pending_count,
+            ],
         ];
     }
 }

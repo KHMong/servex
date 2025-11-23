@@ -44,6 +44,7 @@ import TraineeGroupDetailsPage from '../pages/coach/groups/TraineeGroupDetailsPa
 import SessionFormPage from '../pages/coach/groups/SessionFormPage';
 import SessionAttendancePage from '../pages/coach/groups/SessionAttendancePage';
 import OrganiserDashboardPage from '../pages/organiser/OrganiserDashboardPage';
+import OrganiserTournamentsPage from '../pages/organiser/OrganiserTournamentsPage';
 
 const AppRoutes = () => {
   return (
@@ -109,6 +110,7 @@ const AppRoutes = () => {
           <Route path="/organiser" element={<PortalLayout role="organiser" />}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<OrganiserDashboardPage />} />
+            <Route path="tournaments" element={<OrganiserTournamentsPage />} />
           </Route>
         </Route>
       </Routes>

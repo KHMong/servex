@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\Coach\GroupMemberController;
 use App\Http\Controllers\Api\Coach\TrainingSessionController;
 use App\Http\Controllers\Api\Coach\SessionAttendanceController;
 use App\Http\Controllers\Api\Organiser\OrganiserDashboardController;
+use App\Http\Controllers\Api\Organiser\OrganiserTournamentController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -204,4 +205,8 @@ Route::middleware('auth:sanctum', 'can:organiser-only')->group(function () {
     // Dashboard
     Route::get('/organiser/dashboard/stats', [OrganiserDashboardController::class, 'getStats']);
     Route::get('/organiser/dashboard/tournaments-stats', [OrganiserDashboardController::class, 'getTournamentStats']);
+
+    // Tournaments
+    Route::get('/organiser/tournaments', [OrganiserTournamentController::class, 'index']);
+    Route::delete('/organiser/tournaments/{tournament}', [OrganiserTournamentController::class, 'cancel']);
 });
