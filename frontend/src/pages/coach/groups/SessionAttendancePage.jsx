@@ -71,7 +71,6 @@ const SessionAttendancePage = () => {
   }, [trainees]);
 
   const handleBatchToggle = async () => {
-    const action = allPresent ? "Uncheck All" : "Check All";
     const confirmMsg = allPresent 
       ? "Are you sure you want to mark everyone as Absent?" 
       : "Are you sure you want to mark everyone as Present?";
