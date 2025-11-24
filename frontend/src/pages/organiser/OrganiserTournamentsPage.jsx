@@ -139,8 +139,8 @@ const OrganiserTournamentsPage = () => {
               <FaEdit size={18} />
             </span>
 
-            {/* Update Tournament Result (Only if Completed/Cancelled) */}
-            {(isCompleted || isCancelled) ? (
+            {/* Update Tournament Result (Only if Completed) */}
+            {(isCompleted) ? (
               <span 
                 role="button" className="text-muted" title="Update Result"
                 onClick={() => navigate(`/organiser/tournaments/${row.id}/result`)}
