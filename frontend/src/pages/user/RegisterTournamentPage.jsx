@@ -59,7 +59,7 @@ const RegisterTournamentPage = () => {
         await apiClient.post(`/tournaments/${tournamentId}/register`, formData);
         showNotification('Registration submitted successfully.', 'success');
         // Redirect to Tournament History Page
-        navigate(`/profile/tournament-history`);
+        navigate(`/info/tournament-history`);
       } catch (err) {
         const errorMessage = err.response?.data?.message || 'Registration failed.';
         setError(errorMessage);

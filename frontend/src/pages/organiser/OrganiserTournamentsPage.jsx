@@ -119,7 +119,6 @@ const OrganiserTournamentsPage = () => {
       cell: (row) => {
         const isUpcoming = row.status === 'Upcoming';
         const isCompleted = row.status === 'Completed';
-        const isCancelled = row.status === 'Cancelled';
 
         return (
           <div className="d-flex gap-3 action-icons">
