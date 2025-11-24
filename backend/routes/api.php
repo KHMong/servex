@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\Coach\TrainingSessionController;
 use App\Http\Controllers\Api\Coach\SessionAttendanceController;
 use App\Http\Controllers\Api\Organiser\OrganiserDashboardController;
 use App\Http\Controllers\Api\Organiser\OrganiserTournamentController;
+use App\Http\Controllers\Api\Organiser\OrganiserRegistrationController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -213,4 +214,10 @@ Route::middleware('auth:sanctum', 'can:organiser-only')->group(function () {
     Route::get('/organiser/tournaments/{tournament}', [OrganiserTournamentController::class, 'getTournamentDetails']);
     Route::put('/organiser/tournaments/{tournament}', [OrganiserTournamentController::class, 'editTournamentDetails']);
     Route::delete('/organiser/tournaments/{tournament}', [OrganiserTournamentController::class, 'cancelTournament']);
+
+    // Tournament Registrations
+    Route::get('/organiser/tournaments/{tournament}/registrations', [OrganiserRegistrationController::class, 'index']);
+    Route::put('/organiser/registrations/{registration}/approve', [OrganiserRegistrationController::class, 'approve']);
+    Route::put('/organiser/registrations/{registration}/reject', [OrganiserRegistrationController::class, 'reject']);
+    Route::put('/organiser/registrations/{registration}/update-payment', [OrganiserRegistrationController::class, 'updatePayment']);
 });

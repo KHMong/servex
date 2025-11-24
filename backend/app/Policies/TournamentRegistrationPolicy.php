@@ -23,4 +23,13 @@ class TournamentRegistrationPolicy
         // Only the user/organiser can update the details
         return $user->id === $tournamentRegistration->user_id || $user->id === $tournamentRegistration->tournament->organiser_id;
     }
+
+    /**
+     * Determine whether the user can update the statuses.
+     */
+    public function updateStatus(User $user, TournamentRegistration $tournamentRegistration)
+    {
+        // Only the organiser can update the statuses
+        return $user->id === $tournamentRegistration->tournament->organiser_id;
+    }
 }
