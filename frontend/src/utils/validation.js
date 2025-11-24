@@ -142,6 +142,60 @@ const validateSelectCategory = (category) => {
   return null;
 }
 
+// Tournament Name Validation
+const validateTournamentName = (name) => {
+  if (!name) return "Tournament Name is required.";
+  return null;
+}
+
+// Venue Address Validation
+const validateVenueAddress = (venue_address) => {
+  if (!venue_address) return "Venue Address is required.";
+  return null;
+}
+
+// Select State Validation
+const validateSelectTournamentState = (state) => {
+  if (!state) return "State is required.";
+  return null;
+}
+
+// Start Date Validation
+const validateStartDate = (start_date) => {
+  if (!start_date) return "Start Date is required.";
+  return null;
+}
+
+// End Date Validation
+const validateEndDate = (end_date) => {
+  if (!end_date) return "End Date is required.";
+  return null;
+}
+
+// Deadline Validation
+const validateDeadline = (deadline) => {
+  if (!deadline) return "Registration Deadline is required.";
+  return null;
+}
+
+// Description Validation
+const validateTournamentDescription = (description) => {
+  if (!description) return "Description is required.";
+  return null;
+}
+
+// Prize Validation
+const validateTournamentPrize = (prize) => {
+  if (!prize) return "Prize is required.";
+  return null;
+}
+
+// Rule Validation
+const validateTournamentRule = (rule) => {
+  if (!rule) return "Rules & Regulations is required.";
+  return null;
+}
+
 
 /************ ACTIVITY ************/
 // Select Booking Validation
@@ -333,6 +387,37 @@ export const validate = (formData, role = null, context) => {
 
       const endDatetimeError = validateEndDatetime(formData.end_datetime);
       if (endDatetimeError) errors.end_datetime = endDatetimeError;
+
+      break;
+    }
+
+    case 'tournamentForm': {
+      const tournamentNameError = validateTournamentName(formData.name);
+      if (tournamentNameError) errors.name = tournamentNameError;
+
+      const venueAddressError = validateVenueAddress(formData.venue_address);
+      if (venueAddressError) errors.venue_address = venueAddressError;
+
+      const stateError = validateSelectTournamentState(formData.state_id);
+      if (stateError) errors.state_id = stateError;
+
+      const startDateError = validateStartDate(formData.start_date);
+      if (startDateError) errors.start_date = startDateError;
+
+      const endDateError = validateEndDate(formData.end_date);
+      if (endDateError) errors.end_date = endDateError;
+
+      const deadlineError = validateDeadline(formData.deadline);
+      if (deadlineError) errors.deadline = deadlineError;
+
+      const descriptionError = validateTournamentDescription(formData.description);
+      if (descriptionError) errors.description = descriptionError;
+
+      const prizeError = validateTournamentPrize(formData.prize);
+      if (prizeError) errors.prize = prizeError;
+
+      const ruleError = validateTournamentRule(formData.rule);
+      if (ruleError) errors.rule = ruleError;
 
       break;
     }

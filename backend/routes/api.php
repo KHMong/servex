@@ -208,5 +208,9 @@ Route::middleware('auth:sanctum', 'can:organiser-only')->group(function () {
 
     // Tournaments
     Route::get('/organiser/tournaments', [OrganiserTournamentController::class, 'index']);
-    Route::delete('/organiser/tournaments/{tournament}', [OrganiserTournamentController::class, 'cancel']);
+    Route::get('/organiser/tournaments/create-info', [OrganiserTournamentController::class, 'getCreateInfo']);
+    Route::post('/organiser/tournaments', [OrganiserTournamentController::class, 'createTournament']);
+    Route::get('/organiser/tournaments/{tournament}', [OrganiserTournamentController::class, 'getTournamentDetails']);
+    Route::put('/organiser/tournaments/{tournament}', [OrganiserTournamentController::class, 'editTournamentDetails']);
+    Route::delete('/organiser/tournaments/{tournament}', [OrganiserTournamentController::class, 'cancelTournament']);
 });

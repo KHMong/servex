@@ -45,6 +45,7 @@ import SessionFormPage from '../pages/coach/groups/SessionFormPage';
 import SessionAttendancePage from '../pages/coach/groups/SessionAttendancePage';
 import OrganiserDashboardPage from '../pages/organiser/OrganiserDashboardPage';
 import OrganiserTournamentsPage from '../pages/organiser/OrganiserTournamentsPage';
+import TournamentFormPage from '../pages/organiser/tournaments/TournamentFormPage';
 
 const AppRoutes = () => {
   return (
@@ -111,6 +112,8 @@ const AppRoutes = () => {
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<OrganiserDashboardPage />} />
             <Route path="tournaments" element={<OrganiserTournamentsPage />} />
+            <Route path="tournaments/create" element={<TournamentFormPage mode="create" />} />
+            <Route path="tournaments/:tournamentId/edit" element={<TournamentFormPage mode="edit" />} />
           </Route>
         </Route>
       </Routes>
