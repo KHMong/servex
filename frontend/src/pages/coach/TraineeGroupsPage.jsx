@@ -127,7 +127,7 @@ const TraineeGroupsPage = () => {
               <FaTrash size={18} />
             </span>
           ) : (
-            <span className="text-muted opacity-25" title="Cannot delete: Contain scheduled sessions">
+            <span className="text-muted opacity-25" title="Cannot delete: Contain scheduled sessions/active members">
               <FaTrash size={18} />
             </span>
           )}

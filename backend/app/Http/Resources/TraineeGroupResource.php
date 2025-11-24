@@ -15,7 +15,7 @@ class TraineeGroupResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
             'active_trainees' => $this->active_members_count,
-            'can_delete' => $this->scheduled_count === 0, 
+            'can_delete' => $this->scheduled_count === 0 && $this->active_members_count === 0, 
             // Relationships
             'coach' => new UserResource($this->whenLoaded('coach')),
             'members' => GroupMemberResource::collection($this->whenLoaded('members')),

@@ -81,9 +81,14 @@ class TraineeGroupController extends Controller
         $hasScheduledSessions = $group->trainingSessions()
             ->where('status', 'Scheduled')
             ->exists();
+        
+        // Ensure there are no active members
+        $hasActiveMembers = $group->activeMembers()->exists();
 
         if ($hasScheduledSessions) {
             return response()->json(['message' => 'Cannot delete group with upcoming training sessions.'], 422);
+        } else if ($hasActiveMembers) {
+            return response()->json(['message' => 'Cannot delete group with active members.'], 422);
         }
 
         $group->update(['status' => 'Terminated']);
