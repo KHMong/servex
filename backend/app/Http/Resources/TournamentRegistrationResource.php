@@ -24,10 +24,10 @@ class TournamentRegistrationResource extends JsonResource
             'payment_status' => $this->payment_status,
             'status' => $this->status,
             // Relationships
-            'partner' => [
+            'partner' => $partnerToDisplay ? [
                 'user_id' => $partnerToDisplay->user_id,
                 'name' => $partnerToDisplay->name,
-            ],
+            ] : null,
             'tournament' => [
                 'id' => $this->tournament->id,
                 'name' => $this->tournament->name,
