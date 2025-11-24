@@ -8,6 +8,7 @@ use App\Models\State;
 use App\Models\TournamentCategory;
 use App\Models\TournamentRegistration;
 use App\Http\Resources\TournamentResource;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -66,10 +67,12 @@ class OrganiserTournamentController extends Controller
                 'state_id' => $tournament->state_id,
                 'start_date' => $tournament->start_date,
                 'end_date' => $tournament->end_date,
+                'dates' => Carbon::parse($tournament->start_date)->format('d M Y') . ' - ' . Carbon::parse($tournament->end_date)->format('d M Y'),
                 'deadline' => $tournament->deadline,
                 'description' => $tournament->description,
                 'prize' => $tournament->prize,
                 'rule' => $tournament->rule,
+                'result_path' => $tournament->result ? "tournaments/{$tournament->id}/result/{$tournament->result}" : null,
                 'photo_path' => $tournament->photo ? "tournaments/{$tournament->id}/{$tournament->photo}" : null,
                 'selected_categories' => $tournament->selectedCategories->map(function($item) use ($tournament) {
                     // Check if there is any Pending/Approved registrations for the category
@@ -192,6 +195,43 @@ class OrganiserTournamentController extends Controller
         });
 
         return response()->json(['message' => 'Tournament updated successfully!']);
+    }
+
+    public function updateResult(Request $request, Tournament $tournament)
+    {
+        $this->authorize('update', $tournament);
+
+        // Validation
+        $request->validate([
+            'result' => 'required|file|mimes:pdf,jpg,jpeg,png|max:20480',
+        ]);
+
+        $fullPath = DB::transaction(function () use ($request, $tournament) {
+            $oldFilename = $tournament->result;
+
+            $path = $request->file('result')->store('uploads/tournaments/' . $tournament->id . '/result');
+            
+            // Update database
+            $tournament->update(['result' => basename($path)]);
+
+            if ($oldFilename) {
+                $oldFilePath = "uploads/tournaments/{$tournament->id}/result/{$oldFilename}";
+                
+                // Delete if exists
+                if (Storage::disk('local')->exists($oldFilePath)) {
+                    Storage::disk('local')->delete($oldFilePath);
+                }
+            }
+
+            return $path;
+        });
+
+        $cleanPath = str_replace('uploads/', '', $fullPath);
+
+        return response()->json([
+            'message' => 'Tournament result updated successfully.',
+            'result_path' => $cleanPath
+        ]);
     }
 
     public function cancelTournament(Tournament $tournament)
