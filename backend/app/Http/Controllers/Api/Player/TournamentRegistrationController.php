@@ -56,7 +56,15 @@ class TournamentRegistrationController extends Controller
             return response()->json(['message' => 'You have already registered for this tournament.'], 422);
         }
 
-        // 2. Partner validation for doubles
+        // 2. Gender Validation for singles
+        if ($categoryName === "Men's Singles" && $user->gender !== 'M') {
+            return response()->json(['message' => "Player must be male for Men's Singles."], 422);
+        }
+        if ($categoryName === "Women's Singles" && $user->gender !== 'F') {
+            return response()->json(['message' => "Player must be female for Women's Singles."], 422);
+        }
+
+        // 3. Partner validation for doubles
         if (str_contains($categoryName, 'Doubles')) {
             // Must have Partner's Player ID
             if (empty($validated['partner_id'])) {
