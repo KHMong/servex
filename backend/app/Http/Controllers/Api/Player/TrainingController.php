@@ -29,6 +29,10 @@ class TrainingController extends Controller
 
         $query = $user->sessionAttendances()
             ->with(['trainingSession.traineeGroup.coach.user']);
+        
+        $query->whereHas('trainingSession.traineeGroup', function ($q) {
+            $q->where('status', 'Active');
+        });
 
         if ($status === 'Upcoming') {
             $query->whereHas('trainingSession', function($q) {
