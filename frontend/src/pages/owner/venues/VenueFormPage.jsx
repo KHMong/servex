@@ -126,7 +126,6 @@ const VenueFormPage = ({ mode }) => {
             });
             showNotification("Venue updated successfully.", "success");
         } else {
-            console.log("called");
             await apiClient.post('/owner/venues', data, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });

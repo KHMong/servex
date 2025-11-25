@@ -6,7 +6,6 @@ import apiClient from '../../../api/apiClient';
 import BackButton from '../../../components/common/BackButton';
 import ReviewCard from '../../../components/specific/ReviewCard';
 import Pagination from '../../../components/common/Pagination';
-import { useNotification } from '../../../contexts/NotificationContext';
 import '../../../components/common/SearchFilter.css';
 
 const StatCard = ({ title, value }) => (
@@ -20,7 +19,6 @@ const StatCard = ({ title, value }) => (
 
 const VenueReviewsPage = () => {
   const { venueId } = useParams();
-  const { showNotification } = useNotification();
 
   const [venueName, setVenueName] = useState('');
   const [stats, setStats] = useState({ average_rating: 0, total_reviews: 0 });
@@ -54,7 +52,7 @@ const VenueReviewsPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [venueId, currentPage, filters, showNotification]);
+  }, [venueId, currentPage, filters]);
 
   useEffect(() => {
     fetchReviews();
