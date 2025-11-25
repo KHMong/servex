@@ -95,7 +95,7 @@ INSERT INTO `activity_participant` (`id`, `user_id`, `activity_id`, `status`, `c
 
 CREATE TABLE `booking` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NULL,
   `court_id` bigint(20) UNSIGNED NOT NULL,
   `booking_id` varchar(255) NOT NULL,
   `start_datetime` datetime NOT NULL,
