@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\Organiser\OrganiserRegistrationController;
 use App\Http\Controllers\Api\Owner\OwnerDashboardController;
 use App\Http\Controllers\Api\Owner\OwnerVenueController;
 use App\Http\Controllers\Api\Owner\CourtController;
+use App\Http\Controllers\Api\Owner\OwnerVenueReviewController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -244,4 +245,7 @@ Route::middleware('auth:sanctum', 'can:owner-only')->group(function () {
     Route::post('/owner/venues/{venue}/courts', [CourtController::class, 'addCourt']);
     Route::put('/owner/courts/{court}', [CourtController::class, 'editCourtDetails']);
     Route::delete('/owner/courts/{court}', [CourtController::class, 'deleteCourt']);
+
+    // Reviews
+    Route::get('/owner/venues/{venue}/reviews', [OwnerVenueReviewController::class, 'index']);
 });
