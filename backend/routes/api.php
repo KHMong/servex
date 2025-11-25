@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\Organiser\OrganiserTournamentController;
 use App\Http\Controllers\Api\Organiser\OrganiserRegistrationController;
 use App\Http\Controllers\Api\Owner\OwnerDashboardController;
 use App\Http\Controllers\Api\Owner\OwnerVenueController;
+use App\Http\Controllers\Api\Owner\CourtController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -237,4 +238,10 @@ Route::middleware('auth:sanctum', 'can:owner-only')->group(function () {
     Route::post('/owner/venues/{venue}', [OwnerVenueController::class, 'editVenueDetails']);
     Route::delete('/owner/venues/{venue}/cancel', [OwnerVenueController::class, 'cancelVenueApplication']);
     Route::delete('/owner/venues/{venue}/delete', [OwnerVenueController::class, 'deleteVenue']);
+
+    // Courts
+    Route::get('/owner/venues/{venue}/courts', [CourtController::class, 'index']);
+    Route::post('/owner/venues/{venue}/courts', [CourtController::class, 'addCourt']);
+    Route::put('/owner/courts/{court}', [CourtController::class, 'editCourtDetails']);
+    Route::delete('/owner/courts/{court}', [CourtController::class, 'deleteCourt']);
 });

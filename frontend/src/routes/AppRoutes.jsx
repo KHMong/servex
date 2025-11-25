@@ -51,6 +51,7 @@ import TournamentRegistrationsPage from '../pages/organiser/registrations/Tourna
 import OwnerDashboardPage from '../pages/owner/OwnerDashboardPage';
 import OwnerVenuesPage from '../pages/owner/OwnerVenuesPage';
 import VenueFormPage from '../pages/owner/venues/VenueFormPage';
+import VenueCourtsPage from '../pages/owner/courts/VenueCourtsPage';
 
 const AppRoutes = () => {
   return (
@@ -128,6 +129,7 @@ const AppRoutes = () => {
             <Route path="venues" element={<OwnerVenuesPage />} />
             <Route path="venues/create" element={<VenueFormPage mode="create" />} />
             <Route path="venues/:venueId/edit" element={<VenueFormPage mode="edit" />} />
+            <Route path="venues/:venueId/courts" element={<VenueCourtsPage />} />
           </Route>
         </Route>
       </Routes>

@@ -1,0 +1,18 @@
+.status-badge {
+  display: inline-block;
+  padding: 0.35em 0.8em;
+  font-size: 0.75em;
+  font-weight: 600;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.badge-available {
+  background-color: var(--servex-light-green-bg);
+  color: var(--servex-green);
+}
+
+.badge-maintenance {
+  background-color: var(--servex-light-orange);
+  color: var(--servex-orange);
+}
