@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\Organiser\OrganiserRegistrationController;
 use App\Http\Controllers\Api\Owner\OwnerDashboardController;
 use App\Http\Controllers\Api\Owner\OwnerVenueController;
 use App\Http\Controllers\Api\Owner\CourtController;
+use App\Http\Controllers\Api\Owner\VenueBookingController;
 use App\Http\Controllers\Api\Owner\OwnerVenueReviewController;
 
 // Authentication
@@ -245,6 +246,12 @@ Route::middleware('auth:sanctum', 'can:owner-only')->group(function () {
     Route::post('/owner/venues/{venue}/courts', [CourtController::class, 'addCourt']);
     Route::put('/owner/courts/{court}', [CourtController::class, 'editCourtDetails']);
     Route::delete('/owner/courts/{court}', [CourtController::class, 'deleteCourt']);
+
+    // Bookings
+    Route::get('/owner/venues/{venue}/courts', [VenueController::class, 'getCourts']);
+    Route::get('/owner/venues/{venue}/schedule', [VenueBookingController::class, 'getSchedule']);
+    Route::post('/owner/venues/{venue}/book', [VenueBookingController::class, 'book']);
+    Route::delete('/owner/bookings/{booking}', [VenueBookingController::class, 'cancel']);
 
     // Reviews
     Route::get('/owner/venues/{venue}/reviews', [OwnerVenueReviewController::class, 'index']);

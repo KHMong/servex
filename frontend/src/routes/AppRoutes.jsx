@@ -52,6 +52,7 @@ import OwnerDashboardPage from '../pages/owner/OwnerDashboardPage';
 import OwnerVenuesPage from '../pages/owner/OwnerVenuesPage';
 import VenueFormPage from '../pages/owner/venues/VenueFormPage';
 import VenueCourtsPage from '../pages/owner/courts/VenueCourtsPage';
+import VenueBookingsPage from '../pages/owner/bookings/VenueBookingsPage';
 import VenueReviewsPage from '../pages/owner/reviews/VenueReviewsPage';
 
 const AppRoutes = () => {
@@ -131,6 +132,7 @@ const AppRoutes = () => {
             <Route path="venues/create" element={<VenueFormPage mode="create" />} />
             <Route path="venues/:venueId/edit" element={<VenueFormPage mode="edit" />} />
             <Route path="venues/:venueId/courts" element={<VenueCourtsPage />} />
+            <Route path="venues/:venueId/bookings" element={<VenueBookingsPage />} />
             <Route path="venues/:venueId/reviews" element={<VenueReviewsPage />} />
           </Route>
         </Route>

@@ -1,0 +1,125 @@
+.schedule-wrapper {
+  display: block;
+  width: 100%;
+  max-width: calc(99vw - 340px); 
+  overflow-x: auto;
+
+  border: 1px solid var(--border-color-light);
+  border-radius: 0.75rem;
+  background-color: white;
+  position: relative;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .schedule-wrapper {
+    max-width: calc(100vw - 40px);
+  }
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 150px repeat(var(--slot-count), 120px); 
+  width: max-content;
+  grid-auto-rows: 80px; 
+}
+
+.grid-header {
+  background-color: var(--servex-light-gray-bg);
+  padding: 0.75rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color-light);
+  border-right: 1px solid var(--border-color-light);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: pre-line;
+}
+
+.court-col {
+  padding: 0.75rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%; 
+  box-sizing: border-box;
+}
+
+.grid-header.sticky-col {
+  background-color: var(--servex-light-gray-bg);
+  z-index: 20;
+}
+
+.sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  border-right: 2px solid var(--border-color-light);
+}
+
+.court-status {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: normal;
+    color: var(--servex-orange);
+}
+
+/* Cells */
+.grid-cell {
+  border-bottom: 1px solid var(--border-color-light);
+  border-right: 1px solid var(--border-color-light);
+  height: 100%; 
+  box-sizing: border-box;
+}
+
+.grid-cell.available {
+  background-color: white;
+}
+
+.grid-cell.booked {
+  background-color: var(--servex-green);
+  color: white;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+  border: none; 
+}
+
+.grid-cell.booked:hover {
+  opacity: 0.9;
+}
+
+.booking-name {
+  padding: 0 0.5rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Legend */
+.legend-box { 
+    width: 16px; 
+    height: 16px; 
+    border-radius: 3px; 
+    margin-right: 5px; 
+    border: 1px solid #ddd; 
+}
+
+.legend-box.available { 
+    background-color: white; 
+}
+
+.legend-box.booked { 
+    background-color: var(--servex-green); 
+    border-color: var(--servex-green); 
+}
