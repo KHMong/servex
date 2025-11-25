@@ -243,6 +243,52 @@ const validateEndDatetime = (end_datetime) => {
 }
 
 
+/************ TRAINING SESSION ************/
+// Venue Name Validation
+const validateVenueName = (name) => {
+  if (!name) return "Venue Name is required.";
+  return null;
+}
+
+// Select State Validation
+const validateSelectVenueState = (state) => {
+  if (!state) return "State is required.";
+  return null;
+}
+
+// Address Validation
+const validateAddress = (address) => {
+  if (!address) return "Address is required.";
+  return null;
+}
+
+// Opening Time Validation
+const validateOpeningTime = (opening_time) => {
+  if (!opening_time) return "Opening Time is required.";
+  return null;
+}
+
+// Closing Time Validation
+const validateClosingTime = (closing_time) => {
+  if (!closing_time) return "Closing Time is required.";
+  return null;
+}
+
+// Weekday Price Validation
+const validateWeekdayPrice = (weekday_price) => {
+  if (!weekday_price) return "Weekday Price is required.";
+  if (weekday_price <= 0 || weekday_price > 9999) return "It must be between 0.01 - 9999.";
+  return null;
+};
+
+// Weekend Price Validation
+const validateWeekendPrice = (weekend_price) => {
+  if (!weekend_price) return "Weekend Price is required.";
+  if (weekend_price <= 0 || weekend_price > 9999) return "It must be between 0.01 - 9999.";
+  return null;
+};
+
+
 export const validate = (formData, role = null, context) => {
   const errors = {};
 
@@ -418,6 +464,34 @@ export const validate = (formData, role = null, context) => {
 
       const ruleError = validateTournamentRule(formData.rule);
       if (ruleError) errors.rule = ruleError;
+
+      break;
+    }
+
+    case 'venueForm': {
+      const venueNameError = validateVenueName(formData.name);
+      if (venueNameError) errors.name = venueNameError;
+
+      const stateError = validateSelectVenueState(formData.state_id);
+      if (stateError) errors.state_id = stateError;
+
+      const addressError = validateAddress(formData.address);
+      if (addressError) errors.address = addressError;
+
+      const openingTimeError = validateOpeningTime(formData.opening_time);
+      if (openingTimeError) errors.opening_time = openingTimeError;
+
+      const closingTimeError = validateClosingTime(formData.closing_time);
+      if (closingTimeError) errors.closing_time = closingTimeError;
+
+      const weekdayPriceError = validateWeekdayPrice(formData.weekday_price);
+      if (weekdayPriceError) errors.weekday_price = weekdayPriceError;
+
+      const weekendPriceError = validateWeekendPrice(formData.weekend_price);
+      if (weekendPriceError) errors.weekend_price = weekendPriceError;
+
+      const venuePhoneNoError = validateOwnerPhone(formData.phone_no);
+      if (venuePhoneNoError) errors.phone_no = venuePhoneNoError;
 
       break;
     }

@@ -50,6 +50,7 @@ import UpdateTournamentResultPage from '../pages/organiser/tournaments/UpdateTou
 import TournamentRegistrationsPage from '../pages/organiser/registrations/TournamentRegistrationsPage';
 import OwnerDashboardPage from '../pages/owner/OwnerDashboardPage';
 import OwnerVenuesPage from '../pages/owner/OwnerVenuesPage';
+import VenueFormPage from '../pages/owner/venues/VenueFormPage';
 
 const AppRoutes = () => {
   return (
@@ -125,6 +126,8 @@ const AppRoutes = () => {
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<OwnerDashboardPage />} />
             <Route path="venues" element={<OwnerVenuesPage />} />
+            <Route path="venues/create" element={<VenueFormPage mode="create" />} />
+            <Route path="venues/:venueId/edit" element={<VenueFormPage mode="edit" />} />
           </Route>
         </Route>
       </Routes>

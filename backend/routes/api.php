@@ -232,6 +232,9 @@ Route::middleware('auth:sanctum', 'can:owner-only')->group(function () {
 
     // Venues
     Route::get('/owner/venues', [OwnerVenueController::class, 'index']);
+    Route::post('/owner/venues', [OwnerVenueController::class, 'applyVenue']);
+    Route::get('/owner/venues/{venue}', [OwnerVenueController::class, 'getVenueDetails']);
+    Route::post('/owner/venues/{venue}', [OwnerVenueController::class, 'editVenueDetails']);
     Route::delete('/owner/venues/{venue}/cancel', [OwnerVenueController::class, 'cancelVenueApplication']);
     Route::delete('/owner/venues/{venue}/delete', [OwnerVenueController::class, 'deleteVenue']);
 });
