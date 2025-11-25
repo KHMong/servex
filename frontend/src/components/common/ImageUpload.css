@@ -6,22 +6,22 @@
     display: block;
     font-weight: 500;
     margin-bottom: 0.5rem;
-    color: #334155;
+    color: var(--servex-dark-text);
 }
 
 .image-upload-box {
-    border: 2px dashed #e2e8f0;
+    border: 2px dashed var(--servex-light-gray-disabled);
     border-radius: 0.75rem;
     padding: 2rem;
     text-align: center;
     cursor: pointer;
-    background-color: #f8fafc;
+    background-color: var(--servex-light-gray-bg);
     transition: all 0.2s ease;
 }
 
 .image-upload-box:hover {
-    border-color: #4ADE80;
-    background-color: #F0FDF4;
+    border-color: var(--servex-green);
+    background-color: var(--servex-light-green-bg);
 }
 
 .image-upload-box input[type="file"] {
@@ -30,7 +30,7 @@
 
 .image-upload-icon {
     font-size: 2.5rem;
-    color: #94a3b8;
+    color: var(--servex-muted-text);
     margin-bottom: 1rem;
 }
 
@@ -51,7 +51,7 @@
     position: absolute;
     top: -10px;
     right: -10px;
-    background-color: #ef4444;
+    background-color: var(--servex-red);
     color: white;
     border: none;
     border-radius: 50%;
