@@ -48,6 +48,11 @@ class Venue extends Model
         return $this->hasMany(PricingRule::class);
     }
 
+    public function bookings()
+    {
+        return $this->hasManyThrough(Booking::class, Court::class);
+    }
+
     public function courts()
     {
         return $this->hasMany(Court::class);

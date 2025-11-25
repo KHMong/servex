@@ -48,6 +48,7 @@ import OrganiserTournamentsPage from '../pages/organiser/OrganiserTournamentsPag
 import TournamentFormPage from '../pages/organiser/tournaments/TournamentFormPage';
 import UpdateTournamentResultPage from '../pages/organiser/tournaments/UpdateTournamentResultPage';
 import TournamentRegistrationsPage from '../pages/organiser/registrations/TournamentRegistrationsPage';
+import OwnerDashboardPage from '../pages/owner/OwnerDashboardPage';
 
 const AppRoutes = () => {
   return (
@@ -118,6 +119,10 @@ const AppRoutes = () => {
             <Route path="tournaments/:tournamentId/edit" element={<TournamentFormPage mode="edit" />} />
             <Route path="tournaments/:tournamentId/registrations" element={<TournamentRegistrationsPage />} />
             <Route path="tournaments/:tournamentId/result" element={<UpdateTournamentResultPage />} />
+          </Route>
+          <Route path="/owner" element={<PortalLayout role="owner" />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<OwnerDashboardPage />} />
           </Route>
         </Route>
       </Routes>

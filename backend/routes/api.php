@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\Coach\SessionAttendanceController;
 use App\Http\Controllers\Api\Organiser\OrganiserDashboardController;
 use App\Http\Controllers\Api\Organiser\OrganiserTournamentController;
 use App\Http\Controllers\Api\Organiser\OrganiserRegistrationController;
+use App\Http\Controllers\Api\Owner\OwnerDashboardController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -221,4 +222,10 @@ Route::middleware('auth:sanctum', 'can:organiser-only')->group(function () {
     Route::put('/organiser/registrations/{registration}/approve', [OrganiserRegistrationController::class, 'approve']);
     Route::put('/organiser/registrations/{registration}/reject', [OrganiserRegistrationController::class, 'reject']);
     Route::put('/organiser/registrations/{registration}/update-payment', [OrganiserRegistrationController::class, 'updatePayment']);
+});
+
+// Owner only
+Route::middleware('auth:sanctum', 'can:owner-only')->group(function () {
+    // Dashboard
+    Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index']);
 });
