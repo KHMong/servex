@@ -56,11 +56,6 @@ const BookingForm = ({ venue, courts }) => {
     [venue.opening_time, venue.closing_time]
   );
 
-  const startTimeOptions = useMemo(() => 
-    allTimeSlots.slice(0, -1),
-    [allTimeSlots]
-  );
-
   const durationOptions = Array.from({ length: 24 }, (_, i) => 
   {
     const value = i + 1;
@@ -134,7 +129,7 @@ const BookingForm = ({ venue, courts }) => {
                 <FormField
                   label="Start Time"
                   type="select" name="start_time" value={formData.start_time}
-                  onChange={handleChange} required options={startTimeOptions}
+                  onChange={handleChange} required options={allTimeSlots}
                 />
               </Col>
               <Col md={6}>
