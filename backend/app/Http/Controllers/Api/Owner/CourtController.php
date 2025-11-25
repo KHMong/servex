@@ -28,7 +28,9 @@ class CourtController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $courts = $query->orderBy('name', 'asc')->paginate(20);
+        $courts = $query->orderByRaw('LENGTH(name) asc')
+                        ->orderBy('name', 'asc')
+                        ->paginate(20);
 
         return CourtResource::collection($courts)->additional(['venue_name' => $venue->name]);
     }
