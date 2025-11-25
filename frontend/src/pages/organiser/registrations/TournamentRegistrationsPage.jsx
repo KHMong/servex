@@ -189,7 +189,7 @@ const TournamentRegistrationsPage = () => {
       header: 'Actions',
       width: '120px',
       cell: (row) => {
-        const isPending = row.status.includes('Pending');
+        const isPending = row.status === 'Pending';
         const isApproved = row.status === 'Approved';
 
         return (
