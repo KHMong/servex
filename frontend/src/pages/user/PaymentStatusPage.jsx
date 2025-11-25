@@ -81,7 +81,7 @@ const PaymentStatusPage = () => {
     };
 
     verifyPayment();
-  }, [searchParams, navigate, user, setUser]);
+  }, [searchParams, navigate, user, setUser, showNotification]);
 
   const renderContent = () => {
     switch (status) {

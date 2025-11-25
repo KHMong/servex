@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Container, Card, Form, Spinner, Alert, Row, Col } from 'react-bootstrap';
 import { TbCertificate } from "react-icons/tb";
 import { useNotification } from '../../contexts/NotificationContext';
@@ -11,7 +10,6 @@ import Button from '../../components/common/Button';
 import BackButton from '../../components/common/BackButton';
 
 const CoachApplicationPage = () => {
-  const navigate = useNavigate();
   const { showNotification } = useNotification();
 
   const [formData, setFormData] = useState({ state_id: '', exp_year: '', bio: '' });
