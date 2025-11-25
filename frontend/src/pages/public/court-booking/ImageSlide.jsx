@@ -18,7 +18,7 @@ const ImageSlide = ({ photos }) => {
                             className="d-block w-100 rounded"
                             src={imageUrl}
                             alt="Venue"
-                            style={{ height: '450px', objectFit: 'cover' }}
+                            style={{ height: '450px', objectFit: 'contain' }}
                         />
                     </Carousel.Item>
                 );
