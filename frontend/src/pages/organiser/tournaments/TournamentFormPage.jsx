@@ -233,7 +233,7 @@ const TournamentFormPage = ({ mode }) => {
         <Card className="border-0 shadow-sm p-4">
           <Card.Body>
             <h2 className="fw-bold mb-5">
-                {isEditMode ? (isReadOnly ? 'View Tournament Details' : 'Create a New Tournament') : 'Create a New Tournament'}
+                {isReadOnly ? 'View Tournament Details' : isEditMode ? 'Edit Your Tournament' : 'Create a New Tournament'}
             </h2>
 
             <div className="d-flex flex-column gap-5">
