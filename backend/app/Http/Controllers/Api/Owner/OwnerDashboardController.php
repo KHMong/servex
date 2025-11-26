@@ -15,18 +15,25 @@ class OwnerDashboardController extends Controller
         $user = $request->user();
         $year = $request->input('year', date('Y'));
         $month = $request->input('month', date('n')); // 1-12
-        $filterType = $request->input('filter_type', 'month'); // Month/Year
+        $filterType = $request->input('filter_type', 'all_time'); // All Time/Month/Year
 
         $bookingsQuery = Booking::whereHas('court.venue', function ($q) use ($user) {
             $q->where('owner_id', $user->id);
         });
 
         // Apply Filters for Stats
+        $applyFilter = function($query, $dateCol = 'start_datetime') use ($filterType, $year, $month) {
+            if ($filterType === 'year') { // Year
+                $query->whereYear($dateCol, $year);
+            } elseif ($filterType === 'month') { // Month
+                $query->whereYear($dateCol, $year)->whereMonth($dateCol, $month);
+            }
+            // All Time
+            return $query;
+        };
+
         $statsQuery = clone $bookingsQuery;
-        $statsQuery->whereYear('start_datetime', $year);
-        if ($filterType === 'month') {
-            $statsQuery->whereMonth('start_datetime', $month);
-        }
+        $applyFilter($statsQuery);
 
         // STATS CARD
         // 1. Total Revenue (RM)
@@ -72,11 +79,9 @@ class OwnerDashboardController extends Controller
         $venueRevenueData = Venue::where('owner_id', $user->id)
             ->where('status', 'Active')
             ->withSum(['bookings' => function($q) use ($year, $month, $filterType) {
-                $q->whereIn('booking.status', ['Confirmed', 'Completed', 'Cancelled'])
-                  ->whereYear('start_datetime', $year);
-                if ($filterType === 'month') {
-                    $q->whereMonth('start_datetime', $month);
-                }
+                $q->whereIn('booking.status', ['Confirmed', 'Completed', 'Cancelled']);
+                if ($filterType === 'year') $q->whereYear('start_datetime', $year);
+                if ($filterType === 'month') $q->whereYear('start_datetime', $year)->whereMonth('start_datetime', $month);
             }], 'total_price')
             ->get();
         
@@ -86,6 +91,8 @@ class OwnerDashboardController extends Controller
         ];
 
         // Chart 3: Revenue by Month (Year)
+        $chartYear = ($filterType === 'all_time') ? date('Y') : $year;
+
         $monthlyRevenueData = (clone $bookingsQuery)
             ->whereIn('status', ['Confirmed', 'Completed', 'Cancelled'])
             ->whereYear('start_datetime', $year)
@@ -108,6 +115,7 @@ class OwnerDashboardController extends Controller
                 'busiest_day' => $busiestDay,
             ],
             'charts' => [
+                'year' => $chartYear,
                 'peak_hours' => $peakHours,
                 'revenue_by_venue' => $revenueByVenue,
                 'revenue_by_month' => $revenueByMonth,

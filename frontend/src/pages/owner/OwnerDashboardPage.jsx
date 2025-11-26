@@ -22,7 +22,7 @@ const OwnerDashboardPage = () => {
   // Filter State
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [filterType, setFilterType] = useState('month'); // Month/Year
+  const [filterType, setFilterType] = useState('all_time'); // All Time/Month/Year
 
   useEffect(() => {
     setLoading(true);
@@ -53,6 +53,13 @@ const OwnerDashboardPage = () => {
   if (loading) return <div className="text-center p-5"><Spinner animation="border" variant="success" /></div>;
   if (!data) return <p className="text-muted text-center m-0 p-3">No data available.</p>;
 
+  // Current filter
+  const getFilterLabel = () => {
+    if (filterType === 'all_time') return '(All Time)';
+    if (filterType === 'year') return `(${year})`;
+    return `(${monthNames[month - 1]} ${year})`;
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -63,8 +70,9 @@ const OwnerDashboardPage = () => {
           <Form.Select 
             value={filterType} 
             onChange={(e) => setFilterType(e.target.value)}
-            style={{ width: '120px' }}
+            style={{ width: '130px' }}
           >
+            <option value="all_time">All Time</option>
             <option value="month">Monthly</option>
             <option value="year">Yearly</option>
           </Form.Select>
@@ -79,17 +87,20 @@ const OwnerDashboardPage = () => {
             </Form.Select>
           )}
 
-          <Form.Select 
-            value={year} 
-            onChange={(e) => setYear(e.target.value)} 
-            style={{ width: '100px' }}
-          >
-            {years.map(y => <option key={y} value={y}>{y}</option>)}
-          </Form.Select>
+          {filterType !== 'all_time' && (
+            <Form.Select 
+              value={year} 
+              onChange={(e) => setYear(e.target.value)} 
+              style={{ width: '100px' }}
+            >
+              {years.map(y => <option key={y} value={y}>{y}</option>)}
+            </Form.Select>
+          )}
         </div>
       </div>
 
       {/* Stats Cards */}
+      <h5 className="fw-bold text-muted mb-3">Overview <small className="fw-normal">{getFilterLabel()}</small></h5>
       <Row className="g-4 mb-5">
         <Col md={6} xl={3}>
           <StatCard title="Total Revenue (RM)" value={data.stats.total_revenue} />
@@ -110,7 +121,7 @@ const OwnerDashboardPage = () => {
         {/* Peak Hours */}
         <Col lg={12}>
           <Card className="border-0 shadow-sm p-3">
-            <Card.Title className="fw-bold mb-4">Peak Booking Hours</Card.Title>
+            <Card.Title className="fw-bold mb-4">Peak Booking Hours {getFilterLabel()}</Card.Title>
             <BarChart 
               labels={hoursLabels} 
               data={data.charts.peak_hours} 
@@ -122,7 +133,7 @@ const OwnerDashboardPage = () => {
         {/* Revenue by Venue */}
         <Col lg={6}>
           <Card className="border-0 shadow-sm p-3">
-            <Card.Title className="fw-bold mb-4">Revenue by Venue</Card.Title>
+            <Card.Title className="fw-bold mb-4">Revenue by Venue {getFilterLabel()}</Card.Title>
             <BarChart 
               labels={data.charts.revenue_by_venue.labels} 
               data={data.charts.revenue_by_venue.data} 
@@ -134,7 +145,7 @@ const OwnerDashboardPage = () => {
         {/* Revenue by Month */}
         <Col lg={6}>
           <Card className="border-0 shadow-sm p-3">
-            <Card.Title className="fw-bold mb-4">Revenue by Month ({year})</Card.Title>
+            <Card.Title className="fw-bold mb-4">Revenue by Month ({data.charts.year})</Card.Title>
             <BarChart 
               labels={monthNames} 
               data={data.charts.revenue_by_month} 
