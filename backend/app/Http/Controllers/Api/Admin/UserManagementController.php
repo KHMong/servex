@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\UserManagementResource;
+use App\Http\Resources\UserDetailResource;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UserManagementController extends Controller
@@ -49,6 +50,26 @@ class UserManagementController extends Controller
         $users = $query->latest()->paginate(30);
 
         return UserManagementResource::collection($users);
+    }
+
+    public function getUserDetails(User $user)
+    {
+        $user->load(['coachProfile.state', 'ownerProfile']);
+        return new UserDetailResource($user);
+    }
+
+    public function updateStatus(Request $request, User $user)
+    {
+        $this->authorize('update', $user);
+
+        if ($user->id === $request->user()->id) {
+            return response()->json(['message' => 'You cannot change your own account status.'], 403);
+        }
+
+        $validated = $request->validate(['status' => 'required|in:Active,Inactive']);
+        $user->update(['status' => $validated['status']]);
+
+        return response()->json(['message' => 'User account status updated successfully.']);
     }
 
     public function deleteUser(User $user)

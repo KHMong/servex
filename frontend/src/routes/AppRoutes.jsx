@@ -56,6 +56,7 @@ import VenueBookingsPage from '../pages/owner/bookings/VenueBookingsPage';
 import VenueReviewsPage from '../pages/owner/reviews/VenueReviewsPage';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import UserManagementPage from '../pages/admin/users/UserManagementPage';
+import UserDetailsPage from '../pages/admin/users/UserDetailsPage';
 
 const AppRoutes = () => {
   return (
@@ -141,6 +142,7 @@ const AppRoutes = () => {
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboardPage />} />
             <Route path="users" element={<UserManagementPage />} />
+            <Route path="users/:userId" element={<UserDetailsPage />} />
           </Route>
         </Route>
       </Routes>

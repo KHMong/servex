@@ -267,4 +267,6 @@ Route::middleware('auth:sanctum', 'can:admin-only')->group(function () {
     // User Management
     Route::get('/admin/users', [UserManagementController::class, 'index']);
     Route::delete('/admin/users/{user}', [UserManagementController::class, 'deleteUser']);
+    Route::get('/admin/users/{user}', [UserManagementController::class, 'getUserDetails']);
+    Route::put('/admin/users/{user}/status', [UserManagementController::class, 'updateStatus']);
 });
