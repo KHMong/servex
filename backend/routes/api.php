@@ -32,6 +32,7 @@ use App\Http\Controllers\Api\Owner\OwnerVenueController;
 use App\Http\Controllers\Api\Owner\CourtController;
 use App\Http\Controllers\Api\Owner\VenueBookingController;
 use App\Http\Controllers\Api\Owner\OwnerVenueReviewController;
+use App\Http\Controllers\Api\Admin\AdminDashboardController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -255,4 +256,10 @@ Route::middleware('auth:sanctum', 'can:owner-only')->group(function () {
 
     // Reviews
     Route::get('/owner/venues/{venue}/reviews', [OwnerVenueReviewController::class, 'index']);
+});
+
+// Admin only
+Route::middleware('auth:sanctum', 'can:admin-only')->group(function () {
+    // Dashboard
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
 });

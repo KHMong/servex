@@ -22,6 +22,15 @@ const SidebarContent = ({ role }) => {
           { to: '/owner/dashboard', text: 'Dashboard' },
           { to: '/owner/venues', text: 'Venues' },
         ];
+      case 'admin':
+        return [
+          { to: '/admin/dashboard', text: 'Dashboard' },
+          { to: '/admin/users', text: 'User Management' },
+          { to: '/admin/owner-registrations', text: 'Owner Registrations' },
+          { to: '/admin/coach-applications', text: 'Coach Applications' },
+          { to: '/admin/venue-applications', text: 'Venue Applications' },
+          { to: '/admin/vouchers', text: 'Voucher Management' },
+        ];
       default:
         return [];
     }

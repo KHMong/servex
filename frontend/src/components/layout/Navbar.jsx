@@ -73,6 +73,9 @@ const NavbarComponent = () => {
                   {user.role === 'Owner' && (
                     <Dropdown.Item as={Link} to="/owner">Owner Portal</Dropdown.Item>
                   )}
+                  {user.role === 'Admin' && (
+                    <Dropdown.Item as={Link} to="/admin">Admin Portal</Dropdown.Item>
+                  )}
                   <Dropdown.Divider />
                   <Dropdown.Item as="button" onClick={handleLogout} className="text-danger">
                     Logout
