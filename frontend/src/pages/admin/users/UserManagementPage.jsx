@@ -194,7 +194,7 @@ const UserManagementPage = () => {
                         label="Is Coach" 
                         checked={filters.is_coach}
                         onChange={handleFilterChange}
-                        className="search-checkbox"
+                        className="role-checkbox"
                     />
                     <Form.Check 
                         type="checkbox" 
@@ -203,7 +203,7 @@ const UserManagementPage = () => {
                         label="Is Organiser" 
                         checked={filters.is_organiser}
                         onChange={handleFilterChange}
-                        className="search-checkbox"
+                        className="role-checkbox"
                     />
                 </div>
 

@@ -26,3 +26,19 @@
   background-color: var(--servex-light-gray-btn);
   color: var(--servex-muted-text);
 }
+
+.role-checkbox .form-check-input {
+  width: 1em;
+  height: 1em;
+  cursor: pointer;
+  border: 2px solid var(--servex-light-gray-disabled);
+}
+
+.role-checkbox .form-check-input:checked {
+  background-color: var(--servex-green);
+  border-color: var(--servex-green);
+}
+
+.role-checkbox .form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem var(--servex-green-box-shadow);
+}
