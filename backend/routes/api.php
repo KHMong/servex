@@ -251,7 +251,7 @@ Route::middleware('auth:sanctum', 'can:owner-only')->group(function () {
     Route::delete('/owner/courts/{court}', [CourtController::class, 'deleteCourt']);
 
     // Bookings
-    Route::get('/owner/venues/{venue}/courts', [VenueController::class, 'getCourts']);
+    Route::get('/owner/venues/{venue}/court-list', [VenueController::class, 'getCourts']);
     Route::get('/owner/venues/{venue}/schedule', [VenueBookingController::class, 'getSchedule']);
     Route::post('/owner/venues/{venue}/book', [VenueBookingController::class, 'book']);
     Route::delete('/owner/bookings/{booking}', [VenueBookingController::class, 'cancel']);

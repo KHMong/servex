@@ -41,7 +41,7 @@ const VenueBookingsPage = () => {
     try {
       const [res, courtsRes] = await Promise.all([
         apiClient.get(`/owner/venues/${venueId}/schedule?date=${selectedDate}`),
-        apiClient.get(`/owner/venues/${venueId}/courts`),
+        apiClient.get(`/owner/venues/${venueId}/court-list`),
       ]);
 
       setScheduleData(res.data);
