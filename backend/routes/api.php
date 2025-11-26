@@ -33,6 +33,7 @@ use App\Http\Controllers\Api\Owner\CourtController;
 use App\Http\Controllers\Api\Owner\VenueBookingController;
 use App\Http\Controllers\Api\Owner\OwnerVenueReviewController;
 use App\Http\Controllers\Api\Admin\AdminDashboardController;
+use App\Http\Controllers\Api\Admin\UserManagementController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -262,4 +263,8 @@ Route::middleware('auth:sanctum', 'can:owner-only')->group(function () {
 Route::middleware('auth:sanctum', 'can:admin-only')->group(function () {
     // Dashboard
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
+
+    // User Management
+    Route::get('/admin/users', [UserManagementController::class, 'index']);
+    Route::delete('/admin/users/{user}', [UserManagementController::class, 'deleteUser']);
 });
