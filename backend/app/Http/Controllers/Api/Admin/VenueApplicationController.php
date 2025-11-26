@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Venue;
 use App\Http\Resources\VenueApplicationResource;
+use App\Http\Resources\VenueApplicationDetailResource;
 
 class VenueApplicationController extends Controller
 {
@@ -35,5 +36,20 @@ class VenueApplicationController extends Controller
         $venues = $query->with(['owner', 'owner.ownerProfile'])->latest()->paginate(30);
 
         return VenueApplicationResource::collection($venues);
+    }
+
+    public function getVenueApplicationDetails(Venue $venue)
+    {
+        $venue->load(['owner.ownerProfile', 'state', 'photos']);
+        return new VenueApplicationDetailResource($venue);
+    }
+
+    public function updateStatus(Request $request, Venue $venue)
+    {
+        $validated = $request->validate(['status' => 'required|in:Approved,Rejected']);
+        
+        $venue->update(['apply_status' => $validated['status']]);
+
+        return response()->json(['message' => "Venue application status updated successfully."]);
     }
 }

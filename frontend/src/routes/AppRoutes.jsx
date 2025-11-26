@@ -58,6 +58,7 @@ import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import UserManagementPage from '../pages/admin/users/UserManagementPage';
 import UserDetailsPage from '../pages/admin/users/UserDetailsPage';
 import VenueApplicationsPage from '../pages/admin/applications/VenueApplicationsPage';
+import ReviewVenueApplicationPage from '../pages/admin/applications/ReviewVenueApplicationPage';
 
 const AppRoutes = () => {
   return (
@@ -145,6 +146,7 @@ const AppRoutes = () => {
             <Route path="users" element={<UserManagementPage />} />
             <Route path="users/:userId" element={<UserDetailsPage />} />
             <Route path="venue-applications" element={<VenueApplicationsPage />} />
+            <Route path="venue-applications/:venueId" element={<ReviewVenueApplicationPage />} />
           </Route>
         </Route>
       </Routes>

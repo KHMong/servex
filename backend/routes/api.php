@@ -273,4 +273,6 @@ Route::middleware('auth:sanctum', 'can:admin-only')->group(function () {
 
     // Venue Application Management
     Route::get('/admin/venue-applications', [VenueApplicationController::class, 'index']);
+    Route::get('/admin/venue-applications/{venue}', [VenueApplicationController::class, 'getVenueApplicationDetails']);
+    Route::put('/admin/venue-applications/{venue}/status', [VenueApplicationController::class, 'updateStatus']);
 });
