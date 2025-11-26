@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Row, Col, Spinner, Form, Alert } from 'react-bootstrap';
 import { FaFileAlt } from 'react-icons/fa';
@@ -33,10 +33,9 @@ const UserDetailsPage = () => {
   const [updating, setUpdating] = useState(false);
 
   // Fetch data
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const res = await apiClient.get(`/admin/users/${userId}`);
-      console.log(res.data.data);
       setUser(res.data.data);
       setCertPath(getImageUrl(res.data.data.coach_profile?.cert_path));
       setStatusToUpdate(res.data.data.status);
@@ -45,9 +44,9 @@ const UserDetailsPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
 
-  useEffect(() => { fetchUser(); }, [userId]);
+  useEffect(() => { fetchUser(); }, [userId, fetchUser]);
 
   // Handlers
   const handleUpdateStatus = async () => {
