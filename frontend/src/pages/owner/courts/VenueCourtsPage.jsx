@@ -11,7 +11,7 @@ import DataTable from '../../../components/common/DataTable';
 import Pagination from '../../../components/common/Pagination';
 import CourtFormModal from './CourtFormModal';
 import '../../../components/common/SearchFilter.css';
-import './VenueCourtsPage.css';
+import '../../../components/common/Badge.css';
 
 const VenueCourtsPage = () => {
   const { venueId } = useParams();

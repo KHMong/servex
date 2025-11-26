@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import Button from '../common/Button';
-import './ActivityHistoryCard.css';
+import '../common/Badge.css';
 
 const ActivityHistoryCard = ({ activity, onLeave, onEdit, onCancel, onViewParticipants }) => {
   const isFull = activity.participants_count >= activity.max_players;

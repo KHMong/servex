@@ -51,33 +51,6 @@
     gap: 0.3rem; 
 }
 
-.skill-badge { 
-    padding: 0.25rem 0.75rem; 
-    border-radius: 999px; 
-    font-size: 0.7rem; 
-    font-weight: 600; 
-}
-
-.skill-beginner { 
-    background-color: var(--servex-light-blue); 
-    color: var(--servex-blue); 
-}
-
-.skill-intermediate { 
-    background-color: var(--servex-light-orange); 
-    color: var(--servex-orange); 
-}
-
-.skill-advanced { 
-    background-color: var(--servex-light-red); 
-    color: var(--servex-red); 
-}
-
-.skill-all { 
-    background-color: var(--servex-light-gray-btn); 
-    color: var(--servex-muted-text); 
-}
-
 .detail-item { 
     font-size: 0.8rem; 
     color: var(--servex-dark-text); 

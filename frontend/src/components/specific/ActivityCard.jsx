@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useNotification } from '../../contexts/NotificationContext';
 import apiClient from '../../api/apiClient';
 import './ActivityCard.css';
+import '../common/Badge.css';
 
 const ActivityCard = ({ activity, onActionSuccess }) => {
   const { isAuthenticated } = useAuth();

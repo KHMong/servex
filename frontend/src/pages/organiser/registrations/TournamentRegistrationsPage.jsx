@@ -12,7 +12,7 @@ import Pagination from '../../../components/common/Pagination';
 import { getImageUrl } from '../../../utils/imageUrl';
 
 import '../../../components/common/SearchFilter.css';
-import './TournamentRegistrationsPage.css';
+import '../../../components/common/Badge.css';
 
 const TournamentRegistrationsPage = () => {
   const { tournamentId } = useParams();

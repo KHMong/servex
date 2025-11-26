@@ -10,7 +10,7 @@ import Button from '../../../components/common/Button';
 import { getImageUrl } from '../../../utils/imageUrl';
 import ShowModal from '../../../components/common/ShowModal';
 
-import './UserDetailsPage.css';
+import '../../../components/common/Badge.css';
 
 const DetailRow = ({ label, value }) => (
   <Col md={6} className="mb-4 d-flex flex-column gap-1">

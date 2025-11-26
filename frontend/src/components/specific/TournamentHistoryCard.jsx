@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import Button from '../common/Button';
 import { getImageUrl } from '../../utils/imageUrl';
-import './TournamentHistoryCard.css';
+import '../common/Badge.css';
 
 const TournamentHistoryCard = ({ registration, onCancel, onViewResult }) => {
   const getStatusBadgeClass = (status) => {

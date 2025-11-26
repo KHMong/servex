@@ -11,6 +11,7 @@ import DataTable from '../../../components/common/DataTable';
 import Pagination from '../../../components/common/Pagination';
 
 import '../../../components/common/SearchFilter.css';
+import '../../../components/common/Badge.css';
 import './UserManagementPage.css';
 
 const UserManagementPage = () => {

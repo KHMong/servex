@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaCalendarAlt, FaClock } from 'react-icons/fa';
 import { Card } from 'react-bootstrap';
-import './PlayerSessionCard.css';
+import '../common/Badge.css';
 
 const PlayerSessionCard = ({ session, isCompleted }) => {
   return (

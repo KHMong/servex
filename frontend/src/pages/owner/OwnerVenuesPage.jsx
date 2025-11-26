@@ -12,7 +12,7 @@ import DataTable from '../../components/common/DataTable';
 import Pagination from '../../components/common/Pagination';
 
 import '../../components/common/SearchFilter.css';
-import './OwnerVenuesPage.css';
+import '../../components/common/Badge.css';
 
 const OwnerVenuesPage = () => {
   const navigate = useNavigate();

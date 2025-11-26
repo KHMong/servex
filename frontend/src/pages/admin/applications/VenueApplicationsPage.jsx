@@ -10,7 +10,7 @@ import DataTable from '../../../components/common/DataTable';
 import Pagination from '../../../components/common/Pagination';
 
 import '../../../components/common/SearchFilter.css';
-import './VenueApplicationsPage.css'; 
+import '../../../components/common/Badge.css';
 
 const VenueApplicationsPage = () => {
   const navigate = useNavigate();
