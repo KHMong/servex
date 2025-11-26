@@ -44,7 +44,12 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
         }
 
         await submitHandler(dataToSend);
-        showNotification('Account created successfully! You can now login to your account.', 'success');
+
+        const successMsg = role === 'Player' ? 
+        "Account created successfully! You can now login to your account." : 
+        "Account registered successfully! We'll contact you once your account has been approved.";
+
+        showNotification(successMsg, 'success');
       } catch (err) {
         const errorMessage = err.response?.data?.message || 'Registration failed.';
         setApiError(errorMessage);
@@ -101,11 +106,13 @@ const RegistrationForm = ({ role, title, submitHandler }) => {
               <Col md={6}><FormField label="Company Name" name="company_name" value={formData.company_name} onChange={handleChange} iconLeft={FaBuilding} error={errors.company_name} placeholder="Company Name" required /></Col>
               <Col md={6}><FormField label="Business Registration Number" name="business_reg_no" maxLength={12} value={formData.business_reg_no} onChange={handleChange} iconLeft={FaRegAddressCard} error={errors.business_reg_no} placeholder="E.g. 202501000001" required /></Col>
             </Row>
+            <small className="text-muted fs-6"><strong>Note:</strong> Your registration will be reviewed before you can login to this account.</small>
           </>
         )}
         
         <Button type="submit" className="w-100 mt-4" disabled={loading}>
-          {loading ? <div className="text-center"><Spinner animation="border" variant="success" /></div> : 'Create Account'}
+          {loading ? <div className="text-center"><Spinner animation="border" variant="success" /></div> : 
+          role === 'Player' ? 'Create Account' : 'Register Account'}
         </Button>
       </Form>
     </>
