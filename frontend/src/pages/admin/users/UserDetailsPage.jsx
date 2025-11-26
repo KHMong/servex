@@ -118,7 +118,7 @@ const UserDetailsPage = () => {
             <DetailRow label="Email Address" value={user.email} />
             <DetailRow label="Phone Number" value={user.phone_no} />
             <DetailRow label="Date of Birth" value={user.date_of_birth} />
-            <DetailRow label="Gender" value={user.gender} />
+            <DetailRow label="Gender" value={user.gender === 'M' ? 'Male' : 'Female'} />
             <DetailRow label="Date Joined" value={user.date_joined} />
             <DetailRow label="Points Balance" value={user.points} />
           </Row>
@@ -160,7 +160,7 @@ const UserDetailsPage = () => {
               <hr className="my-3" />
               <Row className="mb-5">
                 <DetailRow label="Company Name" value={user.owner_profile.company_name} />
-                <DetailRow label="Business Registration No." value={user.owner_profile.business_reg_no} />
+                <DetailRow label="Business Registration Number" value={user.owner_profile.business_reg_no} />
                 <DetailRow label="Registration Status" value={renderStatusBadge(user.owner_profile.status)} />
               </Row>
             </>
