@@ -57,6 +57,7 @@ import VenueReviewsPage from '../pages/owner/reviews/VenueReviewsPage';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import UserManagementPage from '../pages/admin/users/UserManagementPage';
 import UserDetailsPage from '../pages/admin/users/UserDetailsPage';
+import VenueApplicationsPage from '../pages/admin/applications/VenueApplicationsPage';
 
 const AppRoutes = () => {
   return (
@@ -143,6 +144,7 @@ const AppRoutes = () => {
             <Route path="dashboard" element={<AdminDashboardPage />} />
             <Route path="users" element={<UserManagementPage />} />
             <Route path="users/:userId" element={<UserDetailsPage />} />
+            <Route path="venue-applications" element={<VenueApplicationsPage />} />
           </Route>
         </Route>
       </Routes>

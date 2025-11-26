@@ -34,6 +34,7 @@ use App\Http\Controllers\Api\Owner\VenueBookingController;
 use App\Http\Controllers\Api\Owner\OwnerVenueReviewController;
 use App\Http\Controllers\Api\Admin\AdminDashboardController;
 use App\Http\Controllers\Api\Admin\UserManagementController;
+use App\Http\Controllers\Api\Admin\VenueApplicationController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -269,4 +270,7 @@ Route::middleware('auth:sanctum', 'can:admin-only')->group(function () {
     Route::delete('/admin/users/{user}', [UserManagementController::class, 'deleteUser']);
     Route::get('/admin/users/{user}', [UserManagementController::class, 'getUserDetails']);
     Route::put('/admin/users/{user}/status', [UserManagementController::class, 'updateStatus']);
+
+    // Venue Application Management
+    Route::get('/admin/venue-applications', [VenueApplicationController::class, 'index']);
 });
