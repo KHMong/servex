@@ -34,6 +34,7 @@ use App\Http\Controllers\Api\Owner\VenueBookingController;
 use App\Http\Controllers\Api\Owner\OwnerVenueReviewController;
 use App\Http\Controllers\Api\Admin\AdminDashboardController;
 use App\Http\Controllers\Api\Admin\UserManagementController;
+use App\Http\Controllers\Api\Admin\CoachApplicationController;
 use App\Http\Controllers\Api\Admin\VenueApplicationController;
 
 // Authentication
@@ -275,4 +276,8 @@ Route::middleware('auth:sanctum', 'can:admin-only')->group(function () {
     Route::get('/admin/venue-applications', [VenueApplicationController::class, 'index']);
     Route::get('/admin/venue-applications/{venue}', [VenueApplicationController::class, 'getVenueApplicationDetails']);
     Route::put('/admin/venue-applications/{venue}/status', [VenueApplicationController::class, 'updateStatus']);
+
+    // Coach Application Management
+    Route::get('/admin/coach-applications', [CoachApplicationController::class, 'index']);
+    Route::put('/admin/coach-applications/{coachProfile}/status', [CoachApplicationController::class, 'updateStatus']);
 });

@@ -57,6 +57,7 @@ import VenueReviewsPage from '../pages/owner/reviews/VenueReviewsPage';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import UserManagementPage from '../pages/admin/users/UserManagementPage';
 import UserDetailsPage from '../pages/admin/users/UserDetailsPage';
+import CoachApplicationsPage from '../pages/admin/applications/CoachApplicationsPage';
 import VenueApplicationsPage from '../pages/admin/applications/VenueApplicationsPage';
 import ReviewVenueApplicationPage from '../pages/admin/applications/ReviewVenueApplicationPage';
 
@@ -145,6 +146,7 @@ const AppRoutes = () => {
             <Route path="dashboard" element={<AdminDashboardPage />} />
             <Route path="users" element={<UserManagementPage />} />
             <Route path="users/:userId" element={<UserDetailsPage />} />
+            <Route path="coach-applications" element={<CoachApplicationsPage />} />
             <Route path="venue-applications" element={<VenueApplicationsPage />} />
             <Route path="venue-applications/:venueId" element={<ReviewVenueApplicationPage />} />
           </Route>
