@@ -289,6 +289,41 @@ const validateWeekendPrice = (weekend_price) => {
 };
 
 
+/************ VOUCHER ************/
+// Voucher Code Validation
+const validateVoucherCode = (code) => {
+  if (!code) return "Voucher Code is required.";
+  return null;
+}
+
+// Voucher Description Validation
+const validateVoucherDescription = (description) => {
+  if (!description) return "Description is required.";
+  return null;
+}
+
+// Discount Value Validation
+const validateDiscountValue = (discount_value) => {
+  if (!discount_value) return "Discount Value (RM) is required.";
+  if (discount_value <= 0 || discount_value > 9999) return "It must be between 0.01 - 9999.";
+  return null;
+}
+
+// Point Cost Validation
+const validatePointCost = (point_cost) => {
+  if (!point_cost) return "Discount Value (RM) is required.";
+  if (point_cost < 1 || point_cost > 9999) return "It must be between 1 - 9999.";
+  return null;
+}
+
+// Validity Validation
+const validateValidity = (validity) => {
+  if (!validity) return "Discount Value (RM) is required.";
+  if (validity < 1 || validity > 99999) return "It must be between 1 - 99999.";
+  return null;
+}
+
+
 export const validate = (formData, role = null, context) => {
   const errors = {};
 
@@ -492,6 +527,25 @@ export const validate = (formData, role = null, context) => {
 
       const venuePhoneNoError = validateOwnerPhone(formData.phone_no);
       if (venuePhoneNoError) errors.phone_no = venuePhoneNoError;
+
+      break;
+    }
+
+    case 'voucherForm': {
+      const voucherCodeError = validateVoucherCode(formData.code);
+      if (voucherCodeError) errors.code = voucherCodeError;
+
+      const voucherDescriptionError = validateVoucherDescription(formData.description);
+      if (voucherDescriptionError) errors.description = voucherDescriptionError;
+
+      const discountValueError = validateDiscountValue(formData.discount_value);
+      if (discountValueError) errors.discount_value = discountValueError;
+
+      const pointCostError = validatePointCost(formData.point_cost);
+      if (pointCostError) errors.point_cost = pointCostError;
+
+      const validityError = validateValidity(formData.validity);
+      if (validityError) errors.validity = validityError;
 
       break;
     }

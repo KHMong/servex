@@ -291,6 +291,6 @@ Route::middleware('auth:sanctum', 'can:admin-only')->group(function () {
     Route::get('/admin/vouchers', [VoucherController::class, 'index']);
     Route::post('/admin/vouchers', [VoucherController::class, 'createVoucher']);
     Route::get('/admin/vouchers/{voucher}', [VoucherController::class, 'getVoucherDetails']);
-    Route::put('/admin/vouchers/{voucher}', [VoucherController::class, 'updateVoucherDetails']);
+    Route::put('/admin/vouchers/{voucher}', [VoucherController::class, 'editVoucherDetails']);
     Route::delete('/admin/vouchers/{voucher}', [VoucherController::class, 'deleteVoucher']);
 });
