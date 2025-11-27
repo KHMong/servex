@@ -187,7 +187,7 @@ const UserManagementPage = () => {
                 </Form.Select>
 
                 {/* Checkboxes */}
-                <div className="d-flex flex-column gap-1 px-2" style={{ width: '250px' }}>
+                <div className="d-flex flex-column gap-1 px-2" style={{ width: '350px' }}>
                     <Form.Check 
                         type="checkbox"
                         name="is_coach" 
