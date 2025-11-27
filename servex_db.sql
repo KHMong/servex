@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2025 at 04:36 AM
+-- Generation Time: Nov 27, 2025 at 05:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -95,7 +95,7 @@ INSERT INTO `activity_participant` (`id`, `user_id`, `activity_id`, `status`, `c
 
 CREATE TABLE `booking` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `court_id` bigint(20) UNSIGNED NOT NULL,
   `booking_id` varchar(255) NOT NULL,
   `start_datetime` datetime NOT NULL,
@@ -720,7 +720,9 @@ CREATE TABLE `coach_profile` (
 INSERT INTO `coach_profile` (`user_id`, `state_id`, `bio`, `exp_year`, `cert`, `status`, `created_at`, `updated_at`) VALUES
 (7, 1, 'Experienced coach specializing in singles technique for intermediate players.', 5, 'cert_carl.pdf', 'Approved', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
 (8, 12, 'Former national player, focusing on doubles strategy and footwork drills.', 8, 'cert_diana.pdf', 'Approved', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
-(11, 14, 'All-round coach for beginner to advanced levels. Also a certified tournament organizer.', 10, 'cert_mike.pdf', 'Approved', '2025-11-03 16:00:00', '2025-11-03 16:00:00');
+(11, 14, 'All-round coach for beginner to advanced levels. Also a certified tournament organizer.', 10, 'cert_mike.pdf', 'Approved', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
+(15, 1, 'Passionate about training the next generation of athletes. Specializing in agility and reflex training.', 3, 'cert_15.pdf', 'Pending', '2025-11-27 16:22:58', '2025-11-27 16:22:58'),
+(16, 1, 'Former state player looking to transition into full-time coaching. Focus on power smashing and court coverage.', 4, 'cert_16.pdf', 'Pending', '2025-11-27 16:22:58', '2025-11-27 16:22:58');
 
 -- --------------------------------------------------------
 
@@ -1015,7 +1017,9 @@ CREATE TABLE `owner_profile` (
 INSERT INTO `owner_profile` (`user_id`, `company_name`, `business_reg_no`, `status`, `created_at`, `updated_at`) VALUES
 (12, 'Arena Master Sdn Bhd', '202501001212', 'Approved', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
 (13, 'Court King Enterprise', '202501001313', 'Approved', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
-(14, 'Pro Shuttle Sports', '202501001414', 'Approved', '2025-11-03 16:00:00', '2025-11-03 16:00:00');
+(14, 'Pro Shuttle Sports', '202501001414', 'Approved', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
+(35, 'Orbit Badminton Ventures', '202501003535', 'Pending', '2025-11-27 16:39:25', '2025-11-27 16:39:25'),
+(36, 'Smash Point Enterprise', '202501003636', 'Pending', '2025-11-27 16:39:25', '2025-11-27 16:39:25');
 
 -- --------------------------------------------------------
 
@@ -1097,7 +1101,11 @@ INSERT INTO `pricing_rule` (`id`, `venue_id`, `day_type`, `start_time`, `end_tim
 (17, 9, 'Weekday', '09:30:00', '22:30:00', 21.00, '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
 (18, 9, 'Weekend', '09:30:00', '22:30:00', 28.00, '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
 (19, 10, 'Weekday', '09:00:00', '23:30:00', 15.00, '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
-(20, 10, 'Weekend', '09:00:00', '23:30:00', 22.00, '2025-11-03 16:00:00', '2025-11-03 16:00:00');
+(20, 10, 'Weekend', '09:00:00', '23:30:00', 22.00, '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
+(22, 11, 'Weekday', '08:00:00', '23:00:00', 15.00, '2025-11-27 16:51:46', '2025-11-27 16:51:46'),
+(23, 11, 'Weekend', '08:00:00', '23:00:00', 22.00, '2025-11-27 16:51:46', '2025-11-27 16:51:46'),
+(24, 12, 'Weekday', '09:00:00', '00:00:00', 25.00, '2025-11-27 16:51:46', '2025-11-27 16:51:46'),
+(25, 12, 'Weekend', '09:00:00', '00:00:00', 35.00, '2025-11-27 16:51:46', '2025-11-27 16:51:46');
 
 -- --------------------------------------------------------
 
@@ -1113,6 +1121,13 @@ CREATE TABLE `sessions` (
   `payload` longtext NOT NULL,
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('YWvHLkejVjvIaHY9CFzIyiE3jzKtjInWCnGVtNWI', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaWJVWVpoeDFWY1VCd3p2dHgwclp2OVdCTjdWQW9aWXR5MGdQWlpESSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1764261115);
 
 -- --------------------------------------------------------
 
@@ -1516,7 +1531,9 @@ INSERT INTO `user` (`id`, `user_id`, `name`, `gender`, `date_of_birth`, `email`,
 (31, 'P2511190017', 'Player 17', 'F', '1998-05-15', 'player17@example.com', NULL, '$2y$10$NazQA5IS42lFn73TUC0D8OSiUHHDO..rJcez4UjpCSTEQDQX2cSCW', '018-0000017', NULL, 'Player', 0, 0, 0, 'Active', NULL, '2025-11-19 18:06:31', '2025-11-19 18:06:31'),
 (32, 'P2511190018', 'Player 18', 'F', '1998-05-15', 'player18@example.com', NULL, '$2y$10$NazQA5IS42lFn73TUC0D8OSiUHHDO..rJcez4UjpCSTEQDQX2cSCW', '018-0000018', NULL, 'Player', 0, 0, 0, 'Active', NULL, '2025-11-19 18:06:31', '2025-11-19 18:06:31'),
 (33, 'P2511190019', 'Player 19', 'F', '1998-05-15', 'player19@example.com', NULL, '$2y$10$NazQA5IS42lFn73TUC0D8OSiUHHDO..rJcez4UjpCSTEQDQX2cSCW', '018-0000019', NULL, 'Player', 0, 0, 0, 'Active', NULL, '2025-11-19 18:06:31', '2025-11-19 18:06:31'),
-(34, 'P2511190020', 'Player 20', 'F', '1998-05-15', 'player20@example.com', NULL, '$2y$10$NazQA5IS42lFn73TUC0D8OSiUHHDO..rJcez4UjpCSTEQDQX2cSCW', '018-0000020', NULL, 'Player', 0, 0, 0, 'Active', NULL, '2025-11-19 18:06:31', '2025-11-19 18:06:31');
+(34, 'P2511190020', 'Player 20', 'F', '1998-05-15', 'player20@example.com', NULL, '$2y$10$NazQA5IS42lFn73TUC0D8OSiUHHDO..rJcez4UjpCSTEQDQX2cSCW', '018-0000020', NULL, 'Player', 0, 0, 0, 'Active', NULL, '2025-11-19 18:06:31', '2025-11-19 18:06:31'),
+(35, 'O2511280001', 'Owner 1', 'M', '1988-05-05', 'owner1@example.com', NULL, '$2y$12$dC9Tq7CvDDv8mr8AvcXtH.hp2tgyu3wbsEB8fRK6XuBgjpJxVxv.O', '011-88880001', NULL, 'Owner', 0, 0, 0, 'Inactive', NULL, '2025-11-27 16:38:19', '2025-11-27 16:38:19'),
+(36, 'O2511280002', 'Owner 2', 'F', '1990-09-09', 'owner2@example.com', NULL, '$2y$12$dC9Tq7CvDDv8mr8AvcXtH.hp2tgyu3wbsEB8fRK6XuBgjpJxVxv.O', '011-88880002', NULL, 'Owner', 0, 0, 0, 'Inactive', NULL, '2025-11-27 16:38:19', '2025-11-27 16:38:19');
 
 -- --------------------------------------------------------
 
@@ -1553,7 +1570,9 @@ INSERT INTO `venue` (`id`, `owner_id`, `state_id`, `name`, `address`, `opening_t
 (7, 14, 12, 'Pro Shuttle Hub', '77, Persiaran Sukan, 40150 Shah Alam, Selangor', '08:00:00', '23:00:00', '03-70007777', 'Approved', 'Active', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
 (8, 14, 14, 'Pro Shuttle Arena', '88, Lorong Juara, 50000, Kuala Lumpur', '08:00:00', '23:00:00', '03-70008888', 'Approved', 'Active', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
 (9, 14, 14, 'Pro Shuttle Damansara', '99, Jalan Damai, 50000, Kuala Lumpur', '09:30:00', '22:30:00', '03-70009999', 'Approved', 'Active', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
-(10, 14, 14, 'Pro Shuttle Klang', '111, Jalan Bakti, 50000, Kuala Lumpur', '09:00:00', '23:30:00', '03-70001010', 'Approved', 'Active', '2025-11-03 16:00:00', '2025-11-03 16:00:00');
+(10, 14, 14, 'Pro Shuttle Klang', '111, Jalan Bakti, 50000, Kuala Lumpur', '09:00:00', '23:30:00', '03-70001010', 'Approved', 'Active', '2025-11-03 16:00:00', '2025-11-03 16:00:00'),
+(11, 13, 12, 'Court King Riverside', 'No. 5, Jalan Sungai, 41000 Klang, Selangor', '08:00:00', '23:00:00', '03-90017777', 'Pending', 'Inactive', '2025-11-27 16:44:56', '2025-11-27 16:44:56'),
+(12, 13, 12, 'Court King Uptown', 'Lot 88, Uptown Damansara, 47400 Petaling Jaya, Selangor', '09:00:00', '00:00:00', '03-90018888', 'Pending', 'Inactive', '2025-11-27 16:44:56', '2025-11-27 16:44:56');
 
 -- --------------------------------------------------------
 
@@ -1595,7 +1614,9 @@ INSERT INTO `venue_photo` (`id`, `venue_id`, `photo`, `created_at`) VALUES
 (20, 9, 'pskl1_1.jpg', '2025-11-03 16:00:00'),
 (21, 9, 'pskl1_2.jpg', '2025-11-03 16:00:00'),
 (22, 10, 'pskl2_1.jpg', '2025-11-03 16:00:00'),
-(23, 10, 'pskl2_2.jpg', '2025-11-03 16:00:00');
+(23, 10, 'pskl2_2.jpg', '2025-11-03 16:00:00'),
+(24, 11, 'ck_riverside.jpg', '2025-11-27 16:47:35'),
+(25, 12, 'ck_uptown.jpg', '2025-11-27 16:47:35');
 
 -- --------------------------------------------------------
 
@@ -2005,7 +2026,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `pricing_rule`
 --
 ALTER TABLE `pricing_rule`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `session_attendance`
@@ -2065,19 +2086,19 @@ ALTER TABLE `training_session`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `venue`
 --
 ALTER TABLE `venue`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `venue_photo`
 --
 ALTER TABLE `venue_photo`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `venue_review`
