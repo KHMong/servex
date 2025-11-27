@@ -28,11 +28,24 @@ const CoachApplicationsPage = () => {
   const [certPath, setCertPath] = useState('');
 
   // Filter state
-  const [filters, setFilters] = useState({ search: '', status: '' });
-  const [activeFilters, setActiveFilters] = useState({ search: '', status: '' });
+  const [filters, setFilters] = useState({ search: '', status: '', state_id: '' });
+  const [states, setStates] = useState([]);
+  const [activeFilters, setActiveFilters] = useState({ search: '', status: '', state_id: '' });
   const [currentPage, setCurrentPage] = useState(1);
 
   // Fetch data
+  useEffect(() => {
+    const fetchStates = async () => {
+      try {
+        const response = await apiClient.get('/states');
+        setStates(response.data);
+      } catch (err) {
+        showNotification("Failed to fetch states", "error");
+      }
+    };
+    fetchStates();
+  }, []);
+
   const fetchApplications = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -40,6 +53,7 @@ const CoachApplicationsPage = () => {
       const params = new URLSearchParams({ page: currentPage });
       if (activeFilters.status) params.append('status', activeFilters.status);
       if (activeFilters.search) params.append('search', activeFilters.search);
+      if (activeFilters.state_id) params.append('state_id', activeFilters.state_id);
 
       const res = await apiClient.get(`/admin/coach-applications?${params.toString()}`);
       setApplications(res.data.data);
@@ -110,8 +124,8 @@ const CoachApplicationsPage = () => {
         </span>
       )
     },
-    { header: 'State', accessor: 'state' },
-    { header: 'Experience (Years)', accessor: 'exp_year', width: '150px' },
+    { header: 'Primary Coaching State', accessor: 'state' },
+    { header: 'Experience (Years)', accessor: 'exp_year', width: '200px' },
     { 
       header: 'Certificate', 
       cell: (row) => row.cert_path ? (
@@ -179,11 +193,25 @@ const CoachApplicationsPage = () => {
                     <option value="Rejected">Rejected</option>
                 </Form.Select>
 
+                {/* State Filter */}
+                <Form.Select 
+                  name="state_id" 
+                  value={filters.state_id} 
+                  onChange={handleFilterChange}
+                  className="search-select"
+                  style={{ maxWidth: '200px' }}
+                >
+                  <option value="">All States</option>
+                  {states.map(state => (
+                    <option key={state.id} value={state.id}>{state.name}</option>
+                  ))}
+                </Form.Select>
+
                 {/* Search Input */}
                 <Form.Control
                     type="text"
                     name="search"
-                    placeholder="Search by coach name..."
+                    placeholder="Search by coach name, years of experience..."
                     className="search-input"
                     value={filters.search}
                     onChange={handleFilterChange}

@@ -18,12 +18,18 @@ class CoachApplicationController extends Controller
             $query->where('status', $request->status);
         }
 
+        // Filter (State)
+        if ($request->filled('state_id')) {
+            $query->where('state_id', $request->state_id);
+        }
+
         // Search filter (Coach Name)
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->whereHas('user', function ($q) use ($search) {
-                $q->where('name', 'like', "%$search%");
-            });
+            $query->where('exp_year', 'like', "%$search%")
+                  ->orWhereHas('user', function ($q) use ($search) {
+                      $q->where('name', 'like', "%$search%");
+                  });
         }
 
         $applications = $query->with(['user', 'state'])->latest()->paginate(30);
