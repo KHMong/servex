@@ -61,6 +61,7 @@ import OwnerRegistrationsPage from '../pages/admin/applications/OwnerRegistratio
 import CoachApplicationsPage from '../pages/admin/applications/CoachApplicationsPage';
 import VenueApplicationsPage from '../pages/admin/applications/VenueApplicationsPage';
 import ReviewVenueApplicationPage from '../pages/admin/applications/ReviewVenueApplicationPage';
+import VoucherManagementPage from '../pages/admin/vouchers/VoucherManagementPage';
 
 const AppRoutes = () => {
   return (
@@ -151,6 +152,7 @@ const AppRoutes = () => {
             <Route path="coach-applications" element={<CoachApplicationsPage />} />
             <Route path="venue-applications" element={<VenueApplicationsPage />} />
             <Route path="venue-applications/:venueId" element={<ReviewVenueApplicationPage />} />
+            <Route path="vouchers" element={<VoucherManagementPage />} />
           </Route>
         </Route>
       </Routes>

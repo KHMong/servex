@@ -37,6 +37,7 @@ use App\Http\Controllers\Api\Admin\UserManagementController;
 use App\Http\Controllers\Api\Admin\OwnerRegistrationController;
 use App\Http\Controllers\Api\Admin\CoachApplicationController;
 use App\Http\Controllers\Api\Admin\VenueApplicationController;
+use App\Http\Controllers\Api\Admin\VoucherController;
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
@@ -285,4 +286,11 @@ Route::middleware('auth:sanctum', 'can:admin-only')->group(function () {
     Route::get('/admin/venue-applications', [VenueApplicationController::class, 'index']);
     Route::get('/admin/venue-applications/{venue}', [VenueApplicationController::class, 'getVenueApplicationDetails']);
     Route::put('/admin/venue-applications/{venue}/status', [VenueApplicationController::class, 'updateStatus']);
+
+    // Voucher Management
+    Route::get('/admin/vouchers', [VoucherController::class, 'index']);
+    Route::post('/admin/vouchers', [VoucherController::class, 'createVoucher']);
+    Route::get('/admin/vouchers/{voucher}', [VoucherController::class, 'getVoucherDetails']);
+    Route::put('/admin/vouchers/{voucher}', [VoucherController::class, 'updateVoucherDetails']);
+    Route::delete('/admin/vouchers/{voucher}', [VoucherController::class, 'deleteVoucher']);
 });
