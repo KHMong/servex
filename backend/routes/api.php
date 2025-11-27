@@ -34,6 +34,7 @@ use App\Http\Controllers\Api\Owner\VenueBookingController;
 use App\Http\Controllers\Api\Owner\OwnerVenueReviewController;
 use App\Http\Controllers\Api\Admin\AdminDashboardController;
 use App\Http\Controllers\Api\Admin\UserManagementController;
+use App\Http\Controllers\Api\Admin\OwnerRegistrationController;
 use App\Http\Controllers\Api\Admin\CoachApplicationController;
 use App\Http\Controllers\Api\Admin\VenueApplicationController;
 
@@ -272,12 +273,16 @@ Route::middleware('auth:sanctum', 'can:admin-only')->group(function () {
     Route::get('/admin/users/{user}', [UserManagementController::class, 'getUserDetails']);
     Route::put('/admin/users/{user}/status', [UserManagementController::class, 'updateStatus']);
 
-    // Venue Application Management
-    Route::get('/admin/venue-applications', [VenueApplicationController::class, 'index']);
-    Route::get('/admin/venue-applications/{venue}', [VenueApplicationController::class, 'getVenueApplicationDetails']);
-    Route::put('/admin/venue-applications/{venue}/status', [VenueApplicationController::class, 'updateStatus']);
+    // Owner Registration Management
+    Route::get('/admin/owner-registrations', [OwnerRegistrationController::class, 'index']);
+    Route::put('/admin/owner-registrations/{ownerProfile}/status', [OwnerRegistrationController::class, 'updateStatus']);
 
     // Coach Application Management
     Route::get('/admin/coach-applications', [CoachApplicationController::class, 'index']);
     Route::put('/admin/coach-applications/{coachProfile}/status', [CoachApplicationController::class, 'updateStatus']);
+
+    // Venue Application Management
+    Route::get('/admin/venue-applications', [VenueApplicationController::class, 'index']);
+    Route::get('/admin/venue-applications/{venue}', [VenueApplicationController::class, 'getVenueApplicationDetails']);
+    Route::put('/admin/venue-applications/{venue}/status', [VenueApplicationController::class, 'updateStatus']);
 });

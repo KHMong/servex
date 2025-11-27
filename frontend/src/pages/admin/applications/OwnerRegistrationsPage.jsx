@@ -1,0 +1,205 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { Form, Row, Col } from 'react-bootstrap';
+import { FaSearch, FaCheck, FaTimes } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+
+import apiClient from '../../../api/apiClient';
+import { useNotification } from '../../../contexts/NotificationContext';
+import Button from '../../../components/common/Button';
+import DataTable from '../../../components/common/DataTable';
+import Pagination from '../../../components/common/Pagination';
+
+import '../../../components/common/SearchFilter.css';
+import '../users/UserManagementPage.css';
+
+const OwnerRegistrationsPage = () => {
+  const navigate = useNavigate();
+  const { showNotification } = useNotification();
+
+  const [registrations, setRegistrations] = useState([]);
+  const [paginationData, setPaginationData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  
+  // Filter state
+  const [filters, setFilters] = useState({ search: '', status: '' });
+  const [activeFilters, setActiveFilters] = useState({ search: '', status: '' });
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Fetch data
+  const fetchRegistrations = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams({ page: currentPage });
+      if (activeFilters.status) params.append('status', activeFilters.status);
+      if (activeFilters.search) params.append('search', activeFilters.search);
+
+      const res = await apiClient.get(`/admin/owner-registrations?${params.toString()}`);
+      setRegistrations(res.data.data);
+      setPaginationData(res.data.meta);
+    } catch (err) {
+      setError("Failed to load owner registrations.");
+    } finally {
+      setLoading(false);
+    }
+  }, [currentPage, activeFilters]);
+
+  useEffect(() => {
+    fetchRegistrations();
+  }, [fetchRegistrations]);
+
+  // Handlers
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setCurrentPage(1);
+    setActiveFilters(filters);
+  };
+
+  const handleStatusUpdate = async (id, status) => {
+    if (!window.confirm(`Are you sure you want to set this application as ${status}?`)) return;
+
+    try {
+      await apiClient.put(`/admin/owner-registrations/${id}/status`, { status });
+      showNotification(`Owner registration status updated successfully.`, "success");
+      fetchRegistrations();
+    } catch (err) {
+      showNotification(err.response?.data?.message || "Action failed.", "error");
+    }
+  };
+
+  // Helper for Status Badges
+  const renderStatusBadge = (status) => {
+    let badgeClass = 'badge-default';
+
+    if (status === 'Pending') badgeClass = 'badge-pending';
+    else if (status === 'Approved') badgeClass = 'badge-approved';
+    else if (status === 'Rejected') badgeClass = 'badge-rejected';
+
+    return <span className={`status-badge ${badgeClass}`}>{status}</span>;
+  };
+
+  const columns = [
+    { 
+      header: 'Owner Name', 
+      accessor: 'owner_name', 
+      cell: (row) => (
+        <span 
+          role="button" 
+          className="fw-semibold"
+          style={{ color: "var(--servex-green)" }}
+          onClick={() => navigate(`/admin/users/${row.user_id}`)}
+        >
+          {row.owner_name}
+        </span>
+      )
+    },
+    { header: 'Company Name', accessor: 'company_name' },
+    { header: 'Business Registration Number', accessor: 'business_reg_no' },
+    { header: 'Date Submitted', accessor: 'date_submitted' },
+    { header: 'Status', cell: (row) => renderStatusBadge(row.status) },
+    {
+      header: 'Actions',
+      width: '120px',
+      cell: (row) => (
+        <div className="d-flex gap-2">       
+          {(row.status === 'Pending' || row.status === 'Rejected') && (
+            <Button  
+              className="p-1 px-3"
+              style={{ fontSize: '0.8rem' }}
+              onClick={() => handleStatusUpdate(row.user_id, 'Approved')}
+              title="Approve"
+            >
+              <FaCheck />
+            </Button>
+          )}
+
+          {(row.status === 'Pending' || row.status === 'Approved') && (
+            <Button 
+              variant="red"
+              className="p-1 px-3"
+              style={{ fontSize: '0.8rem' }}
+              onClick={() => handleStatusUpdate(row.user_id, 'Rejected')}
+              title="Reject"
+            >
+              <FaTimes />
+            </Button>
+          )}
+        </div>
+      )
+    }
+  ];
+
+  return (
+    <>
+      <h2 className="fw-bold mb-4">Owner Registrations Management</h2>
+
+      <Row className="mb-4">
+        <Col md={12}>
+            <div className="search-filter-wrapper flex-md-row">
+                {/* Status Filter */}
+                <Form.Select 
+                    name="status" 
+                    value={filters.status} 
+                    onChange={handleFilterChange}
+                    className="search-select"
+                    style={{ maxWidth: '200px' }}
+                >
+                    <option value="">All Statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </Form.Select>
+
+                {/* Search Input */}
+                <Form.Control
+                    type="text"
+                    name="search"
+                    placeholder="Search by owner name, company name, business registration number..."
+                    className="search-input"
+                    value={filters.search}
+                    onChange={handleFilterChange}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch(e)}
+                />
+
+                {/* Search Button */}
+                <Button onClick={handleSearch} icon={<FaSearch />}>Search</Button>
+            </div>
+        </Col>
+      </Row>
+
+      {!loading && (
+        <>
+            <div className="text-muted my-3">
+                {paginationData && paginationData.total > 0 &&
+                `Showing ${paginationData.from}-${paginationData.to} of ${paginationData.total} results`
+                }
+            </div>
+            <small className="text-muted opacity-75">(Click name to view Full User Profile)</small>
+        </>
+      )}
+
+      <DataTable 
+        columns={columns} 
+        data={registrations} 
+        loading={loading} 
+        error={error}
+        emptyMessage="No owner registrations found."
+      />
+
+      <div className="mt-5 d-flex justify-content-center">
+        <Pagination 
+          paginationData={paginationData} 
+          onPageChange={(url) => setCurrentPage(Number(new URL(url).searchParams.get('page')))} 
+        />
+      </div>
+    </>
+  );
+};
+
+export default OwnerRegistrationsPage;
