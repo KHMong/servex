@@ -1532,8 +1532,8 @@ INSERT INTO `user` (`id`, `user_id`, `name`, `gender`, `date_of_birth`, `email`,
 (32, 'P2511190018', 'Player 18', 'F', '1998-05-15', 'player18@example.com', NULL, '$2y$10$NazQA5IS42lFn73TUC0D8OSiUHHDO..rJcez4UjpCSTEQDQX2cSCW', '018-0000018', NULL, 'Player', 0, 0, 0, 'Active', NULL, '2025-11-19 18:06:31', '2025-11-19 18:06:31'),
 (33, 'P2511190019', 'Player 19', 'F', '1998-05-15', 'player19@example.com', NULL, '$2y$10$NazQA5IS42lFn73TUC0D8OSiUHHDO..rJcez4UjpCSTEQDQX2cSCW', '018-0000019', NULL, 'Player', 0, 0, 0, 'Active', NULL, '2025-11-19 18:06:31', '2025-11-19 18:06:31'),
 (34, 'P2511190020', 'Player 20', 'F', '1998-05-15', 'player20@example.com', NULL, '$2y$10$NazQA5IS42lFn73TUC0D8OSiUHHDO..rJcez4UjpCSTEQDQX2cSCW', '018-0000020', NULL, 'Player', 0, 0, 0, 'Active', NULL, '2025-11-19 18:06:31', '2025-11-19 18:06:31'),
-(35, 'O2511280001', 'Owner 1', 'M', '1988-05-05', 'owner1@example.com', NULL, '$2y$12$dC9Tq7CvDDv8mr8AvcXtH.hp2tgyu3wbsEB8fRK6XuBgjpJxVxv.O', '011-88880001', NULL, 'Owner', 0, 0, 0, 'Inactive', NULL, '2025-11-27 16:38:19', '2025-11-27 16:38:19'),
-(36, 'O2511280002', 'Owner 2', 'F', '1990-09-09', 'owner2@example.com', NULL, '$2y$12$dC9Tq7CvDDv8mr8AvcXtH.hp2tgyu3wbsEB8fRK6XuBgjpJxVxv.O', '011-88880002', NULL, 'Owner', 0, 0, 0, 'Inactive', NULL, '2025-11-27 16:38:19', '2025-11-27 16:38:19');
+(35, 'O2511270001', 'Owner 1', 'M', '1988-05-05', 'owner1@example.com', NULL, '$2y$12$dC9Tq7CvDDv8mr8AvcXtH.hp2tgyu3wbsEB8fRK6XuBgjpJxVxv.O', '011-88880001', NULL, 'Owner', 0, 0, 0, 'Inactive', NULL, '2025-11-27 16:38:19', '2025-11-27 16:38:19'),
+(36, 'O2511270002', 'Owner 2', 'F', '1990-09-09', 'owner2@example.com', NULL, '$2y$12$dC9Tq7CvDDv8mr8AvcXtH.hp2tgyu3wbsEB8fRK6XuBgjpJxVxv.O', '011-88880002', NULL, 'Owner', 0, 0, 0, 'Inactive', NULL, '2025-11-27 16:38:19', '2025-11-27 16:38:19');
 
 -- --------------------------------------------------------
 
