@@ -28,7 +28,7 @@ class SessionAttendanceController extends Controller
                 'member_id' => $record->group_member_id,
                 'name' => $record->groupMember->trainee->name,
                 'photo_path' => $record->groupMember->trainee->photo 
-                    ? "uploads/users/{$record->groupMember->trainee->id}/{$record->groupMember->trainee->photo}" 
+                    ? "users/{$record->groupMember->trainee->id}/{$record->groupMember->trainee->photo}" 
                     : null,
                 'is_present' => $record->status === 'Present',
                 'status' => $record->status,
