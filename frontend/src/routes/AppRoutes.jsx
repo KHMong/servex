@@ -23,7 +23,6 @@ import UserProfilePage from '../pages/user/UserProfilePage';
 import CoachProfilePage from '../pages/user/CoachProfilePage';
 import ChangePasswordPage from '../pages/user/ChangePasswordPage';
 import BookingConfirmationPage from '../pages/user/BookingConfirmationPage';
-import BookingPaymentSuccessPage from '../pages/user/BookingPaymentSuccessPage';
 import BookingHistoryPage from '../pages/user/BookingHistoryPage';
 import WriteReviewPage from '../pages/user/WriteReviewPage';
 import EditReviewPage from '../pages/user/EditReviewPage';
@@ -93,7 +92,6 @@ const AppRoutes = () => {
             </Route>
             <Route path="/my-training" element={<MyTrainingPage />} />
             <Route path="/bookings/:bookingId/summary" element={<BookingConfirmationPage />} />
-            <Route path="/booking-payment-success" element={<BookingPaymentSuccessPage />} />
             <Route path="/venues/:venueId/review/create" element={<WriteReviewPage />} />
             <Route path="/venues/:venueId/review/:reviewId/edit" element={<EditReviewPage />} />
             <Route path="/tournaments/:tournamentId/register" element={<RegisterTournamentPage />} />
