@@ -62,7 +62,7 @@ const WriteReviewPage = () => {
 
   return (
     <Container className="py-5 d-flex justify-content-center">
-      <div style={{ width: '100%', maxWidth: '900px' }}>
+      <div style={{ width: '100%' }}>
         <BackButton to={`/venues/${venueId}`} place="Venue"></BackButton>
         <Card className="border shadow-sm">
           <Card.Body className="p-4 p-md-5">

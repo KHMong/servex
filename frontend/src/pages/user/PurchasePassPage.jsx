@@ -26,7 +26,7 @@ const PurchasePassPage = () => {
 
   return (
     <Container className="py-5 d-flex justify-content-center">
-      <div style={{ width: '100%', maxWidth: '900px' }}>
+      <div style={{ width: '100%' }}>
         <BackButton to={`/info/user-profile`} place="My Profile"></BackButton>
         <Card className="border shadow-sm">
             <Card.Body className="p-4 p-md-5">
@@ -34,7 +34,7 @@ const PurchasePassPage = () => {
                 <h2 className="fw-bold">Become a Tournament Organiser</h2>
                 <hr className="my-4" />
                 <h5 className="mt-4 fw-semibold">Unlock the Power to Host Your Own Tournaments</h5>
-                <ul className="text-start list-unstyled d-flex flex-column gap-1" style={{ maxWidth: '400px' }}>
+                <ul className="text-start list-unstyled d-flex flex-column gap-1">
                     <li>✓ Create and manage unlimited tournaments.</li>
                     <li>✓ Manage participant registrations and approvals.</li>
                     <li>✓ Publish official tournament results.</li>

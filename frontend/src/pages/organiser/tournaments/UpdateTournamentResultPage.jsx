@@ -92,7 +92,7 @@ const UpdateTournamentResultPage = () => {
       {error && <Alert variant="danger">{error}</Alert>}
 
       <Container className="py-5 d-flex justify-content-center">
-        <Card className="border-0 shadow-sm" style={{ width: '100%', maxWidth: '900px' }}>
+        <Card className="border-0 shadow-sm" style={{ width: '100%' }}>
             <Card.Body className="p-4 p-md-5">
                 <div className="d-flex flex-column gap-3">
                     <div>
