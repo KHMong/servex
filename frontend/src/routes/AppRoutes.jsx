@@ -24,8 +24,7 @@ import CoachProfilePage from '../pages/user/CoachProfilePage';
 import ChangePasswordPage from '../pages/user/ChangePasswordPage';
 import BookingConfirmationPage from '../pages/user/BookingConfirmationPage';
 import BookingHistoryPage from '../pages/user/BookingHistoryPage';
-import WriteReviewPage from '../pages/user/WriteReviewPage';
-import EditReviewPage from '../pages/user/EditReviewPage';
+import ReviewFormPage from '../pages/user/ReviewFormPage';
 import RewardsVouchersPage from '../pages/user/RewardsVouchersPage';
 import RegisterTournamentPage from '../pages/user/RegisterTournamentPage';
 import TournamentHistoryPage from '../pages/user/TournamentHistoryPage';
@@ -92,8 +91,8 @@ const AppRoutes = () => {
             </Route>
             <Route path="/my-training" element={<MyTrainingPage />} />
             <Route path="/bookings/:bookingId/summary" element={<BookingConfirmationPage />} />
-            <Route path="/venues/:venueId/review/create" element={<WriteReviewPage />} />
-            <Route path="/venues/:venueId/review/:reviewId/edit" element={<EditReviewPage />} />
+            <Route path="/venues/:venueId/review/create" element={<ReviewFormPage mode="create" />} />
+            <Route path="/venues/:venueId/review/:reviewId/edit" element={<ReviewFormPage mode="edit" />} />
             <Route path="/tournaments/:tournamentId/register" element={<RegisterTournamentPage />} />
             <Route path="/activities/create" element={<ActivityFormPage mode="create" />} />
             <Route path="/activities/:activityId/edit" element={<ActivityFormPage mode="edit" />} />
