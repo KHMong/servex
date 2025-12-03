@@ -40,7 +40,7 @@ use App\Http\Controllers\Api\Admin\VenueApplicationController;
 use App\Http\Controllers\Api\Admin\VoucherController;
 
 // Authentication
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 Route::post('/register/player', [AuthController::class, 'registerPlayer']);
 Route::post('/register/owner', [AuthController::class, 'registerOwner']);
 
