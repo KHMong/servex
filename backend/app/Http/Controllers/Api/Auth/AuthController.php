@@ -46,7 +46,7 @@ class AuthController extends Controller
 
         if (!Auth::attempt($credentialsWithStatus)) {
             return response()->json([
-                'message' => 'Invalid login credentials, please try again.'
+                'message' => "Invalid login credentials / Inactive account, please try again."
             ], 401); // 401 Unauthorised
         }
 
