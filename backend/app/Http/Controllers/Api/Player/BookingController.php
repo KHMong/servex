@@ -36,11 +36,15 @@ class BookingController extends Controller
         // Get booking times
         $localStartDateTimeString = $validated['date'] . ' ' . $validated['start_time'];
         $startDateTime = Carbon::parse($localStartDateTimeString);
+        $startDateTimeMY = Carbon::parse($localStartDateTimeString, 'Asia/Kuala_Lumpur');
         $endDateTime = $startDateTime->copy()->addHours((int) $validated['duration']);
+
+        // Current time in Malaysia
+        $currentTime = Carbon::now('Asia/Kuala_Lumpur');
 
         // --- VALIDATION ---
         // 1. Booking must be in future
-        if ($startDateTime->isPast()) {
+        if ($startDateTimeMY->lessThanOrEqualTo($currentTime)) {
             return response()->json(['message' => 'The selected start time cannot be in the past.'], 409);
         }
 
