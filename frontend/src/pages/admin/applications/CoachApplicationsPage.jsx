@@ -104,7 +104,7 @@ const CoachApplicationsPage = () => {
 
     if (status === 'Pending') badgeClass = 'badge-pending';
     else if (status === 'Approved') badgeClass = 'badge-approved';
-    else if (status === 'Rejected') badgeClass = 'badge-terminated';
+    else if (status === 'Rejected') badgeClass = 'badge-rejected';
 
     return <span className={`status-badge ${badgeClass}`}>{status}</span>;
   };
