@@ -73,7 +73,7 @@ class VenueBookingController extends Controller
         ]);
 
         $startDateTime = Carbon::parse($validated['date'] . ' ' . $validated['start_time']);
-        $endDateTime = $startDateTime->copy()->addHours($validated['duration']);
+        $endDateTime = $startDateTime->copy()->addHours((int) $validated['duration']);
 
         // --- VALIDATION ---
         // 1. Booking must be in future
